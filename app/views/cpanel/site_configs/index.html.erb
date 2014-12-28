@@ -1,0 +1,29 @@
+<h1>Listing cpanel_site_configs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cpanel_site_configs.each do |cpanel_site_config| %>
+      <tr>
+        <td><%= cpanel_site_config.key %></td>
+        <td><%= cpanel_site_config.value %></td>
+        <td><%= link_to 'Show', cpanel_site_config_path(cpanel_site_config) %></td>
+        <td><%= link_to 'Edit', edit_cpanel_site_config_path(cpanel_site_config) %></td>
+        <td><%= link_to 'Destroy', cpanel_site_config_path(cpanel_site_config), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Site config', new_cpanel_site_config_path %>

@@ -1,0 +1,14 @@
+<%#= simple_form_for(@group, html: { class: "form-horizontal" }, wrapper: :horizontal_form) do |f| %>
+<%= simple_form_for(@group) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :description, as: :text, input_html: { rows: '3' } %>
+    <%#= f.input :url %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+    <%= link_to 'Back', groups_path, class: 'btn btn-default' %>
+  </div>
+<% end %>

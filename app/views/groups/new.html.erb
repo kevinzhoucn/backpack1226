@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-md-12 group-title-bar">
+    <div class="group-image-avatar pull-left">
+      <img src="..." alt="pic..." class="img-rounded">
+    </div>
+    <div class="group-title">
+      <p><strong>New Group</strong>
+        <a class="glyphicon glyphicon-pencil link-edit-group" aria-hidden="true" arial-label="Open" data-toggle="modal" data-target="#newGroupModal" ></a>
+      </p>  
+    </div>
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newGroupModal">Open</button> -->
+    <div class="modal fade" id="newGroupModal" tabindex="-1" role="dialog" aria-labelledby="newGroupModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="newGroupModalLabel">New group</h4>
+          </div>
+          <div class="modal-body">
+            <%= render 'form' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#newGroupModal').modal('show');
+
+      $("form label[for='group_title']").after('<span style="font-size:10px;padding-left:10px"><i class="text-info">(Give a name to your group.)</i></span>');
+      $("form label[for='group_description']").after('<span style="font-size:10px;padding-left:10px"><i class="text-info">(Place some words to let people know the group.)</i></span>');
+    });
+  </script>
+</div>
