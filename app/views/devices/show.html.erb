@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Device:</strong>
+  <%= @device.device_id %>
+</p>
+
+<p>
+  <strong>Device name:</strong>
+  <%= @device.device_name %>
+</p>
+
+<p>
+  <strong>Device description:</strong>
+  <%= @device.device_description %>
+</p>
+
+<p>
+  <strong>Model:</strong>
+  <%= @device.device_model_id %>
+</p>
+
+<p>
+  <strong>Model key:</strong>
+  <%= @device.device_model_key %>
+</p>
+
+<p>
+  <strong>Model name:</strong>
+  <%= @device.device_model_name %>
+</p>
+
+<p>
+  <strong>Model description:</strong>
+  <%= @device.device_model_description %>
+</p>
+
+<p>
+  <strong>Location local:</strong>
+  <%= @device.device_location_local %>
+</p>
+
+<p>
+  <strong>Location latitude:</strong>
+  <%= @device.device_location_latitude %>
+</p>
+
+<p>
+  <strong>Location longitude:</strong>
+  <%= @device.device_location_longitude %>
+</p>
+
+<p>
+  <strong>Uid:</strong>
+  <%= @device.device_uid %>
+</p>
+
+<%= link_to 'Edit', edit_device_path(@device) %> |
+<%= link_to 'Back', devices_path %>

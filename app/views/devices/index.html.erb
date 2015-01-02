@@ -1,0 +1,47 @@
+<h1>Listing devices</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Device</th>
+      <th>Device name</th>
+      <th>Device description</th>
+      <th>Model</th>
+      <th>Model key</th>
+      <th>Model name</th>
+      <th>Model description</th>
+      <th>Location local</th>
+      <th>Location latitude</th>
+      <th>Location longitude</th>
+      <th>Uid</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @devices.each do |device| %>
+      <tr>
+        <td><%= device.device_id %></td>
+        <td><%= device.device_name %></td>
+        <td><%= device.device_description %></td>
+        <td><%= device.device_model_id %></td>
+        <td><%= device.device_model_key %></td>
+        <td><%= device.device_model_name %></td>
+        <td><%= device.device_model_description %></td>
+        <td><%= device.device_location_local %></td>
+        <td><%= device.device_location_latitude %></td>
+        <td><%= device.device_location_longitude %></td>
+        <td><%= device.device_uid %></td>
+        <td><%= link_to 'Show', device %></td>
+        <td><%= link_to 'Edit', edit_device_path(device) %></td>
+        <td><%= link_to 'Destroy', device, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Device', new_device_path %>

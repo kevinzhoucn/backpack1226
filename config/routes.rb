@@ -1,4 +1,6 @@
 Rails40Starter::Application.routes.draw do
+  resources :devices
+
   resources :groups
 
   namespace :cpanel do
@@ -8,6 +10,8 @@ Rails40Starter::Application.routes.draw do
   devise_for :users
 
   get '/info' => 'front#get_info'
+  post '/v1.0/devices' => 'devices#create', as: :devices_create
+  get '/v1.0/devices/list' => 'devices#index', as: :devices_list
   
   root 'front#index'
   # The priority is based upon order of creation: first created -> highest priority.
