@@ -1,0 +1,64 @@
+<div id="wrapper">
+  <p><strong>数据格式：http://</strong> <strong>182.92.227.161/IOTDev/</strong></p>
+  <p><strong>1. 创建设备</strong></p>
+  <p>Post：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /v1.0/devices<br />
+    授权：User：ZhangSan；Dev-Key:asdf12345<br />
+    Post数据： <br />
+    { <br />
+    &nbsp;  &ldquo;Data&rdquo;: {    </p>
+  <blockquote>
+    <p>&quot;Device&quot;: {</p>
+    <p>&quot;DeviceID&quot;:&quot;123456&quot;,<br />
+      &quot;DeviceName&quot;:&quot;Temperature Detector&quot;,<br />
+      &quot;Description&quot;:&quot;Home temperature, In beijing&quot;,<br />
+      },</p>
+    <p>&quot;Model&quot;:{<br />
+      &quot;Modelid&quot;:&quot;Jimupai-JM100-V10&quot; <br />
+      &quot;Modelkey&quot;:&quot;dkljghie234sf&quot;,<br />
+      &quot;Modelname&quot;:&quot; JM100 Temperature Sensor&quot;,<br />
+      &quot;Modeldescription&quot;:&quot;JM100 detect range: -40~85&quot; <br />
+      },</p>
+    <p>&quot;location&quot;:{<br />
+      &quot;local&quot;:&quot;Beijing Zhichunlu&quot;,<br />
+      &quot;latitude&quot;:40.12,<br />
+      &quot;longitude&quot;:116.23<br />
+      }</p>
+  </blockquote>
+  <p>     &quot;UID&quot;:&quot;fjlsklgheisnfksgjl&quot; <br />
+    }<br />
+    } </p>
+  <p><strong>返回值：</strong><br />
+    {</p>
+  <p>     Data: {<br />
+      &quot;Result&quot;:0,<br />
+      &quot;Message&quot;: &quot;failed!&quot;&nbsp; //&lt;0 means failed, 0 error，device exist and is different, 1 means exist and device is same， 2 means not exist and create device<br />
+    } <br />
+    } </p>
+  <p>2. <strong>创建通道</strong><strong> </strong></p>
+  <p><strong>（输入、输出，数字，模拟，流）</strong><br />
+    <strong>流通道：如串口，485</strong><strong>总线，CAN</strong><strong>总线，以太网等，第一版只包含串口。</strong></p>
+  <p>Post：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /v1.0/device/&lt;device_id&gt;/channels<br />
+    授权：User：ZhangSan；Dev-Key:asdf12345<br />
+    Post数据： <br />
+    {<br /> 
+    Data: {<br />
+    &quot;Channel-ID&quot;:0~255 ,&nbsp; //Max 255 at present in V1.0<br />
+    &quot;Channel-Name&quot;:&quot;Temperature&quot;,<br />
+    &quot;Description&quot;:&quot;Home  temperature&quot;,</p>
+  <p>&quot;IOType&quot;:&quot;Input | Output&quot;,<br />
+    &quot;Valuetype&quot;:&quot;Stream |  Digital | Analog&quot;,<br />
+    &quot;unit&quot;:{<br />
+    &quot;name&quot;:&quot;摄氏度&quot;,<br />
+    &quot;symbol&quot;:&quot;&deg;C&quot;<br />
+    },<br />
+    &quot;Dataformat&quot;:&quot;GPS Data。。。。。。&quot;<br />
+    }<br />
+    }</p>
+  <p><strong>返回值：</strong><br />
+    {<br />
+    &nbsp;  Data: {<br />
+    &quot;Result&quot;:0,<br />
+    &quot;Message&quot;: &quot;failed!&quot;&nbsp; //&lt;0 means failed, 0 error，device exist and is different, 1 means exist and device is same， 2 means not exist and create device<br />
+    } <br />
+    } </p>
+</div>
