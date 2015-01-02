@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+#wrapper {
+	width: 720px;
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 85%;
+}
+#wrapper p {
+	font-size: 85%;
+	line-height: 1.4;
+	margin-top: 0px;
+	margin-right: 20px;
+	margin-bottom: 8px;
+	margin-left: 40px;
+}
