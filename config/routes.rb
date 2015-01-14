@@ -10,8 +10,10 @@ Rails40Starter::Application.routes.draw do
   devise_for :users
 
   get '/info' => 'front#get_info'
-  post '/v1.0/devices' => 'devices#create', as: :devices_create
-  get '/v1.0/devices/list' => 'devices#index', as: :devices_list
+  post '/iotdev/v1.0/devices' => 'devices#webCreate', as: :devices_webCreate
+  get '/iotdev/v1.0/devices/list' => 'devices#index', as: :devices_list
+
+  post '/post_info' => 'front#post_info', as: :front_post_info
   
   root 'front#index'
   # The priority is based upon order of creation: first created -> highest priority.

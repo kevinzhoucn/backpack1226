@@ -2,36 +2,6 @@
   <p>
     <h3>
       测试页面: <%= link_to '创建设备', new_device_path, html_options = { :style => "color:blue" }%>, <%= link_to '查看所有设备', devices_list_path, html_options = { :style => "color:blue" } %>
-    </h3>
+    </h3> 
   </p>
-
-  <p><strong>数据格式：http://</strong> <strong>182.92.227.161/IOTDev/</strong></p>
-  <p><strong>1. 创建设备</strong></p>
-  <p>Post：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /v1.0/devices<br />
-    授权：User：ZhangSan；Dev-Key:asdf12345<br />
-    Post数据： <br />
-    { <br />
-    &nbsp;  &ldquo;Data&rdquo;: {    </p>
-  <blockquote>
-    <p>&quot;device_id&quot;:&quot;123456&quot;,<br />
-      &quot;device_name&quot;:&quot;Temperature Detector&quot;,<br />
-      &quot;device_description&quot;:&quot;Home temperature, In beijing&quot;,<br />
-      &quot;device_model_id&quot;:&quot;Jimupai-JM100-V10&quot; <br />
-      &quot;device_model_key&quot;:&quot;dkljghie234sf&quot;,<br />
-      &quot;device_model_name&quot;:&quot; JM100 Temperature Sensor&quot;,<br />
-      &quot;device_model_description&quot;:&quot;JM100 detect range: -40~85&quot; <br />
-      &quot;device_location_local&quot;:&quot;Beijing Zhichunlu&quot;,<br />
-      &quot;device_location_latitude&quot;:40.12,<br />
-      &quot;device_location_longitude&quot;:116.23<br />
-      &quot;device_uid&quot;:&quot;fjlsklgheisnfksgjl&quot; <br />
-    } </p>
-  <p><strong>返回值：</strong><br />
-    {</p>
-      <p>Result: {<br />
-      &quot;Code&quot;:0,<br />
-      &quot;Message&quot;: &quot;failed!&quot;&nbsp; //&lt;0 means failed, 0 error，device exist and is different, 1 means exist and device is same， 2 means not exist and create device<br />
-      } <br />
-    } 
-  </p>
-
 </div>
