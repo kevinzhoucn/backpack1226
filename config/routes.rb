@@ -10,10 +10,15 @@ Rails40Starter::Application.routes.draw do
   devise_for :users
 
   get '/info' => 'front#get_info'
-  post '/iotdev/v1.0/devices' => 'devices#webCreate', as: :devices_webCreate
-  get '/iotdev/v1.0/devices/list' => 'devices#index', as: :devices_list
+  #post '/iotdev/v1.0/devices' => 'devices#webCreate', as: :devices_webCreate
+  get '/iotdev/v1.0/device' => 'devices#getDevice', as: :devices_getDevice
+  get '/iotdev/v1.0/channel' => 'devices#getChannel', as: :devices_getChannel
+  post '/iotdev/v1.0/datapoints' => 'devices#postDatapoint', as: :devices_postDatapoint
 
-  post '/post_info' => 'front#post_info', as: :front_post_info
+  get '/iotdev/v1.0/devices/list' => 'devices#index', as: :devices_list
+  get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
+
+  # post '/post_info' => 'front#post_info', as: :front_post_info
   
   root 'front#index'
   # The priority is based upon order of creation: first created -> highest priority.

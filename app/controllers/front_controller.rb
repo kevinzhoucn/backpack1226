@@ -15,7 +15,7 @@ class FrontController < ApplicationController
   end
 
   def get_info
-    @post_data = '{"data":{"device_id":"98989898879"}}'
+    @post_data = '{"data":{"dev_id":"9696969679","channeldata":[{"channel":"1","timestamp":"2012-03-15T16:13:14P123","value":"294.34"},{"channel":"2","timestamp":"2012-03-15T16:13:14P123","value":"294.34"}],"sign":"uioiuoiwurknsnflwekjfweifeuwfw"}}'.length
   end
 
   def post_info

@@ -1,5 +1,5 @@
 class DevicesController < ApplicationController
-  protect_from_forgery :except => [:webCreate]
+  protect_from_forgery :except => [:webCreate, :postDatapoint]
 
   before_action :set_device, only: [:show, :edit, :update, :destroy]
 
@@ -37,6 +37,58 @@ class DevicesController < ApplicationController
       end
     end
     #respond_with(@device)
+  end
+
+  def getDevice
+    device_id = params[:dev_id]
+    @device = Device.where(:device_id => device_id).first
+    
+    if @device
+      ret = { :result => {:code => "1", :message => "success. device exist!"}, :data => { } }
+    else
+      ret = { :result => {:code => "0", :message => "success. device not exist!"}, :data => { } }
+    end
+
+    render json: ret.to_json
+  end
+
+  def getChannel
+    device_id = params[:dev_id]
+    channel_id = params[:channel]
+
+    @device = Device.where(:device_id => device_id).first
+    
+    if @device
+      ret = { :result => {:code => "1", :message => "success. channel exist!"}, :data => { :inout => "input", :datatype => "stream" } }
+    else
+      ret = { :result => {:code => "0", :message => "success. channel not exist!"}, :data => { } }
+    end
+
+    render json: ret.to_json
+  end
+
+  def postDatapoint
+    #{"data":{"dev_id":"9696969679","channeldata":{"channel":"1"},"sign":"uioiuoiwurknsnflwekjfweifeuwfw"}}
+    # device_pair = params.require(:data).permit(:dev_id, :channeldata)
+    device_pair = params[:data]
+    device_id = device_pair[:dev_id]
+    channel_data = device_pair[:channeldata]
+
+    @device = Device.where(:device_id => device_id).first
+    @device[:device_data] = channel_data
+    if @device.save
+      ret = { :result => {:code => "1", :message => "success. received data succeed!"}, :data => { :content => device_pair } }
+    else
+      ret = { :result => {:code => "-1", :message => "fail. received data failed!"}, :data => { } }
+    end
+    # ret = { :result => {:code => "-1", :message => "fail. received data failed!"}, :data => { :data => channel_data } }
+    render json: ret.to_json
+  end
+
+  def datetime
+    date_time = DateTime.now
+    ret = { :result => {:code => "1", :message => "success."}, :data => { :datetime => date_time} }
+    render json: ret.to_json
   end
 
   def webCreate

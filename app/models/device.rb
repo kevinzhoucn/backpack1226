@@ -13,6 +13,7 @@ class Device
   field :device_location_latitude, type: String
   field :device_location_longitude, type: String
   field :device_uid, type: String
+  field :device_data, type: String
 
   scope :recent, -> {  desc(:created_at) }
 end
