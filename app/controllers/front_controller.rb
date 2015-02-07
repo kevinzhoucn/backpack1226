@@ -28,4 +28,8 @@ class FrontController < ApplicationController
       render json: ret.to_json    
     end
   end
+
+  def admin
+    render :layout => false
+  end
 end

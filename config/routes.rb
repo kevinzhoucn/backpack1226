@@ -19,6 +19,7 @@ Rails40Starter::Application.routes.draw do
   get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
 
   # post '/post_info' => 'front#post_info', as: :front_post_info
+  get '/admin' => 'front#admin', as: :front_admin
   
   root 'front#index'
   # The priority is based upon order of creation: first created -> highest priority.
