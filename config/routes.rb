@@ -16,7 +16,7 @@ Rails40Starter::Application.routes.draw do
   post '/iotdev/v1.0/datapoints' => 'devices#postDatapoint', as: :devices_postDatapoint
 
   get '/iotdev/v1.0/devices/list' => 'devices#index', as: :devices_list
-  get '/iotdev/v1.0/channel' => 'devices#channel', as: :devices_channel
+  get '/iotdev/v1.0/send' => 'devices#channel', as: :devices_channel
   get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
 
   # post '/post_info' => 'front#post_info', as: :front_post_info
