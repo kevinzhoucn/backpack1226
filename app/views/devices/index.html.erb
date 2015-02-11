@@ -15,7 +15,7 @@
       <th>Location longitude</th>
       <th>Uid</th>
       <th>Created at</th>
-      <th></th>
+      <th>Data</th>
       <th></th>
       <th></th>
     </tr>
@@ -36,6 +36,7 @@
         <td><%= device.device_location_longitude %></td>
         <td><%= device.device_uid %></td>
         <td><%= device.created_at %></td>
+        <td><%= device.device_data %></td>
         <td><%= link_to 'Show', device %></td>
         <td><%= link_to 'Edit', edit_device_path(device) %></td>
         <td><%= link_to 'Destroy', device, method: :delete, data: { confirm: 'Are you sure?' } %></td>
