@@ -52,6 +52,17 @@ class DevicesController < ApplicationController
     end    
   end
 
+  def channel
+    device_id = params[:dev_id]
+    user_id = params[:user]
+    channel = params[:channel]
+    data_value = params[:value]
+    timestamp = params[:timestamp]
+    sign = params[:sign]
+
+    
+  end
+
   def update
     @device.update(device_params)
     respond_with(@device)

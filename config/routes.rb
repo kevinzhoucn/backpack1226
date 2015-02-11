@@ -12,6 +12,7 @@ Rails40Starter::Application.routes.draw do
   get '/info' => 'front#get_info'
   post '/iotdev/v1.0/devices' => 'devices#webCreate', as: :devices_webCreate
   get '/iotdev/v1.0/devices/list' => 'devices#index', as: :devices_list
+  get '/iotdev/v1.0/channel' => 'devices#channel', as: :devices_channel
 
   post '/post_info' => 'front#post_info', as: :front_post_info
   
