@@ -1,0 +1,13 @@
+<%= simple_form_for(@channel, html: { class: "form-horizontal" }, wrapper: :horizontal_form) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :channel_name, label: "名称" %>
+    <%= f.input :channel_type, label: "类型", prompt: "选择类型", collection: [['1. 模拟  ', '0'], ['2. 数字  ', '1']], :group_label_method => :first %>
+    <%= f.association :device, label: "设备", collection: @devices, label_method: :device_name, value_method: :id, include_blank: false, prompt: "选择设备" %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, '创建' %>
+  </div>
+<% end %>

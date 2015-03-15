@@ -24,18 +24,26 @@ class DevicesController < ApplicationController
 
   def create
     @device = Device.new(device_params)
-    if Device.where(:device_id => @device[:device_name]).exists?
-      ret = { :result => {:code => "1", :message => "Already existed device!"}, :data => { } }
-      render json: ret.to_json
-    else
-      if @device.save
-        ret = { :result => {:code => "2", :message => "success. create device succeed!"}, :data => { } }
-        render json: ret.to_json      
-      else
-        ret = { :result => {:code => "0", :message => "success. create user failed!"}, :data => { } }
-        render json: ret.to_json
-      end
+
+    if current_user
+      @device.user_id = current_user.id
     end
+
+    @device.save
+    redirect_to front_profile_path
+    
+    # if Device.where(:device_id => @device[:device_name]).exists?
+    #   ret = { :result => {:code => "1", :message => "Already existed device!"}, :data => { } }
+    #   render json: ret.to_json
+    # else
+    #   if @device.save
+    #     ret = { :result => {:code => "2", :message => "success. create device succeed!"}, :data => { } }
+    #     render json: ret.to_json      
+    #   else
+    #     ret = { :result => {:code => "0", :message => "success. create user failed!"}, :data => { } }
+    #     render json: ret.to_json
+    #   end
+    # end
     #respond_with(@device)
   end
 

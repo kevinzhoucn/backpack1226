@@ -1,4 +1,6 @@
 class FrontController < ApplicationController
+  before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart]
+  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart]
   def index
   end
 
@@ -31,5 +33,24 @@ class FrontController < ApplicationController
 
   def admin
     render :layout => false
+  end
+
+  def profile
+    if current_user
+      # @current_user_id = current_user.id
+      @devices = Device.where(:user_id => current_user.id)
+    end
+  end
+
+  def new_device
+  end
+
+  def new_channel
+    @channel = Channel.new
+    @devices = Device.where(:user_id => current_user.id)
+  end
+
+  def show_chart
+
   end
 end

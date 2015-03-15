@@ -14,6 +14,12 @@ class Device
   field :device_location_longitude, type: String
   field :device_uid, type: String
   field :device_data, type: String
+  field :user_id, type: String
+
+  belongs_to :user
+  has_many :channels
+
+  validates_presence_of :device_id, :device_name, :device_description
 
   scope :recent, -> {  desc(:created_at) }
 end

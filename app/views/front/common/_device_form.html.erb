@@ -1,0 +1,13 @@
+<%= simple_form_for(:data, :url => devices_path, html: { class: "form-horizontal" }, wrapper: :horizontal_form) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :device_id, label: "设备ID" %>
+    <%= f.input :device_name, label: "设备名称" %>
+    <%= f.input :device_description, label: "设备描述" %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, '创建' %>
+  </div>
+<% end %>
