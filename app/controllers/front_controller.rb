@@ -32,6 +32,9 @@ class FrontController < ApplicationController
   end
 
   def admin
+    @device = Device.where(:device_id => "device01").first
+    # @device = Device.where(:device_id => "1234567").first
+    # @data_points = @device.device_data
     render :layout => false
   end
 

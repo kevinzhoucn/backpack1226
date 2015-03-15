@@ -112,6 +112,37 @@ class DevicesController < ApplicationController
     end    
   end
 
+  def channel
+    device_id = params[:dev_id]
+    user_id = params[:user]
+    channel = params[:channel]
+    data_value = params[:value]
+    timestamp = params[:timestamp]
+    sign = params[:sign]
+
+    # @device = Device.where(:device_id => device_id).first
+    @device = Device.where(:device_id => "device01").first
+    if not @device
+      @device = Device.create(:device_id => "device01")
+      @device.save
+    end
+    if @device
+      data_points = @device.device_data ? @device.device_data : ""
+      data_points = data_points + "||" + data_value
+
+      if @device.update_attribute(:device_data, data_points)
+        ret = { :result => {:code => "2", :message => "success. save data succeed!"}, :data => { } }
+        render json: ret.to_json
+      else
+        ret = { :result => {:code => "-1", :message => "failed. save data failed!"}, :data => { } }
+        render json: ret.to_json
+      end
+    else      
+      ret = { :result => {:code => "-1", :message => "failed. device not existed!"}, :data => { } }
+      render json: ret.to_json
+    end
+  end
+
   def update
     @device.update(device_params)
     respond_with(@device)
