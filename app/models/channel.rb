@@ -10,7 +10,7 @@ class Channel
 
   field :data_points, type: String
 
-  validates_presence_of :channel_name, :channel_type, :device_id
+  validates_presence_of :channel_id, :channel_name, :channel_type, :device_id
 
   belongs_to :device
 end
