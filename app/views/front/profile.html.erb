@@ -67,14 +67,16 @@
             </tr>
           </thead>
           <tbody>
-            <% @channels.each do |channel| %>
-              <tr>
-                <td><%= channel.channel_id %></td>
-                <td><%= Device.where(:id => channel.device_id).first.device_name %></td>
-                <td><%= channel.channel_name %></td>
-                <td><%= channel.data_points %></td>
-                <td>修改-删除</td>
-              </tr>  
+            <% if @channels %>
+              <% @channels.each do |channel| %>
+                <tr>
+                  <td><%= channel.channel_id %></td>
+                  <td><%= Device.where(:id => channel.device_id).first.device_name %></td>
+                  <td><%= channel.channel_name %></td>
+                  <td><%= channel.data_points %></td>
+                  <td>修改-删除</td>
+                </tr>  
+              <% end %>
             <% end %>
           </tbody>
         </table>

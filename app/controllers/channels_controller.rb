@@ -52,13 +52,13 @@ class ChannelsController < ApplicationController
     end
 
     if @device
-      channel = Channel.where(:channel_id => channel).first
-      if channel
-        data_points = channel.data_points ? channel.data_points : ""
+      @channel = Channel.where(:channel_id => channel, :device_id => @device.id).first
+      if @channel
+        data_points = @channel.data_points ? @channel.data_points : ""
         data_points = data_points + "||" + data_value
 
-        if channel.update_attribute(:data_points, data_points)
-          ret = { :result => {:code => "2", :message => "success. save data succeed!"}, :data => { } }
+        if @channel.update_attribute(:data_points, data_points)
+          ret = { :result => {:code => "2", :message => "success. save data succeed!"}, :data => @channel.data_points }
           render json: ret.to_json
         else
           ret = { :result => {:code => "-1", :message => "failed. save data failed!"}, :data => { } }
