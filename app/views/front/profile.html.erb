@@ -1,29 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">展开</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="<%= front_profile_path %>">用户管理中心</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li>
-          <%= link_to '退出', destroy_user_session_path, :method=>'delete' %>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-right">
-        <input type="text" class="form-control" placeholder="搜索...">
-      </form>
-    </div>
-  </div>
-</nav>
+<%= render partial: 'front/common/nav_bar' %>
 
 <div class="container-fluid">
   <div class="row">
@@ -44,7 +19,8 @@
           <table class="table table-striped">
             <tbody>
               <tr>
-                <td>API KEY:</td>
+                <!-- 10位随机字符数字字母组合 -->
+                <td>Device KEY:</td>
                 <td>123456789</td>
               </tr>
             </tbody>
@@ -61,6 +37,7 @@
               <th>设备名</th>
               <th>描述</th>
               <th>创建日期</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody>
@@ -70,6 +47,33 @@
                 <td><%= device.device_name %></td>
                 <td><%= device.device_description %></td>
                 <td>Date</td>
+                <td>修改-删除</td>
+              </tr>  
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <h2 class="sub-header">设备通道列表</h2>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>通道ID</th>
+              <th>通道设备名</th>
+              <th>通道名称</th>
+              <th>通道数据</th>
+              <th>创建日期</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @channels.each do |channel| %>
+              <tr>
+                <td><%= channel.channel_id %></td>
+                <td><%= Device.where(:id => channel.device_id).first.device_name %></td>
+                <td><%= channel.channel_name %></td>
+                <td><%= channel.data_points %></td>
+                <td>修改-删除</td>
               </tr>  
             <% end %>
           </tbody>

@@ -42,6 +42,10 @@ class FrontController < ApplicationController
     if current_user
       # @current_user_id = current_user.id
       @devices = Device.where(:user_id => current_user.id)
+      if @devices
+        device = @devices.first
+        @channels = Channel.where(:device_id => device.id)
+      end
     end
   end
 
@@ -54,6 +58,11 @@ class FrontController < ApplicationController
   end
 
   def show_chart
+    @device = Device.where(:user_id => current_user.id).first
+    @channel = Channel.where(:device_id => @device.id).first
 
+    if @channel
+      @data_points = @channel.data_points.to_s.split("||").map {|item| item.to_i}
+    end
   end
 end
