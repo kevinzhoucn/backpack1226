@@ -1,6 +1,6 @@
 class FrontController < ApplicationController
-  before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart]
-  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart]
+  before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device]
+  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device]
   def index
   end
 
@@ -64,5 +64,10 @@ class FrontController < ApplicationController
     if @channel
       @data_points = @channel.data_points.to_s.split("||").map {|item| item.to_i}
     end
+  end
+
+  def show_device
+    device_id = params[:id]
+    @device = Device.where(:id => device_id).first
   end
 end

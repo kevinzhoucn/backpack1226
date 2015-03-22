@@ -10,10 +10,15 @@ Rails40Starter::Application.routes.draw do
   end
 
   devise_for :users
-  get '/users/profile' => 'front#profile', as: :front_profile
-  get '/users/device/new' => 'front#new_device', as: :front_new_device
-  get '/users/channel/new' => 'front#new_channel', as: :front_new_channel
-  get '/users/charts/show' => 'front#show_chart', as: :front_show_chart
+
+  scope '/user' do
+    get '/profile' => 'front#profile', as: :front_profile
+    get '/device/new' => 'front#new_device', as: :front_new_device
+    get '/channel/new' => 'front#new_channel', as: :front_new_channel
+    get '/charts/show' => 'front#show_chart', as: :front_show_chart
+
+    get '/device/:id' => 'front#show_device', as: :front_show_device
+  end
 
   get '/info' => 'front#get_info'
   #post '/iotdev/v1.0/devices' => 'devices#webCreate', as: :devices_webCreate
