@@ -1,6 +1,6 @@
 class FrontController < ApplicationController
-  before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device]
-  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device]
+  before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]
+  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]
   def index
   end
 
@@ -42,19 +42,32 @@ class FrontController < ApplicationController
     if current_user
       # @current_user_id = current_user.id
       @devices = Device.where(:user_id => current_user.id)
-      device = @devices.first
-      if device
-        @channels = Channel.where(:device_id => device.id)
-      end
+      # device = @devices.first
+      # if device
+      #   @channels = Channel.where(:device_id => device.id)
+      # end
     end
   end
 
   def new_device
+    @device = Device.new
   end
 
   def new_channel
+    device_id = params[:device_id]
     @channel = Channel.new
     @devices = Device.where(:user_id => current_user.id)
+
+    if device_id
+      @device = Device.where(:id => device_id).first
+    end
+  end
+
+  def edit_channel
+    device_id = params[:device_id]
+    channel_id = params[:channel_id]
+    @device = Device.where(:id => device_id).first
+    @channel = Channel.where(:id => channel_id ).first
   end
 
   def show_chart
@@ -67,6 +80,12 @@ class FrontController < ApplicationController
   end
 
   def show_device
+    device_id = params[:id]
+    @device = Device.where(:id => device_id).first
+    @channels = Channel.where(:device_id => device_id)
+  end
+
+  def edit_device
     device_id = params[:id]
     @device = Device.where(:id => device_id).first
   end

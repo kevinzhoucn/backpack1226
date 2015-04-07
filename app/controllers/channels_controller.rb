@@ -23,7 +23,9 @@ class ChannelsController < ApplicationController
   def create
     @channel = Channel.new(channel_params)
     @channel.save
-    redirect_to front_profile_path
+
+    device_id = @channel.device_id
+    redirect_to front_show_device_path(device_id)
   end
 
   def update

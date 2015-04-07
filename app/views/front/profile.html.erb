@@ -2,15 +2,8 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <!-- <li class="active"><a href="<%= front_profile_path %>">个人中心 <span class="sr-only">(current)</span></a></li> -->
-        <li class="active"><a href="<%= front_profile_path %>">个人中心 <span class="sr-only">(current)</span></a></li>
-        <li><a href="<%= front_new_device_path %>">创建设备</a></li>
-        <li><a href="<%= front_new_channel_path %>">创建通道</a></li>
-        <li><a href="<%= front_show_chart_path %>">图形分析</a></li>
-      </ul>
-    </div>
+    <%= render partial: 'front/common/nav_left_bar' %>
+
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
       <h1 class="page-header">注册信息</h1>
 
@@ -21,7 +14,7 @@
               <tr>
                 <!-- 10位随机字符数字字母组合 -->
                 <td>Device KEY:</td>
-                <td>123456789</td>
+                <td><%= current_user.get_device_key %></td>
               </tr>
             </tbody>
           </table>
@@ -38,7 +31,7 @@
               <th>设备名</th>
               <th>描述</th>
               <th>创建日期</th>
-              <th>操作</th>
+              <th style="text-align: center;">操作</th>
             </tr>
           </thead>
           <tbody>
@@ -49,38 +42,11 @@
                 <td><%= device.device_description %></td>
                 <td>Date</td>
                 <td style="width:150px">
-                  <%= link_to '修改', '#', class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
-                  <%= link_to '删除', '#', class: 'btn btn-danger', style: "padding: 3px 6px;" %>
+                  <%= link_to '查看', front_show_device_path(device), class: 'btn btn-primary', style: "padding: 3px 6px;" %>
+                  <%= link_to '修改', front_edit_device_path(device), class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
+                  <%= link_to '删除', device, method: :delete, data: { confirm: '删除后数据不可恢复! 确认删除?' }, class: 'btn btn-danger', style: "padding: 3px 6px;" %>
                 </td>
               </tr> 
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <h2 class="sub-header">设备通道列表</h2>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>通道ID</th>
-              <th>通道设备名</th>
-              <th>通道名称</th>
-              <th>通道数据</th>
-              <th>创建日期</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if @channels %>
-              <% @channels.each do |channel| %>
-                <tr>
-                  <td><%= channel.channel_id %></td>
-                  <td><%= Device.where(:id => channel.device_id).first.device_name %></td>
-                  <td><%= channel.channel_name %></td>
-                  <td><%= channel.data_points %></td>
-                  <td>修改-删除</td>
-                </tr>  
-              <% end %>
             <% end %>
           </tbody>
         </table>

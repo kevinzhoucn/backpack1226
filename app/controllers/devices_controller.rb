@@ -23,7 +23,7 @@ class DevicesController < ApplicationController
   end
 
   def create
-    @device = Device.new(device_params)
+    @device = Device.new(device_params2)
 
     if current_user
       @device.user_id = current_user.id
@@ -150,7 +150,7 @@ class DevicesController < ApplicationController
 
   def destroy
     @device.destroy
-    respond_with(@device)
+    redirect_to front_profile_path
   end
 
   private
@@ -160,5 +160,9 @@ class DevicesController < ApplicationController
 
     def device_params
       params.require(:data).permit(:device_id, :device_name, :device_description, :device_model_id, :device_model_key, :device_model_name, :device_model_description, :device_location_local, :device_location_latitude, :device_location_longitude, :device_uid)
+    end
+
+    def device_params2
+      params.require(:device).permit(:device_id, :device_name, :device_description, :device_model_id, :device_model_key, :device_model_name, :device_model_description, :device_location_local, :device_location_latitude, :device_location_longitude, :device_uid)
     end
 end

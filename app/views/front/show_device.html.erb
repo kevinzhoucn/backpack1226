@@ -2,21 +2,14 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <!-- <li class="active"><a href="<%= front_profile_path %>">个人中心 <span class="sr-only">(current)</span></a></li> -->
-        <li class="active"><a href="<%= front_profile_path %>">个人中心 <span class="sr-only">(current)</span></a></li>
-        <li><a href="<%= front_new_device_path %>">创建设备</a></li>
-        <li><a href="<%= front_new_channel_path %>">创建通道</a></li>
-        <li><a href="<%= front_show_chart_path %>">图形分析</a></li>
-      </ul>
-    </div>
+    <%= render partial: 'front/common/nav_left_bar' %>
+    
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
       <h2 class="sub-header">设备详情</h2>
       <p>
         <%= link_to "创建新设备", front_new_device_path, class: "btn btn-primary btn-sm" %>
-        <%= link_to "编辑此设备", front_new_device_path, class: "btn btn-warning btn-sm" %>
-        <%= link_to "删除此设备", front_new_device_path, class: "btn btn-danger btn-sm" %>
+        <%= link_to "编辑此设备", front_edit_device_path(@device), class: "btn btn-warning btn-sm" %>
+        <%= link_to "删除此设备", @device, method: :delete, data: { confirm: '删除后数据不可恢复! 确认删除?' }, class: "btn btn-danger btn-sm" %>
       </p>
       <div class="row placeholders">
         <div class="col-sm-6">
@@ -47,54 +40,31 @@
             </table>
           </div>
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>设备ID</th>
-              <th>设备名</th>
-              <th>描述</th>
-              <th>创建日期</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><%= link_to @device.device_id, '#', title: '查看详情' %></td>
-              <td><%= @device.device_name %></td>
-              <td><%= @device.device_description %></td>
-              <td>Date</td>
-              <td style="width:150px">
-                <%= link_to '修改', '#', class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
-                <%= link_to '删除', '#', class: 'btn btn-danger', style: "padding: 3px 6px;" %>
-              </td>
-            </tr> 
-          </tbody>
-        </table>
-      </div>
-      <h2 class="sub-header">设备通道列表</h2>
-      <div class="table-responsive">
+        <%= link_to "创建新通道", front_device_new_channel_path(@device), class: "btn btn-primary" %>
         <table class="table table-striped">
           <thead>
             <tr>
               <th>通道ID</th>
-              <th>通道设备名</th>
-              <th>通道名称</th>
-              <th>通道数据</th>
+              <th>通道名</th>
+              <th>通道类型</th>
+              <th>方向</th>
               <th>创建日期</th>
               <th>操作</th>
             </tr>
           </thead>
           <tbody>
-            <% if @channels %>
-              <% @channels.each do |channel| %>
-                <tr>
-                  <td><%= channel.channel_id %></td>
-                  <td><%= Device.where(:id => channel.device_id).first.device_name %></td>
-                  <td><%= channel.channel_name %></td>
-                  <td><%= channel.data_points %></td>
-                  <td>修改-删除</td>
-                </tr>  
-              <% end %>
+            <% @channels.each do |channel| %>
+              <tr>
+                <td><%= link_to channel.channel_id, '#', title: '查看详情' %></td>                
+                <td><%= channel.channel_name %></td>     
+                <td><%= channel.channel_type %></td>           
+                <td><%= channel.channel_direct %></td>
+                <td>Date</td>
+                <td style="width:150px">
+                  <%= link_to '修改', front_device_edit_channel_path(@device, channel), class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
+                  <%= link_to '删除', '#', class: 'btn btn-danger', style: "padding: 3px 6px;" %>
+                </td>
+              </tr> 
             <% end %>
           </tbody>
         </table>

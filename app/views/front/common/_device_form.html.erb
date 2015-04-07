@@ -1,4 +1,4 @@
-<%= simple_form_for(:data, :url => devices_path, html: { class: "form-horizontal" }, wrapper: :horizontal_form) do |f| %>
+<%= simple_form_for(@device, :url => devices_path, html: { class: "form-horizontal" }, wrapper: :horizontal_form) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -8,6 +8,11 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, '创建' %>
+    <%= f.button :submit %>
+    <% if @device.device_id %>
+      <%= link_to '取消', front_show_device_path(@device), class: 'btn btn-default' %>
+    <% else %>
+      <%= link_to '取消', front_profile_path, class: 'btn btn-default' %>
+    <% end %>
   </div>
 <% end %>

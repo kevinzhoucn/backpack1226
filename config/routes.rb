@@ -18,6 +18,10 @@ Rails40Starter::Application.routes.draw do
     get '/charts/show' => 'front#show_chart', as: :front_show_chart
 
     get '/device/:id' => 'front#show_device', as: :front_show_device
+    get '/device/:id/edit' => 'front#edit_device', as: :front_edit_device
+
+    get '/device/:device_id/channel/new' => 'front#new_channel', as: :front_device_new_channel
+    get '/device/:device_id/channel/:channel_id/edit' => 'front#edit_channel', as: :front_device_edit_channel
   end
 
   get '/info' => 'front#get_info'
