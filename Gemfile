@@ -88,4 +88,6 @@ group :development, :test do
   gem 'chunky_png', '1.2.8', require: false
 
   gem 'jasmine-rails'
+
+  gem 'thin'
 end
