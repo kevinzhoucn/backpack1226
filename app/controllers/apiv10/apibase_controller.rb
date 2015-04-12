@@ -12,7 +12,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     #   sleep(1)
     # end
 
-    # sleep(15)
+    sleep(15)
 
     @cmdqueries = []
     @channels = Channel.where(:device_id => device)
