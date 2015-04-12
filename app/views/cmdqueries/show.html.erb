@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Device:</strong>
+  <%= @cmdquery.device_id %>
+</p>
+
+<p>
+  <strong>Channel:</strong>
+  <%= @cmdquery.channel_id %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @cmdquery.value %>
+</p>
+
+<%= link_to 'Edit', edit_cmdquery_path(@cmdquery) %> |
+<%= link_to 'Back', cmdqueries_path %>

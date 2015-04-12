@@ -1,0 +1,13 @@
+<%= simple_form_for(@cpanel_cmdquery, :url => cpanel_cmdqueries_path(@cpanel_cmdquery), html: { class: "form-horizontal" }, wrapper: :horizontal_form) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.hidden_field :device_id, value: @device.id %>
+    <%= f.hidden_field :channel_id, value: @channel.id %>
+    <%= f.input :value, label: '命令' %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

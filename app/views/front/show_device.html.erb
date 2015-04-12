@@ -41,6 +41,7 @@
           </div>
         </div>
         <%= link_to "创建新通道", front_device_new_channel_path(@device), class: "btn btn-primary" %>
+        <%= link_to "查看通道图形", front_device_chart_path(@device), class: "btn btn-info" %>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -55,12 +56,13 @@
           <tbody>
             <% @channels.each do |channel| %>
               <tr>
-                <td><%= link_to channel.channel_id, '#', title: '查看详情' %></td>                
+                <td><%= link_to channel.channel_id, front_device_channel_chart_path(@device, channel), title: '查看详情' %></td>                
                 <td><%= channel.channel_name %></td>     
                 <td><%= channel.channel_type %></td>           
                 <td><%= channel.channel_direct %></td>
                 <td>Date</td>
                 <td style="width:150px">
+                  <%= link_to '设置', new_cpanel_cmdquery_path(@device, channel), class: 'btn btn-info', style: "padding: 3px 6px;"  %>
                   <%= link_to '修改', front_device_edit_channel_path(@device, channel), class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
                   <%= link_to '删除', '#', class: 'btn btn-danger', style: "padding: 3px 6px;" %>
                 </td>

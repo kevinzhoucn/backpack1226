@@ -1,6 +1,10 @@
 class FrontController < ApplicationController
   before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]
-  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]
+  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device, :show_channel_chart]
+
+  before_action :set_device, only: [:show_channel_chart]
+  before_action :set_channel, only: [:show_channel_chart]
+
   def index
   end
 
@@ -71,12 +75,27 @@ class FrontController < ApplicationController
   end
 
   def show_chart
-    @device = Device.where(:user_id => current_user.id).first
-    @channel = Channel.where(:device_id => @device.id).last
+    device_id = params[:id]
+    if device_id 
+      @device = Device.where(:id => device_id).first
+    else
+      @device = Device.where(:user_id => current_user.id).first
+    end
+    @channels = Channel.where(:device_id => @device.id)
+    @channel = Channel.where(:device_id => @device.id).first
 
     if @channel
       @data_points = @channel.data_points.to_s.split("||").map {|item| item.to_i}
     end
+  end
+
+  def show_channel_chart
+    @channels = Channel.where(:device_id => @device.id)
+    if @channel
+      @data_points = @channel.data_points.to_s.split("||").map {|item| item.to_i}
+    else
+      @data_points =[]
+    end 
   end
 
   def show_device
@@ -89,4 +108,16 @@ class FrontController < ApplicationController
     device_id = params[:id]
     @device = Device.where(:id => device_id).first
   end
+
+  private 
+    def set_device
+      @device = Device.find(params[:id])
+      if @device.nil?
+        @device = Device.where(:user_id => current_user.id).first
+      end
+    end
+
+    def set_channel
+      @channel = Channel.find(params[:cid])
+    end
 end

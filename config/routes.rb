@@ -1,4 +1,6 @@
 Rails40Starter::Application.routes.draw do
+  resources :cmdqueries
+
   resources :channels
 
   resources :devices
@@ -19,9 +21,19 @@ Rails40Starter::Application.routes.draw do
 
     get '/device/:id' => 'front#show_device', as: :front_show_device
     get '/device/:id/edit' => 'front#edit_device', as: :front_edit_device
+    get '/device/:id/charts' => 'front#show_chart', as: :front_device_chart
+    get '/device/:id/channel/:cid/chart' => 'front#show_channel_chart', as: :front_device_channel_chart
 
     get '/device/:device_id/channel/new' => 'front#new_channel', as: :front_device_new_channel
     get '/device/:device_id/channel/:channel_id/edit' => 'front#edit_channel', as: :front_device_edit_channel
+  end
+
+  scope '/user', module: 'cpanel' do
+    get '/' => 'front#index'
+    #resources :cmdqueries, only: [:new, :create]
+    get '/device/:id/:cid/cmdqueries/new' => 'cmdqueries#new', as: :new_cpanel_cmdquery
+    post '/cmdqueries' => 'cmdqueries#create', as: :cpanel_cmdqueries
+    get '/cmdqueries/index' => 'cmdqueries#index'
   end
 
   get '/info' => 'front#get_info'
@@ -34,6 +46,10 @@ Rails40Starter::Application.routes.draw do
   #get '/iotdev/v1.0/send' => 'devices#channel', as: :devices_channel
   get '/iotdev/v1.0/send' => 'channels#send_data', as: :channel_send_data
   get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
+
+  scope 'iotdev/v1.0', module: 'apiv10' do
+    get 'cmdquery' => 'apibase#cmdquery', as: :apibase_cmdquery
+  end
 
   # post '/post_info' => 'front#post_info', as: :front_post_info
   get '/admin' => 'front#admin', as: :front_admin

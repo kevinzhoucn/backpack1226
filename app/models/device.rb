@@ -18,6 +18,7 @@ class Device
 
   belongs_to :user
   has_many :channels
+  has_many :cmdqueries
 
   validates_presence_of :device_id, :device_name, :device_description
 

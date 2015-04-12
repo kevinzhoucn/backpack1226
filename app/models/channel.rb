@@ -13,4 +13,5 @@ class Channel
   validates_presence_of :channel_id, :channel_name, :channel_type, :device_id
 
   belongs_to :device
+  has_many :cmdqueries
 end

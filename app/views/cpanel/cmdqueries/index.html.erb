@@ -1,0 +1,31 @@
+<h1>Listing cmdqueries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Device</th>
+      <th>Channel</th>
+      <th>Value</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cpanel_cmdqueries.each do |cmdquery| %>
+      <tr>
+        <td><%= cmdquery.device_id %></td>
+        <td><%= cmdquery.channel_id %></td>
+        <td><%= cmdquery.value %></td>
+        <td><%= link_to 'Show', cmdquery %></td>
+        <td><%= link_to 'Edit', edit_cmdquery_path(cmdquery) %></td>
+        <td><%= link_to 'Destroy', cmdquery, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cmdquery', new_cmdquery_path %>
