@@ -3,7 +3,7 @@
 
   <div class="form-inputs">
     <% if device %>
-      <%= f.input_field :device_id, value: device.device_id, class: 'hidden' %>
+      <%= f.input_field :device_id, value: device.id, class: 'hidden' %>
     <% else %>
       <%= f.association :device, label: "设备", collection: @devices, label_method: :device_name, value_method: :id, include_blank: false, prompt: "选择设备" %>
     <% end %>

@@ -3,7 +3,9 @@
 
   <div class="form-inputs">
     <%= f.hidden_field :device_id, value: @device.id %>
+    <%= f.hidden_field :device_user_id, value: @device.device_id %>
     <%= f.hidden_field :channel_id, value: @channel.id %>
+    <%= f.hidden_field :channel_user_id, value: @channel.channel_id %>
     <%= f.input :value, label: '命令' %>
   </div>
 

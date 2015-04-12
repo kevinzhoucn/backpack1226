@@ -25,6 +25,7 @@ class Cpanel::CmdqueriesController < Cpanel::ApplicationController
 
   def create
     @cpanel_cmdquery = Cmdquery.new(cmdquery_params)
+    @cpanel_cmdquery.send_flag = 'N'
     @cpanel_cmdquery.save
     #respond_with(@cpanel_cmdquery)
 
@@ -47,6 +48,6 @@ class Cpanel::CmdqueriesController < Cpanel::ApplicationController
     end
 
     def cmdquery_params
-      params.require(:cmdquery).permit(:device_id, :channel_id, :value)
+      params.require(:cmdquery).permit(:device_id, :device_user_id, :channel_id, :channel_user_id, :value)
     end
 end
