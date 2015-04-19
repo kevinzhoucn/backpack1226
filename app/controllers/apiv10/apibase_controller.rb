@@ -2,12 +2,12 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
   def cmdquery
     device_id = params[:dev_id]
-    device = Device.where(:device_id => device_id).first
+    device = Device.where(:device_id => device_id).last
 
     send_flag = Cmdquery.last
     i = 10
 
-    5.times {
+    20.times {
       cmd = Cmdquery.last
       send_flag = cmd.send_flag
 
@@ -36,7 +36,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         return
       end
 
-      sleep(2)
+      sleep(5)
     }
 
     ret = { :result => {:code => "0", :message => "fail!"}, :data => { } }
