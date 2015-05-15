@@ -64,10 +64,11 @@ class DevicesController < ApplicationController
     device_id = params[:dev_id]
     channel_id = params[:channel]
 
-    @device = Device.where(:device_id => device_id).first
+    # @device = Device.where(:device_id => device_id).first
+    channel = Channel.where(:device_id => device_id, :channel_id => channel_id).first
     
-    if @device
-      ret = { :result => {:code => "1", :message => "success. channel exist!"}, :data => { :inout => "input", :datatype => "stream" } }
+    if channel
+      ret = { :result => {:code => "1", :message => "success! channel exist!!"}, :data => { :inout => "input", :datatype => "stream" } }
     else
       ret = { :result => {:code => "0", :message => "success. channel not exist!"}, :data => { } }
     end
