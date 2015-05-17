@@ -9,4 +9,8 @@ class Cmdquery
 
   belongs_to :device
   belongs_to :channel
+
+  def get_channel_cmd
+    
+  end
 end

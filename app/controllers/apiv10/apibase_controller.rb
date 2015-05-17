@@ -4,10 +4,10 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     device_id = params[:dev_id]
     device = Device.where(:device_id => device_id).last
 
-    send_flag = Cmdquery.last
+    # send_flag = Cmdquery.last
     i = 10
 
-    20.times {
+    5.times {
       cmd = Cmdquery.last
       send_flag = cmd.send_flag
 
