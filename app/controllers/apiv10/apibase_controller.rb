@@ -30,7 +30,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             items << item
           end
 
-          ret = { :result => {:code => "1", :message => "success!"}, :data => { :set => items } }
+          ret = { :result => {:code => "0", :message => "success!"} }
           render json: ret.to_json
         end
         return
@@ -39,7 +39,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       sleep(5)
     }
 
-    ret = { :result => {:code => "0", :message => "fail!"}, :data => { } }
+    ret = { :result => {:code => "1", :message => "fail, time out!"} }
     render json: ret.to_json
 
     # while send_flag != 'N' and i++ < 5
@@ -65,7 +65,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     #     items << item
     #   end
 
-    #   ret = { :result => {:code => "1", :message => "success!"}, :data => { :set => items } }
+    #   ret = { :result => {:code => "0", :message => "success!"}, :data => { :set => items } }
     #   render json: ret.to_json
     # else
     #   ret = { :result => {:code => "0", :message => "fail!"}, :data => { } }
