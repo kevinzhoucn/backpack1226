@@ -1,6 +1,7 @@
 GIT
-  remote: git://github.com/plataformatec/simple_form.git
-  revision: 812f1209bc1d0c264f7e15ad2bdaf98eb1883469
+  remote: https://github.com/plataformatec/simple_form
+  revision: eb4e01d386a0d3fffcdeabd705cecfe817acdee3
+  tag: v3.1.0.rc2
   specs:
     simple_form (3.1.0.rc2)
       actionpack (~> 4.0)
@@ -270,7 +271,7 @@ DEPENDENCIES
   rvm-capistrano
   sass-rails (~> 4.0.0)
   sdoc
-  simple_form (= 3.1.0.rc2)!
+  simple_form!
   sprite-factory (= 1.4.1)
   therubyracer
   thin

@@ -4,10 +4,10 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     device_id = params[:dev_id]
     device = Device.where(:device_id => device_id).last
 
-    send_flag = Cmdquery.last
+    # send_flag = Cmdquery.last
     i = 10
 
-    20.times {
+    5.times {
       cmd = Cmdquery.last
       send_flag = cmd.send_flag
 
@@ -30,7 +30,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             items << item
           end
 
-          ret = { :result => {:code => "1", :message => "success!"}, :data => { :set => items } }
+          ret = { :result => {:code => "0", :message => "success!"} }
           render json: ret.to_json
         end
         return
@@ -39,7 +39,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       sleep(5)
     }
 
-    ret = { :result => {:code => "0", :message => "fail!"}, :data => { } }
+    ret = { :result => {:code => "1", :message => "fail, time out!"} }
     render json: ret.to_json
 
     # while send_flag != 'N' and i++ < 5
@@ -65,7 +65,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     #     items << item
     #   end
 
-    #   ret = { :result => {:code => "1", :message => "success!"}, :data => { :set => items } }
+    #   ret = { :result => {:code => "0", :message => "success!"}, :data => { :set => items } }
     #   render json: ret.to_json
     # else
     #   ret = { :result => {:code => "0", :message => "fail!"}, :data => { } }

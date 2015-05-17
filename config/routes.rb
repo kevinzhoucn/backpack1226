@@ -55,6 +55,10 @@ Rails40Starter::Application.routes.draw do
   get '/admin' => 'front#admin', as: :front_admin
   
   root 'front#index'
+
+  # scope 'front/test', module: 'apiv10test' do
+  #   get 'stock_chart' => ''
+  # end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -30,7 +30,7 @@ class FrontController < ApplicationController
     @device[:device_id] = device_id
 
     if @device.save
-      ret = { :result => {:code => "2", :message => "success. create device succeed!"}, :data => { } }
+      ret = { :result => {:code => "0", :message => "success. create device succeed!"}, :data => { } }
       render json: ret.to_json    
     end
   end

@@ -52,9 +52,9 @@ class DevicesController < ApplicationController
     @device = Device.where(:device_id => device_id).first
     
     if @device
-      ret = { :result => {:code => "1", :message => "success. device exist!"}, :data => { } }
+      ret = { :result => {:code => "0", :message => "success. device exist!"}, :data => { } }
     else
-      ret = { :result => {:code => "0", :message => "success. device not exist!"}, :data => { } }
+      ret = { :result => {:code => "1", :message => "success. device not exist!"}, :data => { } }
     end
 
     render json: ret.to_json
@@ -64,12 +64,13 @@ class DevicesController < ApplicationController
     device_id = params[:dev_id]
     channel_id = params[:channel]
 
-    @device = Device.where(:device_id => device_id).first
+    # @device = Device.where(:device_id => device_id).first
+    channel = Channel.where(:device_id => device_id, :channel_id => channel_id).first
     
-    if @device
-      ret = { :result => {:code => "1", :message => "success. channel exist!"}, :data => { :inout => "input", :datatype => "stream" } }
+    if channel
+      ret = { :result => {:code => "0", :message => "success. channel exist!"}, :data => { :inout => "input", :datatype => "stream" } }
     else
-      ret = { :result => {:code => "0", :message => "success. channel not exist!"}, :data => { } }
+      ret = { :result => {:code => "1", :message => "fail. channel not exist!"}, :data => { } }
     end
 
     render json: ret.to_json
@@ -85,7 +86,7 @@ class DevicesController < ApplicationController
     @device = Device.where(:device_id => device_id).first
     @device[:device_data] = channel_data
     if @device.save
-      ret = { :result => {:code => "1", :message => "success. received data succeed!"}, :data => { :content => device_pair } }
+      ret = { :result => {:code => "0", :message => "success. received data succeed!"}, :data => { :content => device_pair } }
     else
       ret = { :result => {:code => "-1", :message => "fail. received data failed!"}, :data => { } }
     end
@@ -95,7 +96,7 @@ class DevicesController < ApplicationController
 
   def datetime
     date_time = DateTime.now
-    ret = { :result => {:code => "1", :message => "success."}, :data => { :datetime => date_time} }
+    ret = { :result => {:code => "0", :message => "success."}, :data => { :datetime => date_time} }
     render json: ret.to_json
   end
 
@@ -107,7 +108,7 @@ class DevicesController < ApplicationController
     @device = Device.new(device_pair)
 
     if @device.save
-      ret = { :result => {:code => "2", :message => "success. create device succeed!"}, :data => { } }
+      ret = { :result => {:code => "0", :message => "success. create device succeed!"}, :data => { } }
       render json: ret.to_json    
     end    
   end
@@ -131,7 +132,7 @@ class DevicesController < ApplicationController
       data_points = data_points + "||" + data_value
 
       if @device.update_attribute(:device_data, data_points)
-        ret = { :result => {:code => "2", :message => "success. save data succeed!"}, :data => { } }
+        ret = { :result => {:code => "0", :message => "success. save data succeed!"}, :data => { } }
         render json: ret.to_json
       else
         ret = { :result => {:code => "-1", :message => "failed. save data failed!"}, :data => { } }

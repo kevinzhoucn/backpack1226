@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>积木派</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/fav-icon.png" />
+    <%= stylesheet_link_tag    "application", media: "all" %>
+    <!-- Custom Theme files -->    
+    <link href="/css/bootstrap.min.css" rel='stylesheet' type='text/css' />    
+    <link href="/css/stroll.css" rel="stylesheet" type="text/css" />
+
+    <%= render_stylesheets %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" type="image/x-icon" href="images/fav-icon.png" />
+    <link href="/css/theme-style.css" rel='stylesheet' type='text/css' />
+    </script>
+    </script>
+    <!--webfonts-->
+    <!--//webfonts-->
+    <!--requred-js-files-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="/js/html5shiv.js"></script>
+        <script src="/js/respond.min.js"></script>
+    <![endif]-->
+    <!--//requred-js-files-->
+
+    <script src="/js/jquery.easing.min.js"></script>
+    <script type="text/javascript"  src="/js/jquery.smint.js"></script>
+    <script type="text/javascript"  src="/js/bootstrap.min.js"></script>
+  </head>
+  <body class="<%= controller_name %>" data-controller-name="<%= controller_name %>" > 
+
+    <%= yield %>
+
+  </body>
+</html>
