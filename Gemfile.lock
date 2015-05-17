@@ -272,10 +272,7 @@ DEPENDENCIES
   sdoc
   simple_form (= 3.1.0.rc2)!
   sprite-factory (= 1.4.1)
-<<<<<<< HEAD
   therubyracer
-=======
   thin
->>>>>>> a72b9bc9c3370b42647de1b17bbd5fcbd2fb8e90
   turbolinks
   uglifier (>= 1.3.0)
