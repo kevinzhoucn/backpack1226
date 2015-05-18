@@ -60,7 +60,7 @@ class ChannelsController < ApplicationController
         data_points = data_points + "||" + data_value
 
         if @channel.update_attribute(:data_points, data_points)
-          ret = { :result => {:code => "0", :message => "success. save data succeed!"}, :data => @channel.data_points }
+         ret = { :result => {:code => "0", :message => "success. save data succeed!"} }
           render json: ret.to_json
         else
           ret = { :result => {:code => "-1", :message => "failed. save data failed!"}, :data => { } }
