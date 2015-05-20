@@ -38,6 +38,34 @@ class ChannelsController < ApplicationController
     respond_with(@channel)
   end
 
+  def receive_data
+    device_id = params[:dev_id]
+    user_id = params[:user]
+    sign = params[:sign]
+
+    data = params[:data]
+
+    data_array = data.split('_')
+    if data_array
+      data_content_array = data_array.split('-')
+      if data_content_array
+        data_content_array.each do |t_data|
+          @channel = Channel.where(:channel_id => channel, :device_id => @device.id).first
+          if @channel
+            data_points = @channel.data_points ? @channel.data_points : ""
+            data_points = data_points + "||" + data_value
+
+            @channel.update_attribute(:data_points, data_points)
+          end
+        end
+        ret = { :result => "0" }
+      end
+    end
+
+    ret = { :result => "-1" }
+    render json: ret.to_json
+  end
+
   def send_data
     device_id = params[:dev_id]
     user_id = params[:user]

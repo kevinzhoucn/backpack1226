@@ -56,6 +56,10 @@ Rails40Starter::Application.routes.draw do
   
   root 'front#index'
 
+  namespace 'apiv00' do
+    get 'front/index'
+  end
+
   # scope 'front/test', module: 'apiv10test' do
   #   get 'stock_chart' => ''
   # end
