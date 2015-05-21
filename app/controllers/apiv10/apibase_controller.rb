@@ -30,7 +30,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             items << item
           end
 
-          ret = { :result => {:code => "0", :message => "success!"} }
+          ret = { :result => {:code => "0", :message => "success!"}, :data => { :set => items } }
           render json: ret.to_json
         end
         return
