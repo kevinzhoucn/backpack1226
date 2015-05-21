@@ -37,8 +37,9 @@ class ChannelsController < ApplicationController
   end
 
   def destroy
+    device_id = @channel.device_id
     @channel.destroy
-    respond_with(@channel)
+    redirect_to front_show_device_path(device_id)
   end
 
   def receive_data
@@ -76,8 +77,6 @@ class ChannelsController < ApplicationController
       ret = { :result => "-1" }
       render json: ret.to_json  
     end
-
-    
   end
 
   def send_data
