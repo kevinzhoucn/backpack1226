@@ -92,7 +92,7 @@ class FrontController < ApplicationController
   def show_channel_chart
     @channels = Channel.where(:device_id => @device.id)
     if @channel
-      @data_points = @channel.data_points.to_s.split("||").map {|item| item.to_i}
+      @data_points = @channel.data_points.to_s.split("||").map {|item| item.split('-')[0].to_i}
     else
       @data_points =[]
     end 

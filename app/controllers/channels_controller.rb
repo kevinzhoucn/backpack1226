@@ -22,6 +22,9 @@ class ChannelsController < ApplicationController
 
   def create
     @channel = Channel.new(channel_params)
+    device_user_id = Device.find(@channel.device_id)
+
+    @channel.device_user_id = device_user_id.device_id
     @channel.save
 
     device_id = @channel.device_id
@@ -46,24 +49,33 @@ class ChannelsController < ApplicationController
     data = params[:data]
 
     data_array = data.split('_')
+    data_test = []
     if data_array
-      data_content_array = data_array.split('-')
-      if data_content_array
-        data_content_array.each do |t_data|
-          @channel = Channel.where(:channel_id => channel, :device_id => @device.id).first
+      data_array.each do |tp_data|
+        data_content_array = tp_data.split('-')
+        data_test << data_content_array[0]
+        data_test << data_content_array[1]
+        data_test << data_content_array[2]
+        if data_content_array
+          @channel = Channel.where(:channel_id => data_content_array[0], :device_user_id => device_id).first
           if @channel
             data_points = @channel.data_points ? @channel.data_points : ""
-            data_points = data_points + "||" + data_value
+            data_points = data_points + "||" + data_content_array[1] + '-' + data_content_array[2]
 
             @channel.update_attribute(:data_points, data_points)
+
+            data_test << data_points
           end
         end
-        ret = { :result => "0" }
       end
+      ret = { :result => "0", :data_array => data_array, :data_test => data_test }
+      render json: ret.to_json
+    else
+      ret = { :result => "-1", :data => data, :data_array => data_array }
+      render json: ret.to_json  
     end
 
-    ret = { :result => "-1" }
-    render json: ret.to_json
+    
   end
 
   def send_data

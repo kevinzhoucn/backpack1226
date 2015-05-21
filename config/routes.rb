@@ -44,7 +44,8 @@ Rails40Starter::Application.routes.draw do
 
   get '/iotdev/v1.0/devices/list' => 'devices#index', as: :devices_list
   #get '/iotdev/v1.0/send' => 'devices#channel', as: :devices_channel
-  get '/iotdev/v1.0/send' => 'channels#send_data', as: :channel_send_data
+  # get '/iotdev/v1.0/send' => 'channels#send_data', as: :channel_send_data
+  get '/iotdev/v1.0/send' => 'channels#receive_data', as: :channel_send_data
   get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
 
   scope 'iotdev/v1.0', module: 'apiv10' do
