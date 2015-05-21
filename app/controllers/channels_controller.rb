@@ -68,10 +68,12 @@ class ChannelsController < ApplicationController
           end
         end
       end
-      ret = { :result => "0", :data_array => data_array, :data_test => data_test }
+      # ret = { :result => "0", :data_array => data_array, :data_test => data_test }
+      ret = { :result => "0" }
       render json: ret.to_json
     else
-      ret = { :result => "-1", :data => data, :data_array => data_array }
+      # ret = { :result => "-1", :data => data, :data_array => data_array }
+      ret = { :result => "-1" }
       render json: ret.to_json  
     end
 
