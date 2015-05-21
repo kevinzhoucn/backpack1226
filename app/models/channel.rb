@@ -6,11 +6,12 @@ class Channel
   field :channel_name, type: String
   field :channel_direct, type: String # [['1. 输入  ', '0'], ['2. 输出  ', '1']]
   field :device_id, type: String
+  field :device_user_id, type: String
   field :user_id, type: String
 
   field :data_points, type: String
 
-  validates_presence_of :channel_id, :channel_name, :channel_type, :device_id
+  validates_presence_of :channel_id, :channel_name, :channel_type, :device_id, :device_user_id
 
   belongs_to :device
   has_many :cmdqueries
