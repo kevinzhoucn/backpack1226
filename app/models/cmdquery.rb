@@ -10,7 +10,16 @@ class Cmdquery
   belongs_to :device
   belongs_to :channel
 
+  before_create :number_to_16
+
   def get_channel_cmd
     
   end
+  private 
+    def number_to_16
+      channel = Channel.find(self.channel_id)
+      if channel.channel_type == "3"
+        self.value = self.value.strip.gsub(' ', 'H') + "H"
+      end
+    end
 end

@@ -27,18 +27,31 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           end
 
           if @cmdqueries.length > 0
-            items = []
+            #### old method
+            # items = []
+            # @cmdqueries.each do |cmd|
+            #   item = {}
+            #   item[:channel] = cmd.channel_user_id
+            #   item[:value] = cmd.value        
+            #   items << item
+
+            #   cmd.update_attributes( send_flag: 'Y')
+            # end
+
+            #### new method
+            items = ""
             @cmdqueries.each do |cmd|
-              item = {}
-              item[:channel] = cmd.channel_user_id
-              item[:value] = cmd.value        
-              items << item
+              item = ""
+              item += cmd.channel_user_id + '-'              
+              item += cmd.value + '_'
+              items += item
 
               cmd.update_attributes( send_flag: 'Y')
             end
 
-            ret = { :result => "0", :data => {:set => items } }
+            ret = { :result => "0", :data => {:set => items.chop } }
             render json: ret.to_json
+            return
           end
         end
       end
