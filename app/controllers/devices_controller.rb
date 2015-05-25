@@ -145,8 +145,9 @@ class DevicesController < ApplicationController
   end
 
   def update
-    @device.update(device_params)
-    respond_with(@device)
+    @device.update(device_params2)
+    # respond_with(@device)
+    redirect_to front_show_device_path(@device)
   end
 
   def destroy

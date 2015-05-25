@@ -58,9 +58,25 @@
               <tr>
                 <td><%= link_to channel.channel_id, front_device_channel_chart_path(@device, channel), title: '查看详情' %></td>                
                 <td><%= channel.channel_name %></td>     
-                <td><%= channel.channel_type %></td>           
-                <td><%= channel.channel_direct %></td>
-                <td>Date</td>
+                <td>
+                  <% title = '无' %>
+                  <% case channel.channel_type %>
+                    <% when '0'; title = '模拟' %>
+                    <% when '1'; title = '数字' %>
+                    <% when '3'; title = '串口' %>                    
+                  <% end %>
+                  <%= title %>
+                  <%#= channel.channel_name %>
+                </td>
+                <!-- <td><%#= channel.channel_type %></td>            -->
+                <td><%= channel.channel_direct == '0' ? '输入' : '输出' %></td>
+                <td>
+                  <% if channel.created_at %>
+                    <%= channel.created_at.strftime('%Y-%m-%d %H:%M:%S').to_s %>
+                  <% else %>
+                    <%= '2015-01-10 00:00:00' %>
+                  <% end %>
+                </td>
                 <td style="width:150px">
                   <%= link_to '设置', new_cpanel_cmdquery_path(@device, channel), class: 'btn btn-info', style: "padding: 3px 6px;"  %>
                   <%= link_to '修改', front_device_edit_channel_path(@device, channel), class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
