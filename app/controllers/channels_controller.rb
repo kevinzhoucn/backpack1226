@@ -33,7 +33,9 @@ class ChannelsController < ApplicationController
 
   def update
     @channel.update(channel_params)
-    respond_with(@channel)
+    device_id = @channel.device_id
+    # respond_with(@channel)
+    redirect_to front_show_device_path(device_id)
   end
 
   def destroy
