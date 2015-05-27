@@ -1,5 +1,11 @@
 <h2>Test Page!</h2>  
 
 <h3>
-<%= @cmd.send_flag %>
+  <% if @cmd %>
+    <%= @cmd.send_flag %>
+  <% end %>
+</h3>
+
+<h3>
+  <%= @str_to_long %>
 </h3>
