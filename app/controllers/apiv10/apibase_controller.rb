@@ -93,4 +93,67 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     #   render json: ret.to_json
     # end
   end
+
+  def datetime
+    data = params[:data]
+    user_id = params[:user]
+    date_time = DateTime.parse(Time.now.to_s).strftime('%Y-%m-%dT%H:%M:%S').to_s
+
+    if not data or data.length < 5
+      ret = { :result => "3" }
+    else 
+      if ( not user_id or user_id.length < 5 ) and User.where(:email => user_id).exists?
+        ret = { :result => "1" }
+      else
+        user = User.where(:email => user_id).first
+        key = user.devices_key
+
+        # data_raw = XXTEA.decrypt(data, key)
+
+        # url_params = get_params(data_raw)
+
+        # dev_id = url_params[:dev_id]
+
+        # if Device.where(:dev_id => dev_id).exists?
+        #   ret = { :result => "0", :datatime => date_time }
+        # else
+        #   ret = { :result => "2" }
+        # end
+
+        if true
+          encrypt_str = XXTEA.encrypt(date_time, key)
+          send_str = ""
+          encrypt_str.each_byte do |chr|
+            send_str << chr.to_s(16)
+          end
+          ret = { :result => "0", :datatime => send_str }
+        end
+      end
+    end
+
+    # if user_id != current_user
+    # ret = { :result => "0", :datetime => date_time }
+    render json: ret.to_json
+  end
+
+  private
+    def set_device
+      @device = Device.find(params[:id])
+    end
+
+    def get_params(data)
+      url_params = {}
+
+      data.split( /&/ ).inject( Hash.new { | h, k | h[k]='' } ) do | h, s |
+        k, v = s.split( /=/ )
+        h[k] << v
+        h
+      end
+
+      # data.split('&').each do |data1|
+      #   data1.split('=').each do |data2|
+      #     url_params
+      #   end
+      # end
+    end
 end
