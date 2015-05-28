@@ -126,7 +126,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           encrypt_str.each_byte do |chr|
             send_str << chr.to_s(16)
           end
-          ret = { :result => "0", :datatime => send_str }
+          ret = { :result => "0", :data => send_str }
         end
       end
     end
