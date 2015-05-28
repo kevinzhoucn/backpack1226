@@ -46,10 +46,11 @@ Rails40Starter::Application.routes.draw do
   #get '/iotdev/v1.0/send' => 'devices#channel', as: :devices_channel
   # get '/iotdev/v1.0/send' => 'channels#send_data', as: :channel_send_data
   get '/iotdev/v1.0/send' => 'channels#receive_data', as: :channel_send_data
-  get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
+  # get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
 
   scope 'iotdev/v1.0', module: 'apiv10' do
     get 'cmdquery' => 'apibase#cmdquery', as: :apibase_cmdquery
+    get 'datetime' => 'apibase#datetime'
   end
 
   # post '/post_info' => 'front#post_info', as: :front_post_info

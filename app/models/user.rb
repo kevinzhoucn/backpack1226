@@ -42,7 +42,7 @@ class User
   # field :locked_at,       type: Time
   
   def get_device_key
-    if devices_key.nil?
+    if devices_key.nil? or devices_key.length != 16
       assign_user_key
     else
       devices_key
@@ -53,7 +53,7 @@ class User
     def assign_user_key
       chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
       newpass = ""
-      1.upto(10) { |i| newpass << chars[rand(chars.size-1)] }
+      1.upto(16) { |i| newpass << chars[rand(chars.size-1)] }
       self.update_attributes(devices_key: newpass)
       newpass
     end
