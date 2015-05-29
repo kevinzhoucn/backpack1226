@@ -99,41 +99,46 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     user_id = params[:user]
     date_time = DateTime.parse(Time.now.to_s).strftime('%Y-%m-%dT%H:%M:%S').to_s
 
+    raw_str = "result:3"
+    raw_key = ""
+
     if not data or data.length < 5
-      ret = { :result => "3" }
+      raw_str = "result:3"
     else 
-      if ( not user_id or user_id.length < 5 ) and User.where(:email => user_id).exists?
-        ret = { :result => "1" }
+      if ( not user_id or user_id.length < 5 ) or ( not User.where(:email => user_id).exists? )
+        raw_str = "result:1"
       else
         user = User.where(:email => user_id).first
-        key = user.devices_key
+        raw_key = user.devices_key
 
-        # data_raw = XXTEA.decrypt(data, key)
+        data_raw = get_decrypt_str(data, raw_key)
 
-        # url_params = get_params(data_raw)
+        url_params = get_params(data_raw)
 
-        # dev_id = url_params[:dev_id]
+        dev_id = url_params['dev_id']
 
-        # if Device.where(:dev_id => dev_id).exists?
-        #   ret = { :result => "0", :datatime => date_time }
-        # else
-        #   ret = { :result => "2" }
-        # end
+        device = Device.where(dev_id: "iot02").first
 
-        if true
-          encrypt_str = XXTEA.encrypt(date_time, key)
-          send_str = ""
-          encrypt_str.each_byte do |chr|
-            send_str << chr.to_s(16)
-          end
-          ret = { :result => "0", :datatime => send_str }
+        if Device.where(:device_id => dev_id).exists?
+          raw_str = "result:0, data:" + date_time
+        else
+          raw_str = "result:2"
         end
+
+        # raw_str = "result:2 -- dev_id:" + url_params
+
+        # if true
+        #   raw_str = "result:0, data:" + date_time
+        # end
       end
     end
 
     # if user_id != current_user
     # ret = { :result => "0", :datetime => date_time }
-    render json: ret.to_json
+              
+    ret = get_encrypt_str(raw_str, raw_key)
+    # ret = raw_str
+    render text: ret
   end
 
   private
@@ -155,5 +160,23 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       #     url_params
       #   end
       # end
+    end
+
+    def get_encrypt_str(raw_str, raw_key)
+      encrypt_str = XXTEA.encrypt(raw_str, raw_key)          
+      send_str = ""
+      encrypt_str.each_byte do |chr|
+        send_str << chr.to_s(16)
+      end
+      send_str
+    end
+
+    def get_decrypt_str(raw_str, raw_key)
+      decrypt_str = ""
+      if ( raw_str.length % 8 == 0 ) and raw_key.length == 16
+        str = raw_str.scan(/.{8}/).map { |m| m.to_i(16) }.pack('N*')
+        decrypt_str = XXTEA.decrypt(raw_str, raw_key)
+      end
+      decrypt_str
     end
 end
