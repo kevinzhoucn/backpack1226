@@ -1,11 +1,85 @@
 <h2>Test Page!</h2>  
 
-<h3>
-  <% if @cmd %>
-    <%= @cmd.send_flag %>
-  <% end %>
-</h3>
+<p>
+    <%= @url_params %>    
+</p>
+<p>
+    dev_id:
+    <%= @url_params['dev_id'] %>
+</p>
+<p>
+    decrypt key:
+    <%= @decrypt_str %>
+    <%= @test_str %><br>
+    <%= @test_str2 %>
+</p>
 
-<h3>
-  <%= @str_to_long %>
-</h3>
+<p>
+    decrypt string:
+    <%= @decrypt_str %>
+</p>
+
+
+<div id="container" style="height: 400px; min-width: 310px"></div>
+
+<div class="container">
+  <span>通道 - <%#= @channel.channel_name %></span>
+  <div id="chart_area" style="width: 60%; height: 400px; margin: 0 auto">
+
+  </div>
+  <script type="text/javascript" src="/js/libs/charts/highcharts.js"></script>
+  <script type="text/javascript">
+    $(document).ready( function() {
+      var chart_area= new Highcharts.Chart({
+        chart: {
+          type: 'StockChart',
+          renderTo: 'chart_area'
+        },
+        rangeSelector: {
+            buttons: [{
+                count: 1,
+                type: 'minute',
+                text: '1M'
+            }, {
+                count: 5,
+                type: 'minute',
+                text: '5M'
+            }, {
+                type: 'all',
+                text: 'All'
+            }],
+            inputEnabled: false,
+            selected: 0
+        },
+
+        title : {
+            text : 'Live random data'
+        },
+        tooltip: {
+            valueSuffix: ''
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series : [{
+            name : 'Random data',
+            data : (function () {
+                // generate an array of random data
+                var data = [], time = (new Date()).getTime(), i;
+
+                for (i = -999; i <= 0; i += 1) {
+                    data.push([
+                        time + i * 1000,
+                        Math.round(Math.random() * 100)
+                    ]);
+                }
+                return data;
+            }())
+        }]
+      })
+    });
+  </script>
+</div>
