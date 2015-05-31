@@ -164,7 +164,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
     def get_encrypt_str(raw_str, raw_key)
       encrypt_str = XXTEA.encrypt(raw_str, raw_key)          
-      return encrypt_str.unpack('N*').map { |m| m.to_s(16) }.join('H')
+      return encrypt_str.unpack('N*').map { |m| format("%08x", m)}.join
     end
 
     def get_decrypt_str(raw_str, raw_key)
@@ -181,8 +181,9 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       #   decrypt_str = XXTEA.decrypt(ret_str, raw_key)
       # end
 
-      split_str = raw_str.split('H').map { |m| m.to_i(16) }.pack('N*')
-      decrypt_str = XXTEA.decrypt(split_str, raw_key)
+      # split_str = raw_str.split('H').map { |m| m.to_i(16) }.pack('N*')
+      ret_str = raw_str.scan(/.{8}/).map { |m| m.to_i(16) }.pack('N*')
+      decrypt_str = XXTEA.decrypt(ret_str, raw_key)
       decrypt_str
     end
 end
