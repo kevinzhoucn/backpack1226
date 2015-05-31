@@ -97,7 +97,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
   def datetime
     data = params[:data]
     user_id = params[:user]
-    date_time = DateTime.parse(Time.now.to_s).strftime('%Y-%m-%dT%H:%M:%S').to_s
+    date_time = DateTime.parse(Time.now.to_s).strftime('%Y%m%dT%H%M%S').to_s
 
     raw_str = "result:3"
     raw_key = ""
@@ -121,11 +121,12 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             url_params = get_params(data_raw)
 
             dev_id = url_params['dev_id']
+            random_str = url_params['random']
 
             device = Device.where(dev_id: "iot02").first
 
             if Device.where(:device_id => dev_id).exists?
-              raw_str = "result:0, data:" + date_time
+              raw_str = "result:0, data:" + date_time + ", random:" + random_str
             else
               raw_str = "result:2"
             end
