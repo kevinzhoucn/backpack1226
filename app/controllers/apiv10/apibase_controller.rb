@@ -183,8 +183,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
             device = Device.where(dev_id: "iot02").first
 
-            if Device.where(:device_id => dev_id).exists?
-              
+            if Device.where(:device_id => dev_id).exists?              
               data_array = values.split('_')
               data_test = []
               if data_array
@@ -205,62 +204,21 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
                     end
                   end
                 end
-                raw_str = "0,,"+random_str
+                raw_str = "0," + values +","+random_str
               else
+                raw_str = "3"
               end
-
-
             else
               raw_str = "2"
             end
           end
-
-          # raw_str = "2 -- dev_id:" + url_params
-
-          # if true
-          #   raw_str = "0, data:" + date_time
-          # end
         end
       end
     rescue
       raw_str = "3"
     end
-
-    # if user_id != current_user
-    # ret = { :result => "0", :datetime => date_time }
-              
     ret = get_encrypt_str(raw_str, raw_key)
-    # ret = raw_str
-    render text: ret
-
-    data_array = data.split('_')
-    data_test = []
-    if data_array
-      data_array.each do |tp_data|
-        data_content_array = tp_data.split('-')
-        data_test << data_content_array[0]
-        data_test << data_content_array[1]
-        data_test << data_content_array[2]
-        if data_content_array
-          @channel = Channel.where(:channel_id => data_content_array[0], :device_user_id => device_id).first
-          if @channel
-            data_points = @channel.data_points ? @channel.data_points : ""
-            data_points = data_points + "||" + data_content_array[1] + '-' + data_content_array[2]
-
-            @channel.update_attribute(:data_points, data_points)
-
-            data_test << data_points
-          end
-        end
-      end
-      # ret = { :result => "0", :data_array => data_array, :data_test => data_test }
-      ret = { :result => "0" }
-      render json: ret.to_json
-    else
-      # ret = { :result => "-1", :data => data, :data_array => data_array }
-      ret = { :result => "-1" }
-      render json: ret.to_json  
-    end
+    render text: "result:" + ret
   end
 
   private

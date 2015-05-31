@@ -22,6 +22,7 @@ class Apiv00::FrontController < Apiv00::ApplicationController
 
 
     str_test_01 = str = "user=user01@iot.com&datetime=20150522T220355P123&dev_id=dev01&random=1234567890ABCDEF"
+    str_test_01 = "value=1-10-20150520T123030P123_2-120-20150520T123030P123&dev_id=dev01&random=1234567890ABCDEF"
     # str = "12345"    
     # raw_key = "D7iTLeFCRv8KSCUf"
     raw_key = "TmWwjnOHyPVAGAbE"
@@ -31,10 +32,14 @@ class Apiv00::FrontController < Apiv00::ApplicationController
 
     @url_params = get_params(str_test_01)
 
+    @values = @url_params['value']
+
+    @values = @values.split('_')
 
     # raw_str = "f6506d872d1c0712aaf45b10dbd9d7bfada82155fcbe044594f3084f33f07462b1276b7b2ae36872b9573d1a91298a01a118841878e0919e6f9d8007777b74863498dc3f7df420d33595f8a39bfca7bc70eff937f09598"
     # raw_str = "8d672acd69cdd719"
     raw_str = @encrypt_str
+    raw_str = "cf8c933f625ffa1e2165873fb188e39f17bef497a725f24bbb6f3e9d6bc1b1529912545aaa29ea81d2a720da1eead4a252aaabe3eb72ff58e0d52858b45a9a0940c7b2f7f07170c7006001a3e6ae577875d32bb8c02659b7fff5631332dee1f8"
     # raw_str = "39876da1b1e87283a7d881b5"
     # raw_key = "D7iTLeFCRv8KSCUf"
     @test_str = raw_str.length / 8
@@ -42,6 +47,13 @@ class Apiv00::FrontController < Apiv00::ApplicationController
     # @test_str3 = ""
 
     @decrypt_str = get_decrypt_str(raw_str, raw_key)
+
+
+    @url_params = get_params(@decrypt_str)
+
+    @values = @url_params['value']
+
+    @values = @values.split('_')
   end
 
   private
