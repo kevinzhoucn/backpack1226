@@ -102,35 +102,44 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     raw_str = "result:3"
     raw_key = ""
 
-    if not data or data.length < 5
-      raw_str = "result:3"
-    else 
-      if ( not user_id or user_id.length < 5 ) or ( not User.where(:email => user_id).exists? )
-        raw_str = "result:1"
-      else
-        user = User.where(:email => user_id).first
-        raw_key = user.devices_key
-
-        data_raw = get_decrypt_str(data, raw_key)
-
-        url_params = get_params(data_raw)
-
-        dev_id = url_params['dev_id']
-
-        device = Device.where(dev_id: "iot02").first
-
-        if Device.where(:device_id => dev_id).exists?
-          raw_str = "result:0, data:" + date_time
+    begin
+      if not data or data.length < 5
+        raw_str = "result:3"
+      else 
+        if ( not user_id or user_id.length < 5 ) or ( not User.where(:email => user_id).exists? )
+          raw_str = "result:1"
         else
-          raw_str = "result:2"
+          user = User.where(:email => user_id).first
+
+          raw_key = user.devices_key
+
+          data_raw = get_decrypt_str(data, raw_key)
+
+          if data_raw and data_raw.length < 5
+            raw_str = "result:3"
+          else
+            url_params = get_params(data_raw)
+
+            dev_id = url_params['dev_id']
+
+            device = Device.where(dev_id: "iot02").first
+
+            if Device.where(:device_id => dev_id).exists?
+              raw_str = "result:0, data:" + date_time
+            else
+              raw_str = "result:2"
+            end
+          end
+
+          # raw_str = "result:2 -- dev_id:" + url_params
+
+          # if true
+          #   raw_str = "result:0, data:" + date_time
+          # end
         end
-
-        # raw_str = "result:2 -- dev_id:" + url_params
-
-        # if true
-        #   raw_str = "result:0, data:" + date_time
-        # end
       end
+    rescue
+      raw_str = "result:3"
     end
 
     # if user_id != current_user
