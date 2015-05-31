@@ -59,7 +59,7 @@ class XXTEA
   public  
     def encrypt(str, key)  
       if str.empty? then return str end  
-      v = str2long(str, true)#.map {|item| item.to_s(16) } 
+      v = str2long(str, false)#.map {|item| item.to_s(16) } 
       k = str2long(key.ljust(16, "\0"), false)#.map {|item| item.to_s(16) }
       # v = [0x31323334, 0x35363738, 0x39000000]
       # k = [0x31323334, 0x35363738, 0x39306162, 0x63646566]
@@ -99,7 +99,7 @@ class XXTEA
         y = v[0] = (v[0] - mx(z, y, sum, k, 0, e)) & 0xffffffff  
         sum = (sum - Delta) & 0xffffffff  
       end  
-      long2str(v, true)  
+      long2str(v, false)  
     end  
 
     def encode_test(str, key)
