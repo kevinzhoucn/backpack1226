@@ -126,7 +126,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             device = Device.where(dev_id: "iot02").first
 
             if Device.where(:device_id => dev_id).exists?
-              raw_str = "result:0, data:" + date_time + ", random:" + random_str
+              raw_str = "result:0," + date_time + "," + random_str
             else
               raw_str = "result:2"
             end
