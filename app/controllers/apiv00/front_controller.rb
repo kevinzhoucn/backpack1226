@@ -51,9 +51,9 @@ class Apiv00::FrontController < Apiv00::ApplicationController
 
     @url_params = get_params(@decrypt_str)
 
-    @values = @url_params['value']
+    value = @url_params['value']
 
-    @values = @values.split('_')
+    @values = get_split_data ( value )
   end
 
   private
@@ -119,5 +119,25 @@ class Apiv00::FrontController < Apiv00::ApplicationController
       ret_str = raw_str.scan(/.{8}/).map { |m| m.to_i(16) }.pack('N*')
       decrypt_str = XXTEA.decrypt(ret_str, raw_key)
       decrypt_str
+    end
+
+    def get_split_data(values)
+      data_array = values.split('_')
+      data_test = []
+        if data_array
+          data_array.each do |tp_data|
+            t_data_test = []
+            data_content_array = tp_data.split('-')
+            t_data_test << data_content_array[0]
+            t_data_test << data_content_array[1]
+            t_data_test << data_content_array[2]   
+
+            data_test << t_data_test
+          end
+          # raw_str = "0," + values +","+random_str
+        else
+          # raw_str = "3"
+        end
+      data_test
     end
 end

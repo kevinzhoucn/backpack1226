@@ -1,6 +1,43 @@
 class Apiv10::ApibaseController < Apiv10::ApplicationController
-
   def cmdquery
+    user_name = params[:user]
+    data = params[:data]
+    t_user = User.where(:email => user_name).first
+
+    ret_str = "3"
+    raw_str_key = ""
+
+    if t_user
+      raw_str_key = t_user.devices_key
+    else
+      ret_str = "1"
+    end
+
+    if raw_str_key and raw_str_key.length == 16
+      data_raw = get_decrypt_str(data, raw_str_key)
+
+      if data_raw and data_raw.length > 5
+        url_params = get_params(data_raw)
+        dev_id = url_params['dev_id']
+
+        device = Device.where(:device_id => dev_id, :user_id => t_user).first
+        if device
+          ret_str = "0," + dev_id
+          cmd = Cmdquery.where(:device_id => device).last
+        else
+          ret_str = "2," + dev_id
+        end
+      else
+        ret_str = "3"
+      end
+
+      # ret_str = "0"
+    end
+
+    render text: "result:" + ret_str
+  end
+
+  def cmdquery_01
     device_id = params[:dev_id]
     device = Device.where(:device_id => device_id).first
 
