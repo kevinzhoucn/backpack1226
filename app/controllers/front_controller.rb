@@ -101,7 +101,7 @@ class FrontController < ApplicationController
   def show_device
     device_id = params[:id]
     @device = Device.where(:id => device_id).first
-    @channels = Channel.where(:device_id => device_id).order("channel_id ASC")
+    @channels = Channel.where(:device_id => device_id).order("channel_id DESC")
   end
 
   def edit_device

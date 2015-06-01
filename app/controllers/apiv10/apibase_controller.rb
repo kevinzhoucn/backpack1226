@@ -2,9 +2,10 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
   def cmdquery
     user_name = params[:user]
     data = params[:data]
+
     t_user = User.where(:email => user_name).first
 
-    ret_str = "3"
+    ret_str = "-1"
     raw_str_key = ""
 
     if t_user
@@ -13,28 +14,66 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       ret_str = "1"
     end
 
-    if raw_str_key and raw_str_key.length == 16
-      data_raw = get_decrypt_str(data, raw_str_key)
+    begin
 
-      if data_raw and data_raw.length > 5
-        url_params = get_params(data_raw)
-        dev_id = url_params['dev_id']
+      if raw_str_key and raw_str_key.length == 16
+        data_raw = get_decrypt_str(data, raw_str_key)
 
-        device = Device.where(:device_id => dev_id, :user_id => t_user).first
-        if device
-          ret_str = "0," + dev_id
-          cmd = Cmdquery.where(:device_id => device).last
+        if data_raw and data_raw.length > 5
+          url_params = get_params(data_raw)
+          dev_id = url_params['dev_id']
+          random_str = url_params['random']
+
+          device = Device.where(:device_id => dev_id, :user_id => t_user).first
+          if device
+            5.times {
+              cmd = Cmdquery.where(:device_id => device).last
+              if cmd
+                send_flag = cmd.send_flag
+                if send_flag == "N"
+                  cmdqueries = []
+                  channels = Channel.where(:device_id => device)
+
+                  channels.each do |channel|
+                    t_cmd = Cmdquery.where(:channel_id => channel, :send_flag => 'N' ).last
+                    if t_cmd
+                      cmdqueries << t_cmd
+                    end
+                  end
+
+                  if cmdqueries.length > 0
+                    items = ""
+                    cmdqueries.each do |cmd|
+                      item = ""
+                      item += cmd.channel_user_id + '-'
+                      item += cmd.value + '_'
+                      items += item
+
+                      cmd.update_attributes( send_flag: 'Y')
+                    end
+                    ret_str = "0," + items.chop + "," + random_str
+                  end
+                  break
+                end
+              else
+                ret_str = "-2"                
+              end
+
+              sleep(2)
+            }
+          else
+            ret_str = "2," + dev_id
+          end
         else
-          ret_str = "2," + dev_id
+          ret_str = "3"
         end
-      else
-        ret_str = "3"
       end
-
-      # ret_str = "0"
+    rescue
+      ret_str = "-3"
     end
 
-    render text: "result:" + ret_str
+    ret_encrypt_str = get_encrypt_str(ret_str, raw_str_key)
+    render text: "result:" + ret_encrypt_str
   end
 
   def cmdquery_01
