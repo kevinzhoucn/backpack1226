@@ -5,13 +5,13 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
     t_user = User.where(:email => user_name).first
 
-    ret_str = "-1"
+    ret_str = "-1,"
     raw_str_key = ""
 
     if t_user
       raw_str_key = t_user.devices_key
     else
-      ret_str = "1"
+      ret_str = "1,"
     end
 
     begin
@@ -51,26 +51,28 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
                       cmd.update_attributes( send_flag: 'Y')
                     end
-                    ret_str = "0," + items.chop + "," + random_str
+                    ret_str = "0," + items.chop
                   end
                   break
                 end
               else
-                ret_str = "-2"                
+                ret_str = "-2,"                
               end
 
               sleep(2)
             }
           else
-            ret_str = "2," + dev_id
+            ret_str = "2,"
           end
         else
-          ret_str = "3"
+          ret_str = "3,"
         end
       end
     rescue
-      ret_str = "-3"
+      ret_str = "-3,"
     end
+
+    ret_str = ret_str + "," + random_str
 
     ret_encrypt_str = get_encrypt_str(ret_str, raw_str_key)
     render text: "result:" + ret_encrypt_str
