@@ -6,7 +6,8 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     t_user = User.where(:email => user_name).first
 
     ret_str = "-1,"
-    raw_str_key = ""
+    raw_str_key = "1234567890abcdef"
+    random_str = ","
 
     if t_user
       raw_str_key = t_user.devices_key
@@ -75,7 +76,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     ret_str = ret_str + "," + random_str
 
     ret_encrypt_str = get_encrypt_str(ret_str, raw_str_key)
-    render text: "result:" + ret_encrypt_str
+    render text: "result:" + ret_encrypt_str + "," + raw_str_key + "," + ret_str
   end
 
   def cmdquery_01
