@@ -257,9 +257,9 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             values = url_params['value']
             random_str = url_params['random']
 
-            device = Device.where(dev_id: "iot02").first
+            device = Device.where( :device_id => dev_id, :user_id => user ).first
 
-            if Device.where(:device_id => dev_id).exists?              
+            if device
               data_array = values.split('_')
               data_test = []
               if data_array
@@ -269,7 +269,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
                   data_test << data_content_array[1]
                   data_test << data_content_array[2]
                   if data_content_array
-                    @channel = Channel.where(:channel_id => data_content_array[0], :device_user_id => device_id).first
+                    @channel = Channel.where(:channel_id => data_content_array[0], :device_id => device).first
                     if @channel
                       data_points = @channel.data_points ? @channel.data_points : ""
                       data_points = data_points + "||" + data_content_array[1] + '-' + data_content_array[2]
@@ -280,7 +280,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
                     end
                   end
                 end
-                raw_str = "0," + values +","+random_str
+                raw_str = "0," + values +","+ random_str
               else
                 raw_str = "3"
               end
