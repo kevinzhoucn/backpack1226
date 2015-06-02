@@ -76,7 +76,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     ret_str = ret_str + "," + random_str
 
     ret_encrypt_str = get_encrypt_str(ret_str, raw_str_key)
-    render text: "result:" + ret_encrypt_str + "," + raw_str_key + "," + ret_str
+    render text: "result:" + ret_encrypt_str
   end
 
   def cmdquery_01
