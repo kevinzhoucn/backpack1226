@@ -5,14 +5,14 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
     t_user = User.where(:email => user_name).first
 
-    ret_str = "-1,"
+    ret_str = "-1,,,,"
     raw_str_key = "1234567890abcdef"
     random_str = ","
 
     if t_user
       raw_str_key = t_user.devices_key
     else
-      ret_str = "1,"
+      ret_str = "1,,,,"
     end
 
     begin
@@ -57,26 +57,26 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
                   break
                 end
               else
-                ret_str = "-2,"                
+                ret_str = "-2,,,,"                
               end
 
               sleep(2)
             }
           else
-            ret_str = "2,"
+            ret_str = "2,,,,"
           end
         else
-          ret_str = "3,"
+          ret_str = "3,,,,"
         end
       end
     rescue
-      ret_str = "-3,"
+      ret_str = "-3,,,,"
     end
 
     ret_str = ret_str + "," + random_str
 
     ret_encrypt_str = get_encrypt_str(ret_str, raw_str_key)
-    render text: "result:" + ret_encrypt_str
+    render text: "result:" + ret_str
   end
 
   def cmdquery_01
@@ -178,15 +178,15 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     user_id = params[:user]
     date_time = DateTime.parse(Time.now.to_s).strftime('%Y%m%dT%H%M%S').to_s
 
-    raw_str = "3"
+    raw_str = "3,,,,"
     raw_key = ""
 
     begin
       if not data or data.length < 5
-        raw_str = "3"
+        raw_str = "3,,,,"
       else 
         if ( not user_id or user_id.length < 5 ) or ( not User.where(:email => user_id).exists? )
-          raw_str = "1"
+          raw_str = "1,,,,"
         else
           user = User.where(:email => user_id).first
 
@@ -195,7 +195,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           data_raw = get_decrypt_str(data, raw_key)
 
           if data_raw and data_raw.length < 5
-            raw_str = "3"
+            raw_str = "3,,,,"
           else
             url_params = get_params(data_raw)
 
@@ -207,7 +207,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             if Device.where(:device_id => dev_id).exists?
               raw_str = "0," + date_time + "," + random_str
             else
-              raw_str = "2"
+              raw_str = "2,,,,"
             end
           end
 
@@ -219,7 +219,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         end
       end
     rescue
-      raw_str = "3"
+      raw_str = "3,,,,"
     end
 
     # if user_id != current_user
@@ -235,15 +235,15 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     user_id = params[:user]
     date_time = DateTime.parse(Time.now.to_s).strftime('%Y%m%dT%H%M%S').to_s
 
-    raw_str = "3"
+    raw_str = "3,,,,"
     raw_key = ""
 
     begin
       if not data or data.length < 5
-        raw_str = "3"
+        raw_str = "3,,,,"
       else 
         if ( not user_id or user_id.length < 5 ) or ( not User.where(:email => user_id).exists? )
-          raw_str = "1"
+          raw_str = "1,,,,"
         else
           user = User.where(:email => user_id).first
 
@@ -252,7 +252,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           data_raw = get_decrypt_str(data, raw_key)
 
           if data_raw and data_raw.length < 5
-            raw_str = "3"
+            raw_str = "3,,,,"
           else
             url_params = get_params(data_raw)
 
@@ -285,16 +285,16 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
                 end
                 raw_str = "0," + values +","+ random_str
               else
-                raw_str = "3"
+                raw_str = "3,,,,"
               end
             else
-              raw_str = "2"
+              raw_str = "2,,,,"
             end
           end
         end
       end
     rescue
-      raw_str = "3"
+      raw_str = "3,,,,"
     end
     ret = get_encrypt_str(raw_str, raw_key)
     render text: "result:" + ret
