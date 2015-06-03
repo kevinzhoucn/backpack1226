@@ -73,7 +73,8 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       ret_str = "3,"
     end
 
-    ret_str = ret_str + "," + random_str
+    random_server_code = "1234"
+    ret_str = ret_str + "," + random_str + "," + random_server_code
 
     ret_encrypt_str = get_encrypt_str(ret_str, raw_str_key)
     render text: "result:" + ret_encrypt_str
