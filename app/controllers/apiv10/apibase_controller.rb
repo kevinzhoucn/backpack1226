@@ -5,7 +5,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
     t_user = User.where(:email => user_name).first
 
-    ret_str = "-1,"
+    ret_str = "1,"
     raw_str_key = "1234567890abcdef"
     random_str = ","
 
@@ -70,7 +70,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         end
       end
     rescue
-      ret_str = "-3,"
+      ret_str = "3,"
     end
 
     ret_str = ret_str + "," + random_str
@@ -283,7 +283,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
                     end
                   end
                 end
-                raw_str = "0," + values +","+ random_str
+                raw_str = "0,,"+ random_str
               else
                 raw_str = "3"
               end
