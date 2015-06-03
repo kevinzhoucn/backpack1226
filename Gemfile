@@ -78,6 +78,7 @@ group :development, :test do
   gem 'rvm-capistrano', require: false
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'capybara'
   # gem 'api_taster', '0.6.0'

@@ -114,5 +114,10 @@ class XXTEA
       str = encrypt("123456789", "1234567890abcdef")#.unpack('V*').map { |item| item.to_s(16) }
       return decrypt(str, "1234567890abcdef")
     end
+
+    def get_encrypt_string(str, key)
+      encrypt_str = encrypt(str, key)
+      return encrypt_str.unpack('N*').map { |m| format("%08x", m)}.join
+    end
   end  
 end  
