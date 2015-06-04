@@ -4,3 +4,10 @@ Feature: Encrpty
     Given the key "D7iTLeFCRv8KSCUf"
     When the encrypt is run
     Then the output should be "94d0b47a95326dd1dd408881d14265bc787e92be253d7c8ea1a540da23b41adedf4f0fd2ce3ca32c5ae15b643ba7cd7b2568f0aa365ba5120c8ed19e507c59908485cab2"
+
+  Scenario: User encrpty with own key
+    Given there is User with email "iot@iot.com"
+    Given there is Device with device id "dev01"
+    Given there is string ""
+    When visit the path
+    Then the output should be true

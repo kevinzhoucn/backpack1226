@@ -78,8 +78,6 @@ group :development, :test do
   gem 'rvm-capistrano', require: false
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'cucumber-rails', require: false
-  gem 'database_cleaner'
   gem 'capybara'
   # gem 'api_taster', '0.6.0'
   gem 'letter_opener'
@@ -91,4 +89,9 @@ group :development, :test do
   gem 'jasmine-rails'
 
   gem 'thin'
+end
+
+group :test do
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
 end

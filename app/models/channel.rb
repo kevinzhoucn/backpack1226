@@ -1,6 +1,7 @@
 class Channel
   include Mongoid::Document
   include Mongoid::Timestamps
+  
   field :title, type: String
   field :channel_id, type: Integer#String
   field :channel_type, type: String # [['1. 模拟  ', '0'], ['2. 数字  ', '1'], ['3. 串口  ', '2']]
