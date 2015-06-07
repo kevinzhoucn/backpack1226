@@ -50,7 +50,7 @@ Rails40Starter::Application.routes.draw do
 
   scope 'iotdev/v1.0', module: 'apiv10' do
     get 'cmdquery' => 'apibase#cmdquery', as: :apibase_cmdquery
-    get 'datetime' => 'apibase#datetime'
+    get 'datetime' => 'apibase#datetime', as: :apibase_datetime
     get 'send' => 'apibase#receive_data', as: :apibase_receive_data
   end
 

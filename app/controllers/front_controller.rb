@@ -45,7 +45,9 @@ class FrontController < ApplicationController
   def profile
     if current_user
       # @current_user_id = current_user.id
-      @devices = Device.where(:user_id => current_user.id)
+      # @devices = Device.where(:user_id => current_user.id)
+
+      @devices = current_user.devices
       # device = @devices.first
       # if device
       #   @channels = Channel.where(:device_id => device.id)

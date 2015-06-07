@@ -115,9 +115,19 @@ class XXTEA
       return decrypt(str, "1234567890abcdef")
     end
 
-    def get_encrypt_string(str, key)
+    def get_encrypt_str(str, key)
+      if str.length < 8
+        str = str.ljust(8, "\0")
+      end
       encrypt_str = encrypt(str, key)
       return encrypt_str.unpack('N*').map { |m| format("%08x", m)}.join
+    end
+
+    def get_decrypt_str(raw_str, raw_key)
+      decrypt_str = ""
+      ret_str = raw_str.scan(/.{8}/).map { |m| m.to_i(16) }.pack('N*')
+      decrypt_str = XXTEA.decrypt(ret_str, raw_key)
+      decrypt_str.strip
     end
   end  
 end  

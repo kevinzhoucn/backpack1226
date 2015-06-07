@@ -18,7 +18,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     begin
 
       if raw_str_key and raw_str_key.length == 16
-        data_raw = get_decrypt_str(data, raw_str_key)
+        data_raw = XXTEA.get_decrypt_str(data, raw_str_key)
 
         if data_raw and data_raw.length > 5
           url_params = get_params(data_raw)
@@ -76,7 +76,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     random_server_code = "1234"
     ret_str = ret_str + "," + random_str + "," + random_server_code
 
-    ret_encrypt_str = get_encrypt_str(ret_str, raw_str_key)
+    ret_encrypt_str = XXTEA.get_encrypt_str(ret_str, raw_str_key)
     render text: "result:" + ret_encrypt_str
   end
 
@@ -193,7 +193,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
           raw_key = user.devices_key
 
-          data_raw = get_decrypt_str(data, raw_key)
+          data_raw = XXTEA.get_decrypt_str(data, raw_key)
 
           if data_raw and data_raw.length < 5
             raw_str = "3,"
@@ -208,7 +208,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             if Device.where(:device_id => dev_id).exists?
               raw_str = "0," + date_time + "," + random_str
             else
-              raw_str = "2,"
+              raw_str = "2,," + random_str
             end
           end
 
@@ -226,7 +226,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     # if user_id != current_user
     # ret = { :result => "0", :datetime => date_time }
               
-    ret = get_encrypt_str(raw_str, raw_key)
+    ret = XXTEA.get_encrypt_str(raw_str, raw_key)
     # ret = raw_str
     render text: "result:" + ret
   end
@@ -250,7 +250,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
           raw_key = user.devices_key
 
-          data_raw = get_decrypt_str(data, raw_key)
+          data_raw = XXTEA.get_decrypt_str(data, raw_key)
 
           if data_raw and data_raw.length < 5
             raw_str = "3,"
@@ -297,7 +297,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     rescue
       raw_str = "3,"
     end
-    ret = get_encrypt_str(raw_str, raw_key)
+    ret = XXTEA.get_encrypt_str(raw_str, raw_key)
     render text: "result:" + ret
   end
 
@@ -322,12 +322,12 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       # end
     end
 
-    def get_encrypt_str(raw_str, raw_key)
+    def get_encrypt_str_01(raw_str, raw_key)
       encrypt_str = XXTEA.encrypt(raw_str, raw_key)          
       return encrypt_str.unpack('N*').map { |m| format("%08x", m)}.join
     end
 
-    def get_decrypt_str(raw_str, raw_key)
+    def get_decrypt_str_02(raw_str, raw_key)
       decrypt_str = ""
       # if ( raw_str.length % 8 == 0 ) and raw_key.length == 16        
       #   i_length = raw_str.length / 8
