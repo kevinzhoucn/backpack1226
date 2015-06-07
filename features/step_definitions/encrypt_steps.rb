@@ -25,6 +25,8 @@ end
 
 Given /^there is Device with device id "([^"]*)"$/ do |device_id|
   @dev = FactoryGirl.create(:device, device_id: device_id, user: @user)
+  puts @dev.device_id
+  puts @dev.user.email
 end
 
 Given /^there is string "([^"]*)"$/ do |str|
@@ -33,10 +35,16 @@ Given /^there is string "([^"]*)"$/ do |str|
   @encrypt_str = XXTEA.get_encrypt_str(raw_str, @raw_key)
 end
 
-When /^visit the path$/ do
+When /^visit the datetime path$/ do
   user_email = @user_email
   query_data = @encrypt_str
   visit apibase_datetime_path(:user => user_email, :data => query_data)
+end
+
+When /^visit the cmdquery path$/ do
+  user_email = @user_email
+  query_data = @encrypt_str
+  visit apibase_cmdquery_path(:user => user_email, :data => query_data)
 end
 
 Then /^the page output should be "([^"]*)"$/ do |expect_result|
@@ -76,4 +84,13 @@ Then /^the page output with wrong dev id should be "result:2,,random"$/ do
   result = result.split(':')[1]
   puts result = XXTEA.get_decrypt_str(result, @raw_key)
   expect(result).to match(/^2,,([a-zA-Z0-9]{16})$/)
+end
+
+Then /^the page output with cmdquery should be "result:0,cmdquery,random"$/ do
+  find('body')
+  puts result = page.find('body').text
+  expect(result).to match(/^result:([a-f0-9]{5,})$/)
+  result = result.split(':')[1]
+  puts result = XXTEA.get_decrypt_str(result, @raw_key)
+  expect(result).to match(/^0,,([a-zA-Z0-9]{16}),([a-zA-Z0-9]{4})$/)
 end

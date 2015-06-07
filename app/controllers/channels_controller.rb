@@ -1,4 +1,5 @@
 class ChannelsController < ApplicationController
+  before_filter :authenticate_user!, :only => [:create, :edit, :new]
   before_action :set_channel, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -25,7 +26,9 @@ class ChannelsController < ApplicationController
     device_user_id = Device.find(@channel.device_id)
 
     @channel.device_user_id = device_user_id.device_id
-    @channel.save
+    if not Channel.where(channel_id: channel.channel_id, device_user_id: device_user_id).exists?
+      @channel.save
+    end
 
     device_id = @channel.device_id
     redirect_to front_show_device_path(device_id)

@@ -25,7 +25,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           dev_id = url_params['dev_id']
           random_str = url_params['random']
 
-          device = Device.where(:device_id => dev_id, :user_id => t_user).first
+          device = Device.where(:device_id => dev_id, :user_id => t_user.id).first
           if device
             5.times {
               cmd = Cmdquery.where(:device_id => device).last
@@ -205,7 +205,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
             device = Device.where(dev_id: "iot02").first
 
-            if Device.where(:device_id => dev_id).exists?
+            if Device.where(:device_id => dev_id, :user_id => user.id).exists?
               raw_str = "0," + date_time + "," + random_str
             else
               raw_str = "2,," + random_str
@@ -261,7 +261,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             values = url_params['value']
             random_str = url_params['random']
 
-            device = Device.where( :device_id => dev_id, :user_id => user ).first
+            device = Device.where( :device_id => dev_id, :user_id => user.id ).first
 
             if device
               data_array = values.split('_')

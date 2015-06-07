@@ -15,12 +15,19 @@ Feature: Encrpty
         Given there is User with account email "iot@iot.com" and user email "iot@iot.com"
         Given there is Device with device id "dev02"
         Given there is string "datetime=20150522T220355P123&dev_id=dev02&random=1234567890ABCDEF"
-        When visit the path 
+        When visit the datetime path 
         Then the page output should be "result:2,datetime,random"
 
     Scenario: User encrpty with wrong dev id
         Given there is User with account email "iot@iot.com" and user email "iot@iot.com"
         Given there is Device with device id "dev02"
         Given there is string "datetime=20150522T220355P123&dev_id=dev03&random=1234567890ABCDEF"
-        When visit the path 
+        When visit the datetime path 
         Then the page output with wrong dev id should be "result:2,,random"
+
+    Scenario: User encrpty with cmdquery
+        Given there is User with account email "iot@iot.com" and user email "iot@iot.com"
+        Given there is Device with device id "dev02"
+        Given there is string "datetime=20150522T220355P123&dev_id=dev02&random=1234567890ABCDEF"
+        When visit the cmdquery path 
+        Then the page output with cmdquery should be "result:0,cmdquery,random"
