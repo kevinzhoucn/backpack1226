@@ -26,7 +26,7 @@ class ChannelsController < ApplicationController
     device_user_id = Device.find(@channel.device_id)
 
     @channel.device_user_id = device_user_id.device_id
-    if not Channel.where(channel_id: channel.channel_id, device_user_id: device_user_id).exists?
+    if not Channel.where(channel_id: @channel.channel_id, device_user_id: device_user_id).exists?
       @channel.save
     end
 

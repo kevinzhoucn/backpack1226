@@ -25,8 +25,8 @@ end
 
 Given /^there is Device with device id "([^"]*)"$/ do |device_id|
   @dev = FactoryGirl.create(:device, device_id: device_id, user: @user)
-  puts @dev.device_id
-  puts @dev.user.email
+  # puts @dev.device_id
+  # puts @dev.user.email
 end
 
 Given /^there is string "([^"]*)"$/ do |str|
@@ -35,62 +35,52 @@ Given /^there is string "([^"]*)"$/ do |str|
   @encrypt_str = XXTEA.get_encrypt_str(raw_str, @raw_key)
 end
 
-When /^visit the datetime path$/ do
+When /^visit the "([^"]*)" path$/ do |path_name|
   user_email = @user_email
   query_data = @encrypt_str
-  visit apibase_datetime_path(:user => user_email, :data => query_data)
+
+  case path_name
+  when "datetime"
+    visit apibase_datetime_path(:user => user_email, :data => query_data)
+  when "cmdquery"
+    visit apibase_cmdquery_path(:user => user_email, :data => query_data)
+  end  
 end
 
-When /^visit the cmdquery path$/ do
-  user_email = @user_email
-  query_data = @encrypt_str
-  visit apibase_cmdquery_path(:user => user_email, :data => query_data)
-end
-
-Then /^the page output should be "([^"]*)"$/ do |expect_result|
-  # expect(@user.email).to eq(@user_email)
-  # expect(@user.devices.count).to eq(1)
-  # expect(response).to eq("")
-  # response.should contain("Home")
-  # expect(@encrypt_str).to eq("123")
-  # @response.status.should = "200"
-  # response.should success?
-  # expect(page.status).to eq("200")
-  # page.body.should contain("Home")
-  # expect(current_path).to eq(root_path)
-  # expect(page).to have_content('result')
-  # result = page.all('body').map do |body|
-  #   body.text
-  # end
-  # puts result = result.join
+Then /^the page expect result should be "([^"]*)"$/ do |expect_result|
   find('body')
   puts result = page.find('body').text
   expect(result).to match(/^result:([a-f0-9]{5,})$/)
-  result = result.split(':')[1]
-  puts result = XXTEA.get_decrypt_str(result, @raw_key)
-  # expect_result = "result"
-  # expect(result).to eq("result")
-  # expect_result.diff!(result)
-  # expect(expect_result).to eq(result)
-  expression = /^0,(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3])([0-5][0-9])([0-5][0-9]),([a-zA-Z0-9]{16})$/
-  expect(result).to match(expression)
-  # expect(result).to match(/^1234$/)
-end
 
-Then /^the page output with wrong dev id should be "result:2,,random"$/ do
-  find('body')
-  puts result = page.find('body').text
-  expect(result).to match(/^result:([a-f0-9]{5,})$/)
-  result = result.split(':')[1]
-  puts result = XXTEA.get_decrypt_str(result, @raw_key)
-  expect(result).to match(/^2,,([a-zA-Z0-9]{16})$/)
-end
+  if expect_result != "fail"
+    str_array = expect_result.split(',')
 
-Then /^the page output with cmdquery should be "result:0,cmdquery,random"$/ do
-  find('body')
-  puts result = page.find('body').text
-  expect(result).to match(/^result:([a-f0-9]{5,})$/)
-  result = result.split(':')[1]
-  puts result = XXTEA.get_decrypt_str(result, @raw_key)
-  expect(result).to match(/^0,,([a-zA-Z0-9]{16}),([a-zA-Z0-9]{4})$/)
+    express_str = "^"
+    express_str << str_array[0]
+
+    case str_array[1]
+    when ''
+      express_str << ","
+    when 'datetime'
+      express_str << "," + "(19|20)\\d\\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3])([0-5][0-9])([0-5][0-9])"
+    when 'cmdquery'
+      express_str << "," + "([0-255]-[[\\d+]|[0-9a-fA-F]]+_?)*"
+    end
+
+    case str_array[2]
+    when 'random'
+      express_str << "," + "([a-zA-Z0-9]{16})"
+    end
+
+    if str_array[1] == "cmdquery"
+      express_str << "," + "([a-zA-Z0-9]{4})"
+    end
+
+    express_str << "$"
+
+
+    result = result.split(':')[1]
+    puts result = XXTEA.get_decrypt_str(result, @raw_key)
+    expect(result).to match(/#{express_str}/i)
+  end
 end
