@@ -1,4 +1,5 @@
 class Apiv10::ApibaseController < Apiv10::ApplicationController
+  # include Apiv10::BaseModel
   def cmdquery
     user_name = params[:user]
     data = params[:data]
@@ -305,7 +306,6 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     def set_device
       @device = Device.find(params[:id])
     end
-
     def get_params(data)
       url_params = {}
 
@@ -314,36 +314,5 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         h[k] << v
         h
       end
-
-      # data.split('&').each do |data1|
-      #   data1.split('=').each do |data2|
-      #     url_params
-      #   end
-      # end
-    end
-
-    def get_encrypt_str_01(raw_str, raw_key)
-      encrypt_str = XXTEA.encrypt(raw_str, raw_key)          
-      return encrypt_str.unpack('N*').map { |m| format("%08x", m)}.join
-    end
-
-    def get_decrypt_str_02(raw_str, raw_key)
-      decrypt_str = ""
-      # if ( raw_str.length % 8 == 0 ) and raw_key.length == 16        
-      #   i_length = raw_str.length / 8
-      #   ret_str = []
-      #   for i in 1..i_length
-      #     start = ( i -1 ) * 8
-      #     ret_str << raw_str.slice( start, 8 )
-      #   end
-
-      #   ret_str = ret_str.map { |m| m.to_i(16) }.pack('N*')
-      #   decrypt_str = XXTEA.decrypt(ret_str, raw_key)
-      # end
-
-      # split_str = raw_str.split('H').map { |m| m.to_i(16) }.pack('N*')
-      ret_str = raw_str.scan(/.{8}/).map { |m| m.to_i(16) }.pack('N*')
-      decrypt_str = XXTEA.decrypt(ret_str, raw_key)
-      decrypt_str
     end
 end
