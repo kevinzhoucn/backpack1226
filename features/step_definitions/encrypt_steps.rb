@@ -33,6 +33,7 @@ Given /^there is string "([^"]*)"$/ do |str|
   raw_str = str
   @raw_key = @user.get_device_key
   @encrypt_str = XXTEA.get_encrypt_str(raw_str, @raw_key)
+  puts @raw_key
 end
 
 When /^visit the "([^"]*)" path$/ do |path_name|
@@ -41,10 +42,12 @@ When /^visit the "([^"]*)" path$/ do |path_name|
 
   case path_name
   when "datetime"
-    visit apibase_datetime_path(:user => user_email, :data => query_data)
+    query_path = apibase_datetime_path(:user => user_email, :data => query_data)
   when "cmdquery"
-    visit apibase_cmdquery_path(:user => user_email, :data => query_data)
-  end  
+    query_path = apibase_cmdquery_path(:user => user_email, :data => query_data)
+  end
+  puts query_path
+  visit query_path
 end
 
 Then /^the page expect result should be "([^"]*)"$/ do |expect_result|

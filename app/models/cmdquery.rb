@@ -19,7 +19,8 @@ class Cmdquery
     def number_to_16
       channel = Channel.find(self.channel_id)
       if channel.channel_type == "3"
-        self.value = self.value.strip.gsub(' ', 'H') + "H"
+        # self.value = self.value.strip.gsub(' ', 'H') + "H"
+        self.value = self.value.strip.gsub(' ', '')
       end
     end
 end

@@ -30,7 +30,7 @@ Feature: Encrpty
         Given there is Device with device id "dev02"
         Given there is string "dev_id=dev02&random=1234567890ABCDEF"
         When visit the "cmdquery" path 
-        Then the page expect result should be "0,cmdquery,random"
+        Then the page expect result should be "0,cmdquery,random,server_random"
 
     Scenario: User encrpty with cmdquery no user
         Given there is User with account email "iot@iot.com" and user email "iot2@iot.com"
@@ -38,3 +38,10 @@ Feature: Encrpty
         Given there is string "dev_id=dev02&random=1234567890ABCDEF"
         When visit the "cmdquery" path 
         Then the page expect result should be "fail"
+
+    Scenario: User encrpty with cmdquery no device
+        Given there is User with account email "iot@iot.com" and user email "iot@iot.com"
+        Given there is Device with device id "dev02"
+        Given there is string "dev_id=dev03&random=1234567890ABCDEF"
+        When visit the "cmdquery" path 
+        Then the page expect result should be "2,cmdquery,random,server_random"
