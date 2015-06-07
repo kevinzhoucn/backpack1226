@@ -18,9 +18,9 @@ Then /^the output should be "([^"]*)"$/ do |encrypt_str|
   expect(@output).to eq(encrypt_str)
 end
 
-Given /^there is User with email "([^"]*)"$/ do |email|
-  @user = FactoryGirl.create(:user, email: email, password: "12345678")
-  @user_email = email
+Given /^there is User with account email "([^"]*)" and user email "([^"]*)"$/ do |account_email, user_email|
+  @user = FactoryGirl.create(:user, email: account_email, password: "12345678")
+  @user_email = user_email
 end
 
 Given /^there is Device with device id "([^"]*)"$/ do |device_id|

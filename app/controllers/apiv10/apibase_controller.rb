@@ -57,7 +57,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
                   break
                 end
               else
-                ret_str = "2,"                
+                ret_str = "0,"                
               end
 
               sleep(2)
@@ -70,7 +70,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         end
       end
     rescue
-      ret_str = "3,"
+      ret_str = "4,"
     end
 
     random_server_code = "1234"
@@ -244,7 +244,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         raw_str = "3,"
       else 
         if ( not user_id or user_id.length < 5 ) or ( not User.where(:email => user_id).exists? )
-          raw_str = "1,,,,"
+          raw_str = "1,"
         else
           user = User.where(:email => user_id).first
 
