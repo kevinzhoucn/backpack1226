@@ -1,5 +1,7 @@
 class Apiv10::ApibaseController < Apiv10::ApplicationController
   # include Apiv10::BaseModel
+  before_action :set_params, only: [:datetime]
+
   def cmdquery
     user_name = params[:user]
     data = params[:data]
@@ -75,13 +77,27 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     end
 
     random_server_code = "1234"
-    ret_str = ret_str + "," + random_str + "," + random_server_code
+    ret_str = ret_str.to_s + "," + random_str.to_s + "," + random_server_code.to_s
 
     ret_encrypt_str = XXTEA.get_encrypt_str(ret_str, raw_str_key)
     render text: "result:" + ret_encrypt_str
   end
 
   def datetime
+    date_time = DateTime.parse(Time.now.to_s).strftime('%Y%m%dT%H%M%S').to_s
+    if @user 
+      if @device
+        @ret_str = "0," + date_time + "," + @random_str.to_s
+      else
+        @ret_str << "," + @random_str.to_s
+      end
+    end
+
+    ret = XXTEA.get_encrypt_str(@ret_str, @raw_key)
+    render text: "result:" + ret
+  end
+
+  def datetime_01
     data = params[:data]
     user_id = params[:user]
     date_time = DateTime.parse(Time.now.to_s).strftime('%Y%m%dT%H%M%S').to_s
@@ -230,14 +246,32 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     def set_params
       user_email = params[:user]
       user_data = params[:data]
-      # @ret_str = "0,"
+      @ret_str = "0,"
+      @raw_key = ""
+      @random_str = ""
 
-      if User.where(email: @user_email).exists?
+      if User.where(email: user_email).exists?
         @user = User.where(email: user_email).first
-      end
+        @raw_key = @user.devices_key
 
-      if user_data and user_data.length > 8
-        @data_params = get_params(user_data)
+        if user_data and user_data.length > 8
+          raw_data = XXTEA.get_decrypt_str(user_data, @user.devices_key)
+          @data_params = get_params(raw_data)
+        end
+
+        if @data_params and @data_params.has_key?('dev_id')
+          dev_id = @data_params['dev_id']
+          @random_str = @data_params['random']
+          if Device.where(device_id: dev_id, user_id: @user.id).exists?
+            @device = Device.where(device_id: dev_id, user_id: @user.id).first
+          else
+            @ret_str = "2,"
+          end
+        else
+          @ret_str = "3,"
+        end        
+      else
+        @ret_str = "1,"
       end
     end
 end
