@@ -127,7 +127,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       @random_str = ""
 
       if User.where(email: user_email).exists?
-        @user = User.where(email: user_email).first
+        @user = User.find_by(email: user_email)
         @raw_key = @user.devices_key
 
         if user_data and user_data.length > 8
@@ -139,7 +139,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           dev_id = @data_params['dev_id']
           @random_str = @data_params['random']
           if Device.where(device_id: dev_id, user_id: @user.id).exists?
-            @device = Device.where(device_id: dev_id, user_id: @user.id).first
+            @device = Device.find_by(device_id: dev_id, user_id: @user.id)
           else
             @ret_str = "2,"
           end
