@@ -32,6 +32,14 @@ Feature: Encrpty
         When visit the "cmdquery" path 
         Then the page expect result should be "0,cmdquery,random,server_random"
 
+    Scenario: User encrpty with set cmdquery
+        Given there is User with account email "iot@iot.com" and user email "iot@iot.com"
+        Given there is Device with device id "dev02"
+        Given there is string "dev_id=dev02&random=1234567890ABCDEF"
+        Given there is channel set to device id "dev02"
+        When visit the "cmdquery" path 
+        Then the page expect result should be "0,cmdquery,random,server_random"
+
     Scenario: User encrpty with cmdquery no user
         Given there is User with account email "iot@iot.com" and user email "iot2@iot.com"
         Given there is Device with device id "dev02"

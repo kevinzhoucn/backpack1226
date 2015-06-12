@@ -2,14 +2,13 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
   # include Apiv10::BaseModel
   before_action :set_params, only: [:datetime, :cmdquery]
 
-  def cmdquery
+  def cmdquery_02
     cmd_query_items = ""
     if @device
       5.times {
         cmd_query_items = @device.get_channels_cmdqueries
         if cmd_query_items.length > 2
-          @ret_str << cmd_query_items.to_s
-          break
+          @ret_str << "," + cmd_query_items.to_s
         end
         sleep(2)
       }
@@ -18,6 +17,87 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     @ret_str << "," + @random_str.to_s + "," + random_server_code.to_s if @user
 
     ret_encrypt_str = XXTEA.get_encrypt_str(@ret_str, @raw_key)
+    render text: "result:" + ret_encrypt_str
+  end
+
+  def cmdquery
+    user_name = params[:user]
+    data = params[:data]
+
+    t_user = User.where(:email => user_name).first
+
+    ret_str = "0,"
+    raw_str_key = "1234567890abcdef"
+    random_str = ","
+
+    if t_user
+      raw_str_key = t_user.devices_key
+    else
+      ret_str = "1,"
+    end
+
+    begin
+
+      if raw_str_key and raw_str_key.length == 16
+        data_raw = XXTEA.get_decrypt_str(data, raw_str_key)
+
+        if data_raw and data_raw.length > 5
+          url_params = get_params(data_raw)
+          dev_id = url_params['dev_id']
+          random_str = url_params['random']
+
+          device = Device.where(:device_id => dev_id, :user_id => t_user.id).first
+          if device
+            5.times {
+              cmd = Cmdquery.where(:device_id => device).last
+              if cmd
+                send_flag = cmd.send_flag
+                if send_flag == "N"
+                  cmdqueries = []
+                  channels = Channel.where(:device_id => device)
+
+                  channels.each do |channel|
+                    t_cmd = Cmdquery.where(:channel_id => channel, :send_flag => 'N' ).last
+                    if t_cmd
+                      cmdqueries << t_cmd
+                    end
+                  end
+
+                  if cmdqueries.length > 0
+                    items = ""
+                    cmdqueries.each do |cmd|
+                      item = ""
+                      item += cmd.channel_user_id + '-'
+                      item += cmd.value + '_'
+                      items += item
+
+                      cmd.update_attributes( send_flag: 'Y')
+                    end
+                    ret_str = "0," + items.chop
+                  end
+                  break
+                end
+              else
+                ret_str = "0,"                
+              end
+
+              sleep(2)
+            }
+          else
+            ret_str = "2,"
+          end
+        else
+          ret_str = "3,"
+        end
+      end
+    rescue
+      ret_str = "4,"
+    end
+
+    random_server_code = "1234"
+    ret_str = ret_str.to_s + "," + random_str.to_s + "," + random_server_code.to_s
+
+    ret_encrypt_str = XXTEA.get_encrypt_str(ret_str, raw_str_key)
     render text: "result:" + ret_encrypt_str
   end
 

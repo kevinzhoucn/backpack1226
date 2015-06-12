@@ -14,5 +14,15 @@ class Device
 
   validates_presence_of :device_id, :device_name, :device_description
 
-  scope :recent, -> {  desc(:created_at) }
+  scope :recent, -> { desc(:created_at) }
+
+  public
+    def get_channels_cmdqueries
+      items = ""
+      self.channels.each do |channel|
+        item = channel.get_cmdquery
+        items << item.to_s + "_" if item
+      end      
+      items.chop
+    end
 end

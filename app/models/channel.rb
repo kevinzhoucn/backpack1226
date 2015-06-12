@@ -21,6 +21,17 @@ class Channel
   # scope :channel_id_asc { | id |  }
 
   # before_update :setup_device_user_id
+  public 
+    def get_cmdquery
+      cmd = self.cmdqueries.wait_for_send.last
+      if cmd
+        self.cmdqueries.wait_for_send.each do | t_cmd |
+          t_cmd.update_attributes( send_flag: 'Y')
+        end
+
+        cmd.get_command.to_s
+      end
+    end
 
   private
     def setup_device_user_id

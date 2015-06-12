@@ -11,10 +11,15 @@ class Cmdquery
   belongs_to :channel
 
   before_create :number_to_16
+  # before_create :set_default_send_flag
 
-  def get_channel_cmd
-    
-  end
+  scope :wait_for_send, -> { where( send_flag: 'N') }
+
+  public
+    def get_command
+      self.channel_user_id + "-" + self.value
+    end
+
   private 
     def number_to_16
       channel = Channel.find(self.channel_id)
@@ -22,5 +27,10 @@ class Cmdquery
         # self.value = self.value.strip.gsub(' ', 'H') + "H"
         self.value = self.value.strip.gsub(' ', '')
       end
+      self.send_flag = 'N'
+    end
+
+    def set_default_send_flag
+      self.send_flag = 'N'
     end
 end

@@ -36,6 +36,17 @@ Given /^there is string "([^"]*)"$/ do |str|
   puts @raw_key
 end
 
+Given /^there is channel set to device id "([^"]*)"$/ do |device_id|
+  @channel = FactoryGirl.create(:channel, device_id: @dev.id, device_user_id: device_id, user_id: @user.id, channel_id: "1", channel_name: "1", channel_type: "1")
+  @cmdquery = FactoryGirl.create(:cmdquery, device_id: @dev.id, device_user_id: device_id, channel_id: @channel.id, channel_user_id: @channel.channel_id, value: "618")
+  # puts @channel.get_cmdquery
+  # @channel.cmdqueries.each do |cmd|
+  #   puts cmd.send_flag
+  # end
+
+  # puts @dev.get_channels_cmdqueries
+end
+
 When /^visit the "([^"]*)" path$/ do |path_name|
   user_email = @user_email
   query_data = @encrypt_str
