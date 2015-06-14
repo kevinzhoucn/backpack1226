@@ -39,12 +39,9 @@ end
 Given /^there is channel set to device id "([^"]*)"$/ do |device_id|
   @channel = FactoryGirl.create(:channel, device_id: @dev.id, device_user_id: device_id, user_id: @user.id, channel_id: "1", channel_name: "1", channel_type: "1")
   @cmdquery = FactoryGirl.create(:cmdquery, device_id: @dev.id, device_user_id: device_id, channel_id: @channel.id, channel_user_id: @channel.channel_id, value: "618")
-  # puts @channel.get_cmdquery
-  # @channel.cmdqueries.each do |cmd|
-  #   puts cmd.send_flag
-  # end
+end
 
-  # puts @dev.get_channels_cmdqueries
+Given /^there is User send the get query command$/ do
 end
 
 When /^visit the "([^"]*)" path$/ do |path_name|
@@ -79,6 +76,8 @@ Then /^the page expect result should be "([^"]*)"$/ do |expect_result|
       express_str << "," + "(19|20)\\d\\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3])([0-5][0-9])([0-5][0-9])"
     when 'cmdquery'
       express_str << "," + "([0-255]-[[\\d+]|[0-9a-fA-F]]+_?)*"
+    when 'cmdquery_get'
+      express_str << "," + "([0-255]-\?_?)*"
     end
 
     case str_array[2]
@@ -86,12 +85,11 @@ Then /^the page expect result should be "([^"]*)"$/ do |expect_result|
       express_str << "," + "([a-zA-Z0-9]{16})"
     end
 
-    if str_array[1] == "cmdquery"
+    if str_array[1] =~ /^cmdquery(.*)/
       express_str << "," + "([a-zA-Z0-9]{4})"
     end
 
     express_str << "$"
-
 
     result = result.split(':')[1]
     puts result = XXTEA.get_decrypt_str(result, @raw_key)

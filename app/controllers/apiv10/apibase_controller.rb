@@ -6,9 +6,20 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     cmd_query_items = ""
     if @device
       5.times {
+        local_ret_str = ""
         cmd_query_items = @device.get_channels_cmdqueries
         if cmd_query_items.length > 2
-          @ret_str << cmd_query_items.to_s
+          local_ret_str << cmd_query_items.to_s
+          # break
+        end
+
+        cmd_request_query_items = @device.get_channels_request_cmdqueries
+        if cmd_request_query_items.length > 2
+          local_ret_str << "_" + cmd_request_query_items.to_s
+        end
+
+        if local_ret_str.length > 2
+          @ret_str << local_ret_str
           break
         end
         sleep(2)

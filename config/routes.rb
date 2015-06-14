@@ -26,6 +26,7 @@ Rails40Starter::Application.routes.draw do
 
     get '/device/:device_id/channel/new' => 'front#new_channel', as: :front_device_new_channel
     get '/device/:device_id/channel/:channel_id/edit' => 'front#edit_channel', as: :front_device_edit_channel
+    post '/device/:device_id/channel/:channel_id/get_cmdquery' => 'front#get_cmdquery', as: :front_cmdquery_get
   end
 
   scope '/user', module: 'cpanel' do
@@ -52,6 +53,7 @@ Rails40Starter::Application.routes.draw do
     get 'cmdquery' => 'apibase#cmdquery', as: :apibase_cmdquery
     get 'datetime' => 'apibase#datetime', as: :apibase_datetime
     get 'send' => 'apibase#receive_data', as: :apibase_receive_data
+    # post 'cmdquery_get' => 'apibase#cmdquery_get', as: :apibase_cmdquery_get
   end
 
   # post '/post_info' => 'front#post_info', as: :front_post_info

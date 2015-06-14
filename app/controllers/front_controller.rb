@@ -103,12 +103,32 @@ class FrontController < ApplicationController
   def show_device
     device_id = params[:id]
     @device = Device.where(:id => device_id).first
-    @channels = Channel.where(:device_id => device_id).order("channel_id DESC")
+    @channels = Channel.where(:device_id => device_id).order("channel_id ASC")
   end
 
   def edit_device
     device_id = params[:id]
     @device = Device.where(:id => device_id).first
+  end
+
+  def get_cmdquery
+    @ret = "get cmdquery"
+
+    device_id = params[:device_id]
+    @device = Device.find(device_id)
+    channel_id = params[:channel_id]
+    @channel = Channel.find(channel_id)
+    @cmdquery = Cmdquery.where(channel_id: channel_id).last
+
+    if @cmdquery
+      @cmdquery.update_attributes( send_request_flag: 'Y')
+    end
+
+    if @device
+      redirect_to front_show_device_path(@device) 
+    else
+      redirect_to front_profile_path
+    end
   end
 
   private 

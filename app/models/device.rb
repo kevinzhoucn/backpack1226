@@ -25,4 +25,13 @@ class Device
       end      
       items.chop
     end
+
+    def get_channels_request_cmdqueries
+      items = ""
+      self.channels.each do |channel|
+        item = channel.request_cmdquery
+        item << item.to_s + "_" if item
+      end
+      items.chop
+    end
 end

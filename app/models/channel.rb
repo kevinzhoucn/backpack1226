@@ -33,6 +33,17 @@ class Channel
       end
     end
 
+    def request_cmdquery
+      cmd = self.cmdqueries.wait_for_request.last
+      if cmd
+        self.cmdqueries.wait_for_request.each do | t_cmd |
+          t_cmd.update_attributes( send_request_flag: 'N')
+        end
+
+        cmd.request_command.to_s
+      end
+    end
+
   private
     def setup_device_user_id
       device_user_id = Device.find(self.device_id)
