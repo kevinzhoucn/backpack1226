@@ -1,4 +1,5 @@
 class Apiv00::FrontController < Apiv00::ApplicationController
+  layout 'cpanel'
 
   def index
     @text = "this is test text!"
@@ -54,6 +55,19 @@ class Apiv00::FrontController < Apiv00::ApplicationController
     value = @url_params['value']
 
     @values = get_split_data ( value )
+  end
+
+  def test01
+  end
+
+  def test_data
+    device = current_user.devices.first
+    channel = device.channels.first
+    cmdqueries = channel.cmdqueries
+
+    data_points = cmdqueries.map {|item| item.value.to_i}
+
+    render json: data_points
   end
 
   private

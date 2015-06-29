@@ -63,6 +63,8 @@ Rails40Starter::Application.routes.draw do
 
   namespace 'apiv00' do
     get 'front/index'
+    get 'front/test01'
+    get 'front/test_data'
   end
 
   # scope 'front/test', module: 'apiv10test' do
