@@ -151,11 +151,13 @@ class FrontController < ApplicationController
       if datapoints
         if datapoints.split("||").length > 1
           datapoints.split("||").each do |item|
-            first = item.split('-')[0]
-            if first[0, 1] == 'N'
-              datapoints_array << first.sub(/[N]/, '-').to_i
-            else
-              datapoints_array << first.to_i
+            if item.split('-').length > 1
+              first = item.split('-')[0]
+              if first[0, 1] == 'N'
+                datapoints_array << first.sub(/[N]/, '-').to_i
+              else
+                datapoints_array << first.to_i
+              end
             end
           end
         end
