@@ -2,8 +2,7 @@ class FrontController < ApplicationController
   before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]
   layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device, :show_channel_chart]
 
-  before_action :set_device, only: [:show_channel_chart]
-  before_action :set_channel, only: [:show_channel_chart]
+  before_action :set_device, :set_channel, only: [:show_channel_chart]
 
   def index
   end
@@ -97,7 +96,8 @@ class FrontController < ApplicationController
   def show_channel_chart
     @channels = Channel.where(:device_id => @device.id)
     if @channel
-      @data_points = @channel.data_points.to_s.split("||").map {|item| item.split('-')[0].to_i}
+      # @data_points = @channel.data_points.to_s.split("||").map {|item| item.split('-')[0].to_i}
+      @data_points = data_filter(@channel.data_points.to_s)
     else
       @data_points =[]
     end 
@@ -144,5 +144,18 @@ class FrontController < ApplicationController
 
     def set_channel
       @channel = Channel.find(params[:cid])
+    end
+
+    def data_filter(datapoints)
+      datapoints_array = []
+      datapoints.split("||").each do |item|
+        first = item.split('-')[0]
+        if first[0, 1] == 'N'
+          datapoints_array << first.sub(/[N]/, '-').to_i
+        else
+          datapoints_array << first.to_i
+        end
+      end
+      datapoints_array
     end
 end
