@@ -148,12 +148,16 @@ class FrontController < ApplicationController
 
     def data_filter(datapoints)
       datapoints_array = []
-      datapoints.split("||").each do |item|
-        first = item.split('-')[0]
-        if first[0, 1] == 'N'
-          datapoints_array << first.sub(/[N]/, '-').to_i
-        else
-          datapoints_array << first.to_i
+      if datapoints
+        if datapoints.split("||").length > 1
+          datapoints.split("||").each do |item|
+            first = item.split('-')[0]
+            if first[0, 1] == 'N'
+              datapoints_array << first.sub(/[N]/, '-').to_i
+            else
+              datapoints_array << first.to_i
+            end
+          end
         end
       end
       datapoints_array
