@@ -16,8 +16,7 @@
         <div class="col-sm-5">
           <% if @channel.channel_type == '1' %>
             <%= render partial: 'front/common/chart' %>
-          <% end %>
-          <% if @channel.channel_type == '1' %>
+          <% else %>
             <%= render partial: 'front/common/text' %>
           <% end %>
         </div>
