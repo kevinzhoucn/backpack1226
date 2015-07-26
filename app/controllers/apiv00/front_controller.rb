@@ -61,11 +61,14 @@ class Apiv00::FrontController < Apiv00::ApplicationController
   end
 
   def test_data
-    device = current_user.devices.first
-    channel = device.channels.first
-    cmdqueries = channel.cmdqueries
+    seq_num = params[:seq]
 
-    data_points = cmdqueries.map {|item| item.value.to_i}
+    device = current_user.devices.first
+    channel = device.channels.first    
+    #cmdqueries = channel.cmdqueries#.get_seq_datapoints
+    data_points = channel.get_seq_cmdqueries_datapoints(seq_num)
+
+    # data_points = cmdqueries.map {|item| item.value.to_i}
 
     render json: data_points
   end

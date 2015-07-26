@@ -2,7 +2,8 @@ $("#chart_test_button").click ->
   DynamicChart()
 
 DynamicChart = (test) ->
-  url = "/apiv00/front/test_data"
+  seq_num = $("#last_seq").text();
+  url = "/apiv00/front/test_data?seq=" + seq_num
   data = []
   $.ajax
     type: 'GET'
@@ -10,11 +11,10 @@ DynamicChart = (test) ->
     data: data
     success: (result) ->
       t_data = result
-      DrawChart(t_data)
     error: (result) ->
       alert("Error")
 
-DrawChart = (data) ->
+DrawChart = ->
   chart_area = new Highcharts.Chart
     chart: type: 'line', renderTo: 'chart_test_container'
     title: text: '', x: -20
@@ -29,10 +29,11 @@ DrawChart = (data) ->
             align: 'right', \
             verticalAlign: 'middle', \
             borderWidth: 0
-    series: [ name: '通道1', data: data ]
+    series: [ name: '通道1', data: DynamicChart() ]
 
 test_01 = ->
   console.log("this is test 01!")
 
 $ ->
-  setInterval(DynamicChart, 5000);
+  if $("#chart_test_container").length > 0 
+    DrawChart

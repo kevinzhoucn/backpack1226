@@ -44,6 +44,17 @@ class Channel
       end
     end
 
+    def get_seq_cmdqueries_datapoints(seq_num)
+      datapoints = []
+      datapoints << self.cmdqueries.last.seq_num
+      if not seq_num or seq_num == "0000"
+        datapoints << self.cmdqueries.desc(:created_at).limit(20).map { | item | item.value }
+      else
+        datapoints << self.cmdqueries.where(:seq_num.gt => seq_num).limit(20).map { | item | item.value }
+      end
+      return datapoints
+    end
+
   private
     def setup_device_user_id
       device_user_id = Device.find(self.device_id)

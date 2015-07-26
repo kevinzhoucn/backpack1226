@@ -1,5 +1,7 @@
 class Cmdquery
   include Mongoid::Document
+  include Mongoid::Timestamps
+  
   field :device_id, type: String
   field :device_user_id, type: String
   field :channel_id, type: String
@@ -7,11 +9,13 @@ class Cmdquery
   field :value, type: String
   field :send_flag, type: String
   field :send_request_flag, type: String
+  field :seq_num, type: Integer
 
   belongs_to :device
   belongs_to :channel
 
-  before_create :number_to_16
+  before_create :set_params
+  # before_create :number_to_16
   # before_create :set_default_send_flag
 
   scope :wait_for_send, -> { where( send_flag: 'N') }
@@ -27,6 +31,11 @@ class Cmdquery
     end
 
   private 
+    def set_params
+      number_to_16
+      set_seq_num
+    end
+
     def number_to_16
       channel = Channel.find(self.channel_id)
       if channel.channel_type == "3"
@@ -35,6 +44,15 @@ class Cmdquery
       end
       self.send_flag = 'N'
       self.send_request_flag = 'N'
+    end
+
+    def set_seq_num
+      cmd = Cmdquery.last
+      if cmd and cmd.seq_num
+        self.seq_num = cmd.seq_num + 1
+      else
+        self.seq_num = 1
+      end
     end
 
     def set_default_send_flag
