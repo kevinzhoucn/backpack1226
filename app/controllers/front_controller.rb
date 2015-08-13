@@ -8,6 +8,9 @@ class FrontController < ApplicationController
   def index
   end
 
+  def sdk
+  end
+
   def get_dcevice
 
   end
