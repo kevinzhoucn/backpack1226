@@ -14,7 +14,11 @@
 
       <div class="row placeholders">
         <div class="col-sm-5">
-          <%= render partial: 'front/common/chart' %>
+          <% if @channel.channel_type == '1' %>
+            <%= render partial: 'front/common/chart' %>
+          <% else %>
+            <%= render partial: 'front/common/text' %>
+          <% end %>
         </div>
       </div>
     </div>
