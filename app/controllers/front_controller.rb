@@ -155,12 +155,12 @@ class FrontController < ApplicationController
               data = []
               value = item.split('-')[0]
               data << item.split('-')[1]
-              if first[0, 1] == 'N'
+              if value[0, 1] == 'N'
                 # datapoints_array << first.sub(/[N]/, '-').to_i
                 data << value.sub(/[N]/, '-').to_i
               else
                 # datapoints_array << first.to_i
-                data << first.to_i
+                data << value.to_i
               end
               datapoints_array << data
             end
