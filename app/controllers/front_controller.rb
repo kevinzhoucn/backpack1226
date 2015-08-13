@@ -154,7 +154,7 @@ class FrontController < ApplicationController
             if item.split('-').length > 1
               data = []
               value = item.split('-')[0]
-              data << item.split('-')[1]
+              data << get_date_time(item.split('-')[1])
               if value[0, 1] == 'N'
                 # datapoints_array << first.sub(/[N]/, '-').to_i
                 data << value.sub(/[N]/, '-').to_i
@@ -168,5 +168,11 @@ class FrontController < ApplicationController
         end
       end
       datapoints_array
+    end
+
+    def get_date_time(date_str)
+      date_array = date_str.scan(/\d{4}\d{2}\d{2}T\d{2}\d{2}\d{2}/)
+      date = Time.local(date_array[0],date_array[1],date_array[2],date_array[3],date_array[4],date_array[5]).zone
+      return date.to_i
     end
 end
