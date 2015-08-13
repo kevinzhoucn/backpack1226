@@ -99,7 +99,7 @@ class FrontController < ApplicationController
       # @data_points = @channel.data_points.to_s.split("||").map {|item| item.split('-')[0].to_i}
       @data_points = data_filter(@channel.data_points.to_s)
     else
-      @data_points =[]
+      @data_points = []
     end 
   end
 
@@ -152,12 +152,17 @@ class FrontController < ApplicationController
         if datapoints.split("||").length > 1
           datapoints.split("||").each do |item|
             if item.split('-').length > 1
-              first = item.split('-')[0]
+              data = []
+              value = item.split('-')[0]
+              data << item.split('-')[1]
               if first[0, 1] == 'N'
-                datapoints_array << first.sub(/[N]/, '-').to_i
+                # datapoints_array << first.sub(/[N]/, '-').to_i
+                data << value.sub(/[N]/, '-').to_i
               else
-                datapoints_array << first.to_i
+                # datapoints_array << first.to_i
+                data << first.to_i
               end
+              datapoints_array << data
             end
           end
         end

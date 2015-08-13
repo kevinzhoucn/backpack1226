@@ -20,20 +20,23 @@
             x: -20
         },
         xAxis: {
-          tickmarkPlacement: 'on',
-            categories: ['1', '2', '3', '4', '5', '6',
-                '7', '8', '9', '10']
+          title: {
+            text: '时间'
+          },
+          //linear" or "datetime"
+          type: 'datetime',
+          //坐标间隔
+          tickPixelInterval: 150
         },
         yAxis: {
-          min: 0,
-            title: {
-                text: '数值'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
+          title: {
+              text: '数值'
+          },
+          plotLines: [{
+              value: 0,
+              width: 1,
+              color: '#808080'
+          }]
         },
         tooltip: {
             valueSuffix: ''
@@ -45,8 +48,8 @@
             borderWidth: 0
         },
         series: [{
-          name: '通道1',
-          data: <%= @data_points %>
+          name: '通道',
+          data: <%= @data_points %> 
         }]
       });
     });
