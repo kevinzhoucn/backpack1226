@@ -1,6 +1,3 @@
-$("#chart_test_button").click ->
-  DynamicChart()
-
 DynamicChart = (test) ->
   seq_num = $("#last_seq").text();
   url = "/apiv00/front/test_data?seq=" + seq_num
@@ -29,11 +26,14 @@ DrawChart = ->
             align: 'right', \
             verticalAlign: 'middle', \
             borderWidth: 0
-    series: [ name: '通道1', data: DynamicChart() ]
+    series: [ name: '通道1', data: [1,2] ]
 
 test_01 = ->
-  console.log("this is test 01!")
+  console.log("this is test 02!")
 
 $ ->
+  $("#chart_test_button").click ->
+    DrawChart()
+
   if $("#chart_test_container").length > 0 
-    DrawChart
+    DrawChart()
