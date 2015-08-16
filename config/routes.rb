@@ -58,6 +58,7 @@ Rails40Starter::Application.routes.draw do
 
   # post '/post_info' => 'front#post_info', as: :front_post_info
   get '/admin' => 'front#admin', as: :front_admin
+  get '/sdk/android' => 'front#sdk', as: :front_sdk
   
   root 'front#index'
 

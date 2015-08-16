@@ -67,6 +67,7 @@ class Apiv00::FrontController < Apiv00::ApplicationController
     channel = device.channels.first    
     #cmdqueries = channel.cmdqueries#.get_seq_datapoints
     data_points = channel.get_seq_cmdqueries_datapoints(seq_num)
+    # data_points = [1, 2]
 
     # data_points = cmdqueries.map {|item| item.value.to_i}
 
