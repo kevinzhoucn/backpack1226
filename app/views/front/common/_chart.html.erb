@@ -26,7 +26,7 @@
           //linear" or "datetime"
           type: 'datetime',
           //坐标间隔
-          tickPixelInterval: 150
+          //tickPixelInterval: 200
         },
         yAxis: {
           title: {
@@ -49,7 +49,8 @@
         },
         series: [{
           name: '通道',
-          data: <%= @data_points %> 
+          //data: <%= @data_points %> 
+          data: [[2015-08-21 16:55:40, 20], [2015-08-21 16:55:42, 30]]
         }]
       });
     });

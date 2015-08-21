@@ -97,7 +97,11 @@ class FrontController < ApplicationController
     @channels = Channel.where(:device_id => @device.id)
     if @channel
       # @data_points = @channel.data_points.to_s.split("||").map {|item| item.split('-')[0].to_i}
-      @data_points = data_filter(@channel.data_points.to_s)
+      # @data_points = data_filter(@channel.data_points.to_s)
+      # time1 = Time.local(2015, 08, 10, 10, 13, 15)
+      # time2 = Time.local(2015, 08, 10, 10, 13, 16)
+      time = Time.now
+      @date_points = [[time, 20], [time + 10, 30]]
     else
       @data_points = []
     end 
