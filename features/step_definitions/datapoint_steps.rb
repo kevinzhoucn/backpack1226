@@ -12,8 +12,12 @@ Then /^the date time output should be "([^"]*)"$/ do |result|
 end
 
 When /^the data string filter is run$/ do
-  # @output = TEAUTIL.get_date_string(@raw_str)
-  @output = Time.now.to_s
+  @output = TEAUTIL.get_date_seconds(@raw_str).to_s
+  # @output = Time.now.to_s
+end
+
+When /^the data string convert is run$/ do
+  @output = Time.at(@raw_str.to_i)
 end
 
 Then /^the date time string output should be "([^"]*)"$/ do |result|
