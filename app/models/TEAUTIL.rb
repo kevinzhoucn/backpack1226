@@ -24,7 +24,7 @@ class TEAUTIL
         reg_date = /^[\d]{8}T[\d]{6}P[\d]/
         if reg_date.match(str)
           date_array = str.split('P')[0].scan(/\d{2}/)
-          # date_array << str.split('P')[1]
+          date_array << str.split('P')[1]
         end
 
         return date_array
@@ -33,7 +33,9 @@ class TEAUTIL
       def get_date_seconds(str)
         date_array = get_date_array(str)
         date = Time.local(date_array[0] + date_array[1], date_array[2], date_array[3], date_array[4], date_array[5], date_array[6])
-        return date.to_i
+        # date = Time.at(date, date_array[7])
+        # date = Time.gm(date_array[0] + date_array[1], date_array[2], date_array[3], date_array[4], date_array[5], date_array[6], date_array[7])
+        return date.to_i * 1000
       end
   end
 end

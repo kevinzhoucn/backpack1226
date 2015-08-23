@@ -1,0 +1,60 @@
+<div class="container">
+  <span>通道 - <%= @channel.channel_name %></span>
+  <div id="chart_area" style="width: 60%; height: 400px; margin: 0 auto">
+
+  </div>
+  <script type="text/javascript" src="/js/libs/charts/highstock.js"></script>
+  <script type="text/javascript">
+    $(document).ready( function() {        
+        // create the chart
+        $('#chart_area').highcharts('StockChart', {
+
+            title: {
+                text: 'Channel'
+            },
+
+            subtitle: {
+                text: ''
+            },
+
+            xAxis: {
+                // breaks: [{ // Nights
+                //     from: Date.UTC(2011, 9, 6, 16),
+                //     to: Date.UTC(2011, 9, 7, 8),
+                //     repeat: 24 * 36e5
+                // }, { // Weekends
+                //     from: Date.UTC(2011, 9, 7, 16),
+                //     to: Date.UTC(2011, 9, 10, 8),
+                //     repeat: 7 * 24 * 36e5
+                // }]
+            },
+
+            rangeSelector : {
+                buttons : [{
+                    type : 'hour',
+                    count : 1,
+                    text : '1h'
+                }, {
+                    type : 'day',
+                    count : 1,
+                    text : '1D'
+                }, {
+                    type : 'all',
+                    count : 1,
+                    text : 'All'
+                }],
+                selected : 1,
+                inputEnabled : false
+            },
+
+            series : [{
+                data : <%= @data_points %> ,
+                gapSize: 5,
+                tooltip: {
+                    valueDecimals: 2
+                }
+            }]
+        });
+    });
+  </script>
+</div>

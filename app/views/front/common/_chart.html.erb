@@ -25,6 +25,10 @@
           },
           //linear" or "datetime"
           type: 'datetime',
+          dateTimeLabelFormats: {
+            second: '%H:%M:%S.%L'
+          },
+          // categories:['2013:06:13 12:12:20','2013:06:13 12:12:30']
           //坐标间隔
           //tickPixelInterval: 200
         },
@@ -49,8 +53,8 @@
         },
         series: [{
           name: '通道',
-          data: <%= @data_points %> 
-          //data: [[2015-08-21 16:55:40, 20], [2015-08-21 16:55:42, 30]]
+          // data: <%= @data_points %> 
+          data: [[1439179504000, -408], [1439189504000, -408], [1439199504000, -409]]
         }]
       });
     });

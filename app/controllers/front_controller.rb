@@ -2,7 +2,8 @@ class FrontController < ApplicationController
   before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]
   layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device, :show_channel_chart]
 
-  before_action :set_device, :set_channel, only: [:show_channel_chart]
+  before_action :set_device, only: [:show_channel_chart]
+  before_action :set_channel, only: [:get_channel_data, :show_channel_chart]
 
   def index
   end
@@ -105,6 +106,14 @@ class FrontController < ApplicationController
     else
       @data_points = []
     end 
+  end
+
+  def get_channel_data
+    data_points = []
+    if @channel
+      data_points = data_filter(@channel.data_points.to_s)
+    end
+    render json: data_points.to_json
   end
 
   def show_device
