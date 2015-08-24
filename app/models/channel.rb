@@ -16,7 +16,8 @@ class Channel
   validates_presence_of :channel_id, :channel_name, :channel_type, :device_id, :device_user_id
 
   belongs_to :device
-  has_many :cmdqueries, :points
+  has_many :cmdqueries
+  has_many :points
 
   # scope :channel_id_asc { | id |  }
 
@@ -56,19 +57,41 @@ class Channel
     end
 
     def get_seq_points(seq_num)
-      datapoints = ""
+      datapoints = []
       # datapoints << self.points.last.seq_num
       if not seq_num or seq_num == "0000"
-        datapoints << self.points.desc(:created_at).map { | item | sum += item.value + "||" }
-        datapoints << self.data_points.to_s
+        datapoints = self.points.desc(:created_at).map { | item | [item.date_int.to_i, item.value.to_i]  }
+        # datapoints << self.data_points.to_s
       else
-        datapoints << self.points.where(:seq_num.gt => seq_num).map { | item | sum += item.value + "||" }
+        datapoints = self.points.where(:seq_num.gt => seq_num.to_i).map { | item | [item.date_int.to_i, item.value.to_i] }
       end
       return datapoints
     end
 
-    def add_point()
+    def add_point(data_value)
+      if data_value.split('-').length > 1
+        data = data_value.split('-')[0]
+        data_time = data_value.split('-')[1]
+        data_int = TEAUTIL.get_date_seconds(data_time)
+        point = self.points.build(:value => data, :date_str => data_time, :date_int => data_int)
+        if get_last_seq_number != "0000"
+          seq_num = self.points.last.seq_num + 1
+          point.seq_num = seq_num
+        else
+          point.seq_num = 0
+        end
 
+        point.save
+      end
+    end
+
+    def get_last_seq_number
+      seq_num = "0000"
+      point_last = self.points.last
+      if point_last and point_last.seq_num
+        seq_num = point_last.seq_num
+      end
+      return seq_num
     end
 
   private

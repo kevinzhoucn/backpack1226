@@ -1,5 +1,6 @@
 <div class="container">
   <span>通道 - <%= @channel.channel_name %></span>
+  <span id="last_seq" style="display:none">0000</span>
   <div id="chart_area" style="width: 60%; height: 400px; margin: 0 auto">
 
   </div>
@@ -7,9 +8,12 @@
   <script type="text/javascript">
     $(document).ready( function() {        
         // create the chart
-        $('#chart_area').highcharts('StockChart', {
+        var chart = new Highcharts.StockChart({            
+            chart: {
+              renderTo: 'chart_area'
+            },
             title: {
-                text: 'Channel'
+                text: ''
             },
 
             subtitle: {
@@ -46,19 +50,48 @@
                     count : 1,
                     text : 'All'
                 }],
-                selected : 1,
+                selected : 2,
                 inputEnabled : false
             },
 
             series : [{
-                data : <%= @data_points %> ,
-                gapSize: 5,
+                data : [],
+                // gapSize: 5,
                 type: "line",
                 tooltip: {
                     valueDecimals: 2
                 }
             }]
         });
+
+        $.extend({
+            DynamicChart:function(chart){
+                var seq_num = $("#last_seq").text();
+                var url = "/data/getDatapoints/<%= @channel.id %>?seq=" + seq_num;
+                var series = chart.series[0];
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: [],
+                    success: function(result){
+                        var t_seq = result[0];
+                        $("#last_seq").text(t_seq);
+                        var t_data = result[1];
+                        console.log(t_data);
+                        $.each(t_data, function(){
+                            series.addPoint(this);
+                        });
+                        return t_data;
+                    },
+                    error: function(result){
+                      console.log("Error: " + result);
+                    }
+                });
+            }            
+        }); 
+        $.DynamicChart(chart);
+        setInterval($.DynamicChart, 5000, chart);       
     });
   </script>
 </div>
