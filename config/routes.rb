@@ -1,5 +1,5 @@
 Rails40Starter::Application.routes.draw do
-  # resources :points
+  resources :points
 
   resources :cmdqueries
 
