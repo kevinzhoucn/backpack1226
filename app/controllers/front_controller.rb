@@ -107,14 +107,19 @@ class FrontController < ApplicationController
       @data_points = []
     end 
   end
-
+  
+  # 08-24 modfiy
   def get_channel_data
+    seq_num = params[:seq]
     data_points = []
     if @channel
-      data_points = data_filter(@channel.data_points.to_s)
+      data_points << self.points.last.seq_num
+      data_list = @channel.get_seq_points (seq_num)
+      data_points = data_filter(data_list)
     end
     render json: data_points.to_json
   end
+  # end
 
   def show_device
     device_id = params[:id]

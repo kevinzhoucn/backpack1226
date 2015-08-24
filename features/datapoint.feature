@@ -7,9 +7,9 @@ Feature: Datapoint
   Scenario: Get Date Time String
     Given the date time input "20150810T120504P112"
     When the data string filter is run
-    Then the date time string output should be "1439179504000"
+    Then the date time string output should be "1439208304000"
 
   Scenario: Get Date Time String
-    Given the date time input "1439179504"
+    Given the date time input "1439208304"
     When the data string convert is run
-    Then the date time string output should be "2015-08-10 12:05:04.000000000 +0800"
+    Then the date time string output should be "2015-08-10 20:05:04.000000000 +0800"

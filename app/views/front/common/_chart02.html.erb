@@ -8,7 +8,6 @@
     $(document).ready( function() {        
         // create the chart
         $('#chart_area').highcharts('StockChart', {
-
             title: {
                 text: 'Channel'
             },
@@ -18,6 +17,10 @@
             },
 
             xAxis: {
+                dateTimeLabelFormats: {
+                    second: '%H:%M:%S',
+                    day: '%e. %b'
+                }
                 // breaks: [{ // Nights
                 //     from: Date.UTC(2011, 9, 6, 16),
                 //     to: Date.UTC(2011, 9, 7, 8),
@@ -50,6 +53,7 @@
             series : [{
                 data : <%= @data_points %> ,
                 gapSize: 5,
+                type: "line",
                 tooltip: {
                     valueDecimals: 2
                 }
