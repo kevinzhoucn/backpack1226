@@ -60,10 +60,10 @@ class Channel
       datapoints = []
       # datapoints << self.points.last.seq_num
       if not seq_num or seq_num == "0000"
-        datapoints = self.points.desc(:created_at).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
+        datapoints = self.points.asc(:date_int).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
         # datapoints << self.data_points.to_s
       else
-        datapoints = self.points.where(:seq_num.gt => seq_num.to_i).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i] }
+        datapoints = self.points.where(:seq_num.gt => seq_num.to_i).asc(:date_int).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i] }
       end
       return datapoints
     end
@@ -87,7 +87,7 @@ class Channel
 
     def get_last_seq_number
       seq_num = "0000"
-      point_last = self.points.last
+      point_last = self.points.desc(:date_int).first
       if point_last and point_last.seq_num
         seq_num = point_last.seq_num
       end

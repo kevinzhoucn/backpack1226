@@ -8,6 +8,8 @@
   <script type="text/javascript">
     $(document).ready( function() {        
         // create the chart
+        var frist_query_ready = false;
+        var data_ready = false;
         var chart = new Highcharts.StockChart({            
             chart: {
               renderTo: 'chart_area'
@@ -65,7 +67,36 @@
         });
 
         $.extend({
-            DynamicChart:function(chart){
+            DynamicChart : function(chart) {
+                var seq_num = $("#last_seq").text();
+                var url = "/data/getDatapoints/<%= @channel.id %>?seq=" + seq_num;
+                var series = chart.series[0];
+
+                if (true) {
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        data: [],
+                        success: function(result){
+                            var t_seq = result[0];
+                            $("#last_seq").text(t_seq);
+                            var t_data = result[1];
+                            console.log(t_data)
+                            $.each(t_data, function(){
+                                series.addPoint(this);
+                            });
+                            return t_data;
+                        },
+                        error: function(result){
+                          console.log("Error: " + result);
+                        }
+                    });
+                }
+            }
+        }); 
+
+        $.extend({
+            FirstDataChart : function(chart, frist_query_ready) {
                 var seq_num = $("#last_seq").text();
                 var url = "/data/getDatapoints/<%= @channel.id %>?seq=" + seq_num;
                 var series = chart.series[0];
@@ -75,23 +106,25 @@
                     url: url,
                     data: [],
                     success: function(result){
+                        console.log(result)
                         var t_seq = result[0];
                         $("#last_seq").text(t_seq);
                         var t_data = result[1];
-                        console.log(t_data);
-                        $.each(t_data, function(){
-                            series.addPoint(this);
-                        });
+                        console.log(t_data)
+                        series.setData(t_data);
+                        frist_query_ready = true;
+
+                        setInterval($.DynamicChart, 5000, chart);
                         return t_data;
                     },
                     error: function(result){
                       console.log("Error: " + result);
                     }
                 });
-            }            
+            }
         }); 
-        $.DynamicChart(chart);
-        setInterval($.DynamicChart, 5000, chart);       
+
+        $.FirstDataChart(chart, frist_query_ready)        
     });
   </script>
 </div>
