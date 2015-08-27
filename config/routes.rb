@@ -1,4 +1,6 @@
 Rails40Starter::Application.routes.draw do
+  resources :points
+
   resources :cmdqueries
 
   resources :channels
@@ -48,6 +50,11 @@ Rails40Starter::Application.routes.draw do
   # get '/iotdev/v1.0/send' => 'channels#send_data', as: :channel_send_data
   # get '/iotdev/v1.0/send' => 'channels#receive_data', as: :channel_send_data
   # get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
+
+  scope '/data' do 
+    get '/getDatapoints/:cid' => 'front#get_channel_data', as: :front_get_channel_data
+    # 5571a1c15530313648010000 '/data/getDatapoints/5571a1c15530313648010000?seq_num=000'
+  end
 
   scope 'iotdev/v1.0', module: 'apiv10' do
     get 'cmdquery' => 'apibase#cmdquery', as: :apibase_cmdquery

@@ -2,7 +2,8 @@ class FrontController < ApplicationController
   before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]
   layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device, :show_channel_chart]
 
-  before_action :set_device, :set_channel, only: [:show_channel_chart]
+  before_action :set_device, only: [:show_channel_chart]
+  before_action :set_channel, only: [:get_channel_data, :show_channel_chart]
 
   def index
   end
@@ -97,15 +98,29 @@ class FrontController < ApplicationController
     @channels = Channel.where(:device_id => @device.id)
     if @channel
       # @data_points = @channel.data_points.to_s.split("||").map {|item| item.split('-')[0].to_i}
-      # @data_points = data_filter(@channel.data_points.to_s)
+      @data_points = data_filter(@channel.data_points.to_s)
       # time1 = Time.local(2015, 08, 10, 10, 13, 15)
       # time2 = Time.local(2015, 08, 10, 10, 13, 16)
-      time = Time.now
-      @date_points = [[time, 20], [time + 10, 30]]
+      # time = Time.now
+      # @date_points = [[time, 20], [time + 10, 30]]
     else
       @data_points = []
     end 
   end
+  
+  # 08-24 modfiy
+  def get_channel_data
+    seq_num = params[:seq]
+    data_points = []
+    if @channel
+      data_points << @channel.get_last_seq_number
+      data_list = @channel.get_seq_points (seq_num)
+      # data_points << data_filter(data_list)
+      data_points << data_list
+    end
+    render json: data_points.to_json
+  end
+  # end
 
   def show_device
     device_id = params[:id]
@@ -158,7 +173,7 @@ class FrontController < ApplicationController
             if item.split('-').length > 1
               data = []
               value = item.split('-')[0]
-              data << get_date_time(item.split('-')[1])
+              data << TEAUTIL.get_date_seconds(item.split('-')[1])
               if value[0, 1] == 'N'
                 # datapoints_array << first.sub(/[N]/, '-').to_i
                 data << value.sub(/[N]/, '-').to_i

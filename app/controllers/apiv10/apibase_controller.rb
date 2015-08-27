@@ -85,12 +85,14 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
                   if data_content_array
                     @channel = Channel.where(:channel_id => data_content_array[0], :device_id => device).first
                     if @channel
-                      data_points = @channel.data_points ? @channel.data_points : ""
-                      data_points = data_points + "||" + data_content_array[1] + '-' + data_content_array[2]
+                      data_point = data_content_array[1] + '-' + data_content_array[2]
+                      @channel.add_point(data_point)
+                      # data_points = @channel.data_points ? @channel.data_points : ""
+                      # data_points = data_points + "||" + data_content_array[1] + '-' + data_content_array[2]
 
-                      @channel.update_attribute(:data_points, data_points)
+                      # @channel.update_attribute(:data_points, data_points)
 
-                      data_test << data_points
+                      # data_test << data_points
                     end
                   end
                 end

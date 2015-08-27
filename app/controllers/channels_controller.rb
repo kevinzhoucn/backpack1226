@@ -65,16 +65,17 @@ class ChannelsController < ApplicationController
         if data_content_array
           @channel = Channel.where(:channel_id => data_content_array[0], :device_user_id => device_id).first
           if @channel
-            data_points = @channel.data_points ? @channel.data_points : ""
-            data_points = data_points + "||" + data_content_array[1] + '-' + data_content_array[2]
+            @channel.add_point(tp_data)
+            # data_points = @channel.data_points ? @channel.data_points : ""
+            # data_points = data_points + "||" + data_content_array[1] + '-' + data_content_array[2]
 
-            if data_points.split('||').length < 20
-              # @channel.update_attribute(:data_points, data_points)
-            else
-            end
-            @channel.update_attribute(:data_points, data_points)
+            # if data_points.split('||').length < 20
+            #   # @channel.update_attribute(:data_points, data_points)
+            # else
+            # end
+            # @channel.update_attribute(:data_points, data_points)
 
-            data_test << data_points
+            # data_test << data_points
           end
         end
       end
