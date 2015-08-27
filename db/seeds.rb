@@ -42,15 +42,17 @@
 # channel.add_point("115-20150810T120820P112")
 
 # Office Mongodb
-channel = Channel.find("55d69f81553031161c000000")
+# channel = Channel.find("55d69f81553031161c000000")
 # channel.update_attribute(:data_points, "100-20150810T100504P112||105-20150810T100508P122||120-20150810T100608P122||105-20150810T100708P122||115-20150811T100808P122||105-20150812T100812P122||115-20150813T100908P122")
 # channel.update_attribute(:data_points, "100-20150810T100504P112||105-20150810T100508P122||105-20150810T100518P122||105-20150810T100528P122||105-20150810T100538P122||105-20150810T100608P122")
 
-date_int = 1440457472000
-1500.times do |x|
-  puts x
-  value = x + 1
-  date_int = date_int + ( value * 3000 )
-  puts date_int
-  channel.points.create(:value => x, :date_int => date_int)
-end
+# channel.points.delete_all
+
+# date_int = 1440457472000
+# 1500.times do |x|
+#   puts x
+#   value = x + 1
+#   date_int = date_int + ( value * 3000 )
+#   puts date_int
+#   channel.points.create(:value => x, :date_int => date_int, :seq_num => value)
+# end
