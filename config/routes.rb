@@ -75,6 +75,13 @@ Rails40Starter::Application.routes.draw do
     get 'front/test_data'
   end
 
+  namespace 'mobile' do
+    get 'front/index'
+    get '/datetime' => 'front#datetime'
+    post '/users' => 'front#create_user'
+    get '/signin' => 'front#signin_user'
+  end
+
   # scope 'front/test', module: 'apiv10test' do
   #   get 'stock_chart' => ''
   # end
