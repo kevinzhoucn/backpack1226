@@ -12,3 +12,9 @@ toggleItem = (elem) ->
     data: data
 $ ->
   $("#test_button").on 'click', (e) -> toggleItem e.target
+
+  #if $("#chart_area").length > 0
+  #  $.getScript("/js/chart/drawChart.js")
+  #if false
+  #  $.getScript("/js/libs/charts/highstock.js", \ 
+  #    (-> $.getScript("/js/chart/drawChart.js") ) )
