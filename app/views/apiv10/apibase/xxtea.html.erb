@@ -1,3 +1,18 @@
-<p>
-  <%= controller_name %> || <%= action_name %>
-</p>
+<div class="container">
+  <p>
+    XXTEA 测试页面
+  </p>  
+  <%= form_tag '#', :method => 'get' do %>
+    <%= text_area_tag :str, params[:str], type:"search", placeholder:"输入字符串...", rows: 5, cols: 50 %>
+    <br>
+    <%= text_area_tag :key, params[:key], type:"search", placeholder:"输入key...", rows: 1, cols: 50 %>
+    <br>
+    <%= button_tag "加密", class:"encrypt-button"%>
+    <%= button_tag "解密", class:"decrypt-button"%>
+  <% end %>
+  <div class="col-md-6" style="overflow-wrap: break-word;">
+    <p class="result">        
+    </p>
+  </div>
+
+</div>

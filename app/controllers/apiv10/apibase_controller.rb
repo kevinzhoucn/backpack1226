@@ -1,6 +1,7 @@
 class Apiv10::ApibaseController < Apiv10::ApplicationController
   # include Apiv10::BaseModel
   before_action :set_params, only: [:datetime, :cmdquery]
+  layout 'appprofile'
 
   def cmdquery
     cmd_query_items = ""
@@ -114,7 +115,24 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
   end
 
   def xxtea
-    
+
+  end
+
+  def xxtea_encrypt
+    raw_str = params[:str]
+    raw_key = params[:key]
+
+    ret = XXTEA.get_encrypt_str(raw_str, raw_key)
+
+    render text: ret
+  end
+  def xxtea_decrypt
+    raw_str = params[:str]
+    raw_key = params[:key]
+
+    ret = XXTEA.get_decrypt_str(raw_str, raw_key)
+
+    render text: ret
   end
 
   private
