@@ -63,9 +63,13 @@ Rails40Starter::Application.routes.draw do
     # post 'cmdquery_get' => 'apibase#cmdquery_get', as: :apibase_cmdquery_get
   end
 
+  scope 'sdk', module: 'apiv10' do
+    get 'xxtea' => 'apibase#xxtea', as: :apibase_xxtea
+  end
+
   # post '/post_info' => 'front#post_info', as: :front_post_info
   get '/admin' => 'front#admin', as: :front_admin
-  get '/sdk/android' => 'front#sdk', as: :front_sdk
+  get '/sdk/android' => 'front#sdk', as: :front_sdk  
   
   root 'front#index'
 
@@ -79,7 +83,7 @@ Rails40Starter::Application.routes.draw do
     get 'front/index'
     get '/datetime' => 'front#datetime'
     post '/users' => 'front#create_user'
-    get '/signin' => 'front#signin_user'
+    get '/user/signin' => 'front#signin_user'
   end
 
   # scope 'front/test', module: 'apiv10test' do

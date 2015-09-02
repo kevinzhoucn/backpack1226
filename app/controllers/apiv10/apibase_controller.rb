@@ -113,6 +113,10 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     render text: "result:" + ret
   end
 
+  def xxtea
+    
+  end
+
   private
     def set_device
       @device = Device.find(params[:id])
