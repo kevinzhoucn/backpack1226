@@ -80,7 +80,7 @@ Rails40Starter::Application.routes.draw do
   end
 
   namespace 'mobile' do
-    get 'front/index'
+    get '/sayhello' => 'front#index'
     get '/datetime' => 'front#datetime'
     post '/users' => 'front#create_user'
     get '/user/signin' => 'front#signin_user'
