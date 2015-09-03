@@ -4,7 +4,7 @@ class User
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :encryptable, :encryptor => :md5
 
   ## Database authenticatable
   field :email,              type: String, default: ""
@@ -47,6 +47,20 @@ class User
     else
       devices_key
     end
+  end
+
+  def valid_password?(password)
+    return false if encrypted_password.blank?
+    # Devise.secure_compare(Devise::Encryptable::Encryptors::Md5.digest(password, nil, nil, nil), self.encrypted_password)
+    Devise.secure_compare(Devise::Encryptable::Encryptors::Md5.digest(password, nil, PASSWORD_SALT, nil), self.encrypted_password)
+    # return Devise::Encryptable::Encryptors::Md5.digest(password, nil, nil, nil)
+  end
+
+  def password_salt
+    PASSWORD_SALT
+  end
+
+  def password_salt=(new_salt)
   end
 
   protected

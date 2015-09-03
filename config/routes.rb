@@ -63,9 +63,16 @@ Rails40Starter::Application.routes.draw do
     # post 'cmdquery_get' => 'apibase#cmdquery_get', as: :apibase_cmdquery_get
   end
 
+  scope 'sdk', module: 'apiv10' do
+    get '/xxtea' => 'apibase#xxtea', as: :apibase_xxtea
+    post '/xxtea/encrypt' => 'apibase#xxtea_encrypt', as: :apibase_xxtea_encrypt
+    post '/xxtea/decrypt' => 'apibase#xxtea_decrypt', as: :apibase_xxtea_decrypt
+    post '/md5/encrypt' => 'apibase#md5_encrypt', as: :apibase_md5_encrypt
+  end
+
   # post '/post_info' => 'front#post_info', as: :front_post_info
   get '/admin' => 'front#admin', as: :front_admin
-  get '/sdk/android' => 'front#sdk', as: :front_sdk
+  get '/sdk/android' => 'front#sdk', as: :front_sdk  
   
   root 'front#index'
 
@@ -79,7 +86,7 @@ Rails40Starter::Application.routes.draw do
     get '/sayhello' => 'front#index'
     get '/datetime' => 'front#datetime'
     post '/users' => 'front#create_user'
-    get '/signin' => 'front#signin_user'
+    get '/user/signin' => 'front#signin_user'
   end
 
   # scope 'front/test', module: 'apiv10test' do

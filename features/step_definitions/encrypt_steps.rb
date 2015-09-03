@@ -21,6 +21,7 @@ end
 Given /^there is User with account email "([^"]*)" and user email "([^"]*)"$/ do |account_email, user_email|
   @user = FactoryGirl.create(:user, email: account_email, password: "12345678")
   @user_email = user_email
+  puts @user.encrypted_password
 end
 
 Given /^there is Device with device id "([^"]*)"$/ do |device_id|
@@ -95,4 +96,9 @@ Then /^the page expect result should be "([^"]*)"$/ do |expect_result|
     puts result = XXTEA.get_decrypt_str(result, @raw_key)
     expect(result).to match(/#{express_str}/i)
   end
+end
+
+Then /^should use our hashing mechanism, not the default bcrypt$/ do
+  result = @user.valid_password?("12345678")
+  expect(result).to eq(true)
 end

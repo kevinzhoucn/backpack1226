@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="col-md-6" style="overflow-wrap: break-word;">
+    <p>
+      MD5 测试
+    </p>  
+    <%= form_tag '#', :method => 'get' do %>
+      <%= text_area_tag :str_md5, params[:str_md5], placeholder:"输入字符串...", rows: 5, cols: 50 %>
+      <br>
+      <%= text_area_tag :key_md5, params[:key_md5], placeholder:"输入Salt...", rows: 1, cols: 50 %>
+      <br>
+      <%= button_tag "加密", class:"md5-encrypt-button"%>      
+    <% end %>
+    <p class="result-md5">
+    </p>
+  </div>
+
+  <div class="col-md-6" style="overflow-wrap: break-word;">
+    <p>
+      XXTEA 测试
+    </p>  
+    <%= form_tag '#', :method => 'get' do %>
+      <%= text_area_tag :str, params[:str], type:"search", placeholder:"输入字符串...", rows: 5, cols: 50 %>
+      <br>
+      <%= text_area_tag :key, params[:key], type:"search", placeholder:"输入key...", rows: 1, cols: 50 %>
+      <br>
+      <%= button_tag "加密", class:"encrypt-button"%>
+      <%= button_tag "解密", class:"decrypt-button"%>
+    <% end %>
+    <p class="result">        
+    </p>
+  </div>
+</div>
