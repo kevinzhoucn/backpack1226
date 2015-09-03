@@ -62,6 +62,7 @@ gem 'mongoid_rails_migrations'
 gem 'devise'
 gem 'rolify'
 gem 'cancancan'
+gem 'devise-encryptable'
 
 # 表单
 # gem 'simple_form', '3.1.0.rc2', github: 'plataformatec/simple_form'

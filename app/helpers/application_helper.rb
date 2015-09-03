@@ -10,7 +10,6 @@ module ApplicationHelper
 
   def render_javascripts    
     if controller_name == "front" and action_name == "show_channel_chart"
-
       @content = content_tag('script', nil, { src: '/js/libs/charts/highstock.js'}, false)
       @content << content_tag('script', nil, { src: '/js/chart/drawChart.js'}, false)
     end

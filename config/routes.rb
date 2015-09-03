@@ -64,9 +64,10 @@ Rails40Starter::Application.routes.draw do
   end
 
   scope 'sdk', module: 'apiv10' do
-    get 'xxtea' => 'apibase#xxtea', as: :apibase_xxtea
-    post 'xxtea/encrypt' => 'apibase#xxtea_encrypt', as: :apibase_xxtea_encrypt
-    post 'xxtea/decrypt' => 'apibase#xxtea_decrypt', as: :apibase_xxtea_decrypt
+    get '/xxtea' => 'apibase#xxtea', as: :apibase_xxtea
+    post '/xxtea/encrypt' => 'apibase#xxtea_encrypt', as: :apibase_xxtea_encrypt
+    post '/xxtea/decrypt' => 'apibase#xxtea_decrypt', as: :apibase_xxtea_decrypt
+    post '/md5/encrypt' => 'apibase#md5_encrypt', as: :apibase_md5_encrypt
   end
 
   # post '/post_info' => 'front#post_info', as: :front_post_info

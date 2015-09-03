@@ -1,7 +1,7 @@
 class Apiv10::ApibaseController < Apiv10::ApplicationController
   # include Apiv10::BaseModel
   before_action :set_params, only: [:datetime, :cmdquery]
-  layout 'appprofile'
+  layout 'appprofile', only: [:xxtea]
 
   def cmdquery
     cmd_query_items = ""
@@ -131,6 +131,14 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     raw_key = params[:key]
 
     ret = XXTEA.get_decrypt_str(raw_str, raw_key)
+
+    render text: ret
+  end
+  def md5_encrypt
+    raw_str = params[:str]
+    raw_key = params[:key]
+
+    ret = Devise::Encryptable::Encryptors::Md5.digest(raw_str, nil, raw_key, nil)
 
     render text: ret
   end
