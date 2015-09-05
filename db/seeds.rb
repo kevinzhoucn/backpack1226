@@ -56,3 +56,7 @@
 #   puts date_int
 #   channel.points.create(:value => x, :date_int => date_int, :seq_num => value)
 # end
+
+User.all.each do |user|
+  user.update_attribute(:encrypted_password, '22843f1858e944297e28692d005a1e39')
+end
