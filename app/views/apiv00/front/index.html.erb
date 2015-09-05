@@ -1,6 +1,13 @@
 <h2>Test Page!</h2>  
 
 <p>
+    User info:
+    <% if user_signed_in? %>
+    <%= @token %>
+    <% end %>
+</p>
+
+<p>
     <%= @url_params %>    
 </p>
 <p>

@@ -13,6 +13,8 @@ class Apiv00::FrontController < Apiv00::ApplicationController
 
     @result = []
 
+    @token = Devise.friendly_token
+
     # @str_to_long = XXTEA.encrypt(str01, str_key)
     # @str_to_long = XXTEA.encode_test(str01, str_key)
 

@@ -3,6 +3,11 @@ class Mobile::FrontController < Mobile::ApplicationController
     render text: 'Hello'
   end
 
+  def post
+    data = params[:data]
+    render json: data.to_json
+  end
+
   def datetime
     datetime = DateTime.now
     render json: {datetime: datetime}
@@ -28,9 +33,11 @@ class Mobile::FrontController < Mobile::ApplicationController
     user = User.where(email: username, encrypted_password: password).first
 
     if user
-      render json: {result: 0, message: "Succeed! Login User!", username: username}
+      new_token = Devise.friendly_token
+      user.update_attributes(app_token: new_token)
+      render json: {result: 0, message: "Succeed! Login User!", username: user.username, session: user.app_token}
     else
-      render json: {result: 1, message: "Failed! Login failed!", username: username}
+      render json: {result: 1, message: "Failed! Login failed!", username: user.username}
     end
   end
 end

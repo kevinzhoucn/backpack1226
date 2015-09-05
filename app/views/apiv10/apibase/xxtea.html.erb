@@ -29,4 +29,16 @@
     <p class="result">        
     </p>
   </div>
+  <div class="col-md-6" style="overflow-wrap: break-word;">
+    <p>
+      POST 测试
+    </p>  
+    <%= form_tag '#', :method => 'get' do %>
+      <%= text_area_tag :str_post, params[:data], type:"search", placeholder:"输入字符串...", rows: 5, cols: 50 %>
+      <br>
+      <%= button_tag "POST", class:"post-button"%>
+    <% end %>
+    <p class="result-post">        
+    </p>
+  </div>
 </div>

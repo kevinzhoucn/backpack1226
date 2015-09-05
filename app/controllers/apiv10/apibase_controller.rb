@@ -159,7 +159,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         end        
       rescue Exception => e
         url_params
-      end      
+      end
     end
 
     def set_params
