@@ -55,6 +55,20 @@ var xxtea = function($){
                 $(".result-md5").append(txt);
             });
         });    
+        $(".post-button").click(function(event){
+            event.preventDefault();
+            $.get("/mobile/post",
+            {
+                // str: cacheElements.str_md5,
+                // key: cacheElements.key_md5
+                data: $('#str_post').val(),
+            },
+            function(data, status){
+                // alert("Data: " + data + "\nStatus: " + status);
+                var txt="<p>" + JSON.stringify(data) + "</p>";
+                $(".result-post").append(txt);
+            });
+        });
     }
   }
 }(jQuery);
