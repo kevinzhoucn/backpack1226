@@ -25,6 +25,7 @@ class User
   field :last_sign_in_ip,    type: String
 
   field :devices_key, type: String
+  field :app_token, type: String
 
   after_create :assign_user_key
 

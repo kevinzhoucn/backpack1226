@@ -84,10 +84,11 @@ Rails40Starter::Application.routes.draw do
 
   namespace 'mobile' do
     get '/sayhello' => 'front#index'
+    get '/post' => 'front#post'
     get '/datetime' => 'front#datetime'
-    post '/users' => 'front#create_user'
+    get '/user/register' => 'front#create_user'
     get '/user/signin' => 'front#signin_user'
-    post '/test/post' => 'front#testpost'
+    get '/data' => 'front#device'
   end
 
   # scope 'front/test', module: 'apiv10test' do
