@@ -87,6 +87,7 @@ Rails40Starter::Application.routes.draw do
     get '/datetime' => 'front#datetime'
     post '/users' => 'front#create_user'
     get '/user/signin' => 'front#signin_user'
+    post '/test/post' => 'front#testpost'
   end
 
   # scope 'front/test', module: 'apiv10test' do

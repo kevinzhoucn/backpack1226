@@ -1,4 +1,7 @@
 class Mobile::FrontController < Mobile::ApplicationController
+  protect_from_forgery :except => :testpost
+  skip_before_filter :verify_authenticity_token, only: [:testpost]
+
   def index
     render text: 'Hello'
   end
@@ -6,6 +9,11 @@ class Mobile::FrontController < Mobile::ApplicationController
   def datetime
     datetime = DateTime.now
     render json: {datetime: datetime}
+  end
+
+  def testpost
+    data = params[:data]
+    render json: { data: data }
   end
 
   def create_user
