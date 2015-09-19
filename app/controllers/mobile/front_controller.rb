@@ -2,6 +2,8 @@ class Mobile::FrontController < Mobile::ApplicationController
   protect_from_forgery :except => :testpost
   skip_before_filter :verify_authenticity_token, only: [:testpost]
 
+  before_filter: :set_user, only: [:create_device]
+
   def index
     render text: 'Hello'
   end
@@ -114,6 +116,35 @@ class Mobile::FrontController < Mobile::ApplicationController
                 ret = "{devices:[]}"
               end
             end
+            if query_type == 'channel_id'
+              device_id = raw_hash['device_id']
+              device = Device.find(device_id) if device_id
+              if device
+                result_code = 0
+                channels = device.channels
+                if channels and channels.length > 0
+                  channels.each do |channel|
+                    temp = "{id:" + channel.id + "},"
+                    ret += temp
+                  end
+                  ret = ret.chop
+                  ret += "]}"
+                else
+                  ret = "{devices:[]}"
+                end
+              end
+            end
+            if query_type == 'number'
+              channel_id = raw_hash['channel_id'] 
+              channel = Channel.find(channel_id) if channel_id
+              if channel
+                result_code = 0
+                datapoints = channel.get_seq_points
+                ret = "{datapoints: " + datapoints.to_s + "}"
+              else
+                ret = "{datapoints: []}"
+              end
+            end
           end
           result = XXTEA.get_encrypt_str(ret.to_s, key)
         end
@@ -121,6 +152,37 @@ class Mobile::FrontController < Mobile::ApplicationController
     else
       result_code = 1
     end
+    render json: {result: result_code, data: result}
+  end
+
+  def create_device
+    result_code = 1
+    result = ''
+
+    if @user
+      ret = ""
+      raw_hash = get_raw_hash
+      device_id = raw_hash['device_id']
+      device = Device.where(:device_id => device_id).first if device_id
+      if device
+        channel_id = raw_hash['channel_id']
+        channel = Channel.where(:channel_id => channel_id).first if channel_id
+        if not channel
+          tChannel = Channle.build(:device_id => device_id, :channel_id => channel_id)
+          if tChannel.save
+            result_code = 0
+            ret = "{message:'Succeed! Create channel!',channel_id:" + channel_id + ",id:" + tChannel.id + "}"
+          end
+        end
+      else
+        tDevice = Device.build(:device_id => device_id)
+        if tDevice.save
+          result_code = 0
+          ret = "{message:'Succeed! Create device!',device_id:" + device_id + ",id:" + tDevice.id + "}"
+        end
+      end
+      result = get_encrypt_str(ret.to_s)
+    end    
     render json: {result: result_code, data: result}
   end
 
@@ -137,5 +199,33 @@ class Mobile::FrontController < Mobile::ApplicationController
       rescue Exception => e
         url_params
       end
+    end
+
+    def set_user
+      @data = params[:data]
+      session = params[:session]    
+
+      if @data.length > 10 and session
+        @user = User.where(app_token: session).first
+      end
+    end
+
+    def get_raw_hash
+      raw_hash = {}
+      if @user
+        key = @user.encrypted_password[-16, 16]
+        raw_data = XXTEA.get_decrypt_str(@data, key)
+        raw_hash = get_params(raw_data)
+      end
+      return raw_hash
+    end
+
+    def get_encrypt_str(string)
+      key = get_encrypt_key
+      return result = XXTEA.get_encrypt_str(string.to_s, key)
+    end
+
+    def get_encrypt_key
+      return @user.encrypted_password[-16, 16]
     end
 end
