@@ -2,7 +2,7 @@ class Mobile::FrontController < Mobile::ApplicationController
   protect_from_forgery :except => :testpost
   skip_before_filter :verify_authenticity_token, only: [:testpost]
 
-  before_filter: :set_user, only: [:create_device]
+  before_filter :set_user, only: [:create_device]
 
   def index
     render text: 'Hello'
