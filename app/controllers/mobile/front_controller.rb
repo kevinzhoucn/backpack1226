@@ -86,45 +86,29 @@ class Mobile::FrontController < Mobile::ApplicationController
     result_code = 1
     result = ''
 
-    if data.length > 10 and session
-      user = User.where(app_token: session).first
-      if user
-        key = user.encrypted_password[-16, 16]
-        raw_data = XXTEA.get_decrypt_str(data, key)
-        raw_hash = get_params(raw_data)
-        query_type = raw_hash['type']
-        username = raw_hash['username']
-        if username == user.email
-          if query_type
-            if query_type == 'device_key'
-              result_code = 0
-              ret = "{device_key:" + user.devices_key + "}"
-              result = XXTEA.get_encrypt_str(ret.to_s, key)
-            end
-            if query_type == 'device_id'
-              result_code = 0
-              devices = user.devices
-              ret = "{devices:["
-              if devices and devices.length > 0
-                devices.each do |device|
-                  temp = "{id:" + device.id + "},"
-                  ret += temp
-                end
-                ret = ret.chop
-                ret += "]}"
-              else
-                ret = "{devices:[]}"
-              end
-            end
-            if query_type == 'channel_id'
-              device_id = raw_hash['device_id']
-              device = Device.find(device_id) if device_id
-              if device
+    begin
+      if data.length > 10 and session
+        user = User.where(app_token: session).first
+        if user
+          key = user.encrypted_password[-16, 16]
+          raw_data = XXTEA.get_decrypt_str(data, key)
+          raw_hash = get_params(raw_data)
+          query_type = raw_hash['type']
+          username = raw_hash['username']
+          if username == user.email
+            if query_type
+              if query_type == 'device_key'
                 result_code = 0
-                channels = device.channels
-                if channels and channels.length > 0
-                  channels.each do |channel|
-                    temp = "{id:" + channel.id + "},"
+                ret = "{device_key:" + user.devices_key + "}"
+                result = XXTEA.get_encrypt_str(ret.to_s, key)
+              end
+              if query_type == 'device_id'
+                result_code = 0
+                devices = user.devices
+                ret = "{devices:["
+                if devices and devices.length > 0
+                  devices.each do |device|
+                    temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
                     ret += temp
                   end
                   ret = ret.chop
@@ -133,24 +117,45 @@ class Mobile::FrontController < Mobile::ApplicationController
                   ret = "{devices:[]}"
                 end
               end
-            end
-            if query_type == 'number'
-              channel_id = raw_hash['channel_id'] 
-              channel = Channel.find(channel_id) if channel_id
-              if channel
-                result_code = 0
-                datapoints = channel.get_seq_points
-                ret = "{datapoints: " + datapoints.to_s + "}"
-              else
-                ret = "{datapoints: []}"
+              if query_type == 'channel_id'
+                device_id = raw_hash['device_id']
+                device = Device.find(device_id) if device_id
+                if device
+                  result_code = 0
+                  ret = "{channels:["
+                  channels = device.channels
+                  if channels and channels.length > 0
+                    channels.each do |channel|
+                      temp = "{id:'" + channel.id + "',channel_id:'" + channel.channel_id.to_s + "',name:'" + channel.channel_name + "',type:'" + channel.channel_type + "',direction:'" + channel.channel_direct + "'},"
+                      ret += temp
+                    end
+                    ret = ret.chop
+                    ret += "]}"
+                  else
+                    ret = "{channels:[]}"
+                  end
+                end
+              end
+              if query_type == 'points'
+                channel_id = raw_hash['channel_id'] 
+                channel = Channel.find(channel_id) if channel_id
+                if channel
+                  result_code = 0
+                  datapoints = channel.get_mobile_points.to_s
+                  ret = "{datapoints: " + datapoints + "}"
+                else
+                  ret = "{datapoints: []}"
+                end
               end
             end
+            result = XXTEA.get_encrypt_str(ret.to_s, key)
           end
-          result = XXTEA.get_encrypt_str(ret.to_s, key)
         end
+      else
+        result_code = 1
       end
-    else
-      result_code = 1
+    rescue
+      result = 'Error!'
     end
     render json: {result: result_code, data: result}
   end
