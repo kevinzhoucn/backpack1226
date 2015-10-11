@@ -69,8 +69,9 @@ class Channel
     end
 
     def get_mobile_points
+      points_num = MOBILE_POINTS_NUM
       datapoints = []
-      datapoints = self.points.asc(:date_int).map { | item | [item.date_int, item.value.sub(/[N]/, '-')] }      
+      datapoints = self.points.asc(:date_int).limit(points_num).map { | item | [item.date_int, item.value.sub(/[N]/, '-')] }      
       return datapoints
     end
 

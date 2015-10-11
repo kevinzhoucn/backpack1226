@@ -27,3 +27,9 @@
 
 <%= link_to 'Edit', edit_channel_path(@channel) %> |
 <%= link_to 'Back', channels_path %>
+
+<% if !@channel.cmdqueries.blank? %>
+  <% for item in @channel.cmdqueries %>
+    <%= item.value %> || <%= item.created_at %> || <%= item.send_flag %> ||
+  <% end %>
+<% end %>

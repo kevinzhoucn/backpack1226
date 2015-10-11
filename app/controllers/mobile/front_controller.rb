@@ -147,6 +147,22 @@ class Mobile::FrontController < Mobile::ApplicationController
                   ret = "{datapoints: []}"
                 end
               end
+              if query_type == 'cmd'
+                channel_id = raw_hash['channel_id']
+                cmd_value = raw_hash['value']
+                channel = Channel.find(channel_id) if channel_id
+                if channel
+                  result_code = 0
+                  @cpanel_cmdquery = Cmdquery.new
+                  @cpanel_cmdquery.send_flag = 'N'
+                  @cpanel_cmdquery.value = cmd_value.to_s
+                  @cpanel_cmdquery.channel_id = channel_id
+                  @cpanel_cmdquery.save
+                  ret = "{id: " + channel_id + ",cmd_value: " + cmd_value + "}"
+                else
+                  ret = "{data: []}"
+                end
+              end
             end
             result = XXTEA.get_encrypt_str(ret.to_s, key)
           end
