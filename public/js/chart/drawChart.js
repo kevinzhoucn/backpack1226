@@ -74,10 +74,21 @@ $(document).ready( function() {
                         var t_seq = result[0];
                         $("#last_seq").text(t_seq);
                         var t_data = result[1];
+                        // if ( t_data.length > 4000 ){
+                        //     t_data = t_data.splice(0, 2000);
+                        // }
+                        // var new_series_data = series.getData();
                         console.log(t_data);
-                        $.each(t_data, function(){
-                            series.addPoint(this);
-                        });
+                        // var new_series = series.data.concat(t_data);
+                        // var new_series_length = new_series_data.length;
+                        // if (new_series_length > 4000) {
+                        //     new_series = new_series.splice(new_series_length - 2000, new_series_length);
+                        // }
+                        // $.each(t_data, function(){
+                        //     series.addPoint(this);
+                        // });
+                        // series.setData(new_series);
+                        series.setData(t_data);
                         return t_data;
                     },
                     error: function(result){
