@@ -40,7 +40,7 @@
                 <td><%= link_to device.device_id, front_show_device_path(device), title: '查看详情' %></td>
                 <td><%= device.device_name %></td>
                 <td><%= device.device_description %></td>
-                <td>Date</td>
+                <td><%= device.created_at %></td>
                 <td style="width:150px">
                   <%= link_to '查看', front_show_device_path(device), class: 'btn btn-primary', style: "padding: 3px 6px;" %>
                   <%= link_to '修改', front_edit_device_path(device), class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  

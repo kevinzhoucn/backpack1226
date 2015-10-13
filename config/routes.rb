@@ -89,6 +89,7 @@ Rails40Starter::Application.routes.draw do
     get '/user/register' => 'front#create_user'
     get '/user/signin' => 'front#signin_user'
     get '/data' => 'front#device'
+    get '/info/add' => 'front#create_device'
   end
 
   # scope 'front/test', module: 'apiv10test' do

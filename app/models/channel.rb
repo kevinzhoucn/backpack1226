@@ -13,7 +13,7 @@ class Channel
 
   field :data_points, type: String
 
-  validates_presence_of :channel_id, :channel_name, :channel_type, :device_id, :device_user_id
+  validates_presence_of :channel_id, :channel_name, :channel_type, :channel_direct, :device_id, :device_user_id
 
   belongs_to :device
   has_many :cmdqueries
@@ -72,6 +72,13 @@ class Channel
       else
         datapoints = self.points.where(:seq_num.gt => seq_num.to_i).asc(:date_int).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i] }
       end
+      return datapoints
+    end
+
+    def get_mobile_points
+      points_num = MOBILE_POINTS_NUM
+      datapoints = []
+      datapoints = self.points.asc(:date_int).limit(points_num).map { | item | [item.date_int, item.value.sub(/[N]/, '-')] }      
       return datapoints
     end
 
