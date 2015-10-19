@@ -74,13 +74,10 @@ $(document).ready( function() {
                         var t_seq = result[0];
                         $("#last_seq").text(t_seq);
                         var t_data = result[1];
-                        if ( t_data.length > 4000 ) {
-                            t_data = t_data.splice(0, 2000);
-                        }
+
                         console.log(t_data);
-                        $.each(t_data, function(){
-                            series.addPoint(this);
-                        });
+
+                        series.setData(t_data);
                         return t_data;
                     },
                     error: function(result){
