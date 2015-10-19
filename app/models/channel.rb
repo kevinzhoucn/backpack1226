@@ -57,10 +57,12 @@ class Channel
     end
 
     def get_seq_points(seq_num)
+      points_num = WEBPAGE_POINTS_NUM ? WEBPAGE_POINTS_NUM : 2000
       datapoints = []
       # datapoints << self.points.last.seq_num
       if not seq_num or seq_num == "0000"
-        datapoints = self.points.asc(:date_int).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
+        datapoints = self.points.desc(:date_int).limit(points_num).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
+        
         # datapoints << self.data_points.to_s
       else
         datapoints = self.points.where(:seq_num.gt => seq_num.to_i).asc(:date_int).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i] }
@@ -69,7 +71,7 @@ class Channel
     end
 
     def get_mobile_points
-      points_num = MOBILE_POINTS_NUM
+      points_num = MOBILE_POINTS_NUM ? MOBILE_POINTS_NUM : 20
       datapoints = []
       datapoints = self.points.desc(:seq_num).limit(points_num).map { | item | [item.date_int, item.value.sub(/[N]/, '-')] }      
       return datapoints

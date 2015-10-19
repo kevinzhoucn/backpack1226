@@ -50,16 +50,31 @@
 # channel.points.delete_all
 
 # date_int = 1440457472000
-# # 1500.times do |x|
-# 100.times do |x|
+# 3500.times do |x|
+# # 100.times do |x|
 #   puts x
 #   value = x + 1
 #   date_int = date_int + ( value * 3000 )
 #   puts date_int
 #   channel.points.create(:value => x, :date_int => date_int, :seq_num => value)
-#   sleep 1
+#   # sleep 1
 # end
 
 # User.all.each do |user|
 #   user.update_attribute(:encrypted_password, '22843f1858e944297e28692d005a1e39')
 # end
+
+
+channel = Channel.find("55fe233455303125c8040000")
+point = channel.points.last
+date_int = point.date_int
+seq_num = point.seq_num
+
+100.times do |x|
+  puts x
+  value = x + 1
+  date_int = date_int.to_i + ( value * 3000 )
+  puts date_int
+  channel.points.create(:value => x, :date_int => date_int, :seq_num => seq_num + value)
+  sleep 1
+end
