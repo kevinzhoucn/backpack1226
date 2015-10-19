@@ -157,6 +157,8 @@ class Mobile::FrontController < Mobile::ApplicationController
                   @cpanel_cmdquery.send_flag = 'N'
                   @cpanel_cmdquery.value = cmd_value.to_s
                   @cpanel_cmdquery.channel_id = channel_id
+                  @cpanel_cmdquery.channel_user_id = channel.channel_id
+                  @cpanel_cmdquery.device_id = channel.device_id
                   @cpanel_cmdquery.save
                   ret = "{id: " + channel_id + ",cmd_value: " + cmd_value + "}"
                 else

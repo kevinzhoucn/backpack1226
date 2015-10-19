@@ -74,10 +74,10 @@ $(document).ready( function() {
                         var t_seq = result[0];
                         $("#last_seq").text(t_seq);
                         var t_data = result[1];
+
                         console.log(t_data);
-                        $.each(t_data, function(){
-                            series.addPoint(this);
-                        });
+
+                        series.setData(t_data);
                         return t_data;
                     },
                     error: function(result){

@@ -50,6 +50,7 @@
               <th>通道类型</th>
               <th>方向</th>
               <th>创建日期</th>
+              <th>换算</th>
               <th>操作</th>
             </tr>
           </thead>
@@ -77,9 +78,14 @@
                     <%= '2015-01-10 00:00:00' %>
                   <% end %>
                 </td>
+                <td>
+                  换算符
+                </td>
                 <td style="width:200px">
                   <%= link_to '查询', front_cmdquery_get_path(@device, channel), method: :post, class: 'btn btn-info', id: 'btn-get', style: "padding: 3px 6px;" %>
-                  <%= link_to '设置', new_cpanel_cmdquery_path(@device, channel), class: 'btn btn-info', style: "padding: 3px 6px;"  %>
+                  <% if channel.channel_direct == '0' %>
+                    <%= link_to '设置', new_cpanel_cmdquery_path(@device, channel), class: 'btn btn-info', style: "padding: 3px 6px;"  %>
+                  <% end %>
                   <%= link_to '修改', front_device_edit_channel_path(@device, channel), class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
                   <%= link_to '删除', channel, method: :delete, data: { confirm: '确定删除?' }, class: 'btn btn-danger', style: "padding: 3px 6px;" %>
                 </td>

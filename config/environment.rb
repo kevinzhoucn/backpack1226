@@ -6,3 +6,4 @@ Rails40Starter::Application.initialize!
 
 PASSWORD_SALT = 'jimumobile'
 MOBILE_POINTS_NUM = 20
+WEBPAGE_POINTS_NUM = 2000
