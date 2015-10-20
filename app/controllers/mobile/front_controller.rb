@@ -106,22 +106,16 @@ class Mobile::FrontController < Mobile::ApplicationController
                 result_code = 0
                 devices = user.devices
                 ret = "{devices:["
-                if devices and devices.length == 1
-                  device = devices[0]
-                  temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'}]}"
-                  ret += temp
-                else
-                  if devices and devices.length > 1 
-                    devices.each do |device|
-                      temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
-                      ret += temp
-                    end
-                    ret = ret.chop
-                    ret += "]}"
-                  else
-                    ret = "{devices:[]}"
+                if devices and devices.length > 1 
+                  devices.each do |device|
+                    temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
+                    ret += temp
                   end
-                end                
+                  ret = ret.chop
+                  ret += "]}"
+                else
+                  ret = "{devices:[]}"
+                end
               end
               if query_type == 'channel_id'
                 device_id = raw_hash['device_id']
