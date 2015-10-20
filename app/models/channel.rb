@@ -70,7 +70,7 @@ class Channel
       #   datapoints = self.points.desc(:date_int).limit(points_num).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
       # if not seq_num or seq_num == "0000"
       if true
-        datapoints = self.points.desc(:date_int).limit(2000).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
+        datapoints = self.points.desc(:date_int).limit(500).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
         datapoints = datapoints.reverse
         # datapoints << self.data_points.to_s
       else
