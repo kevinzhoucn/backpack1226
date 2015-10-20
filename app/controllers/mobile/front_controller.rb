@@ -158,7 +158,7 @@ class Mobile::FrontController < Mobile::ApplicationController
                       temp = "{id:'" + channel.id + "',channel_id:'" + channel.channel_id.to_s + "',name:'" + channel.channel_name + "',type:'" + channel.channel_type + "',direction:'" + channel.channel_direct + "'},"
                       ret += temp
                     end
-                    # ret = ret.chop
+                    ret = ret.chop
                     ret += "]}"
                   else
                     ret = "{channels:[]}"
