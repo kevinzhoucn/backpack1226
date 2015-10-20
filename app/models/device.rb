@@ -34,4 +34,8 @@ class Device
       end
       items.chop
     end
+
+    def get_device_json
+      return "{id:'" + self.id + "',dev_id:'" + self.device_id + "',name:'" + self.device_name + "',description:'" + self.device_description + "',created_date:'" + self.created_at.to_s + "'},"
+    end
 end
