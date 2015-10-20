@@ -106,16 +106,22 @@ class Mobile::FrontController < Mobile::ApplicationController
                 result_code = 0
                 devices = user.devices
                 ret = "{devices:["
-                if devices and devices.length > 0
-                  devices.each do |device|
-                    temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
-                    ret += temp
-                  end
-                  ret = ret.chop
-                  ret += "]}"
+                if devices and devices.length == 1
+                  device = devices
+                  temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'}]}"
+                  ret += temp
                 else
-                  ret = "{devices:[]}"
-                end
+                  if devices and devices.length > 1 
+                    devices.each do |device|
+                      temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
+                      ret += temp
+                    end
+                    ret = ret.chop
+                    ret += "]}"
+                  else
+                    ret = "{devices:[]}"
+                  end
+                end                
               end
               if query_type == 'channel_id'
                 device_id = raw_hash['device_id']
@@ -163,6 +169,19 @@ class Mobile::FrontController < Mobile::ApplicationController
                   ret = "{id: " + channel_id + ",cmd_value: " + cmd_value + "}"
                 else
                   ret = "{data: []}"
+                end
+              end
+              if query_type == 'seg'
+                channel_id = raw_hash['channel_id']
+                start_time = raw_hash['start']
+                end_time = raw_hash['end']
+                channel = Channel.find(channel_id) if channel_id
+                if channel
+                  result = 0
+                  datapoints = channel.point.seg(start_time, end_time).map { | item | [item.date_int, item.value.sub(/[N]/, '-')] }
+                  ret = "{datapoints: " + datapoints + "}"
+                else
+                  ret = "{datapoints: []}"
                 end
               end
             end

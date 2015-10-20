@@ -10,6 +10,7 @@ class Channel
   field :device_id, type: String
   field :device_user_id, type: String
   field :user_id, type: String
+  field :exp_str, type: String
 
   field :data_points, type: String
 
@@ -109,6 +110,12 @@ class Channel
         seq_num = point_last.seq_num
       end
       return seq_num
+    end
+
+    def update_expression( exp_string )
+      if exp_string =~ /[+-]{1}[0-9]{1,2}/
+        self.update_attributes(:exp_str => exp_string)
+      end
     end
 
   private

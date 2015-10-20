@@ -9,4 +9,11 @@ class Point
   field :channel_id, type: String
 
   belongs_to :channel
+
+  scope :seg, ->(start_time, end_time){ where(:date_int.gte => start_time, :data_int.lte => end_time) }
+
+  def apply_expression
+    channel = self.channel
+    exp_str = channel.exp_str
+  end
 end
