@@ -139,7 +139,7 @@ class Mobile::FrontController < Mobile::ApplicationController
                     temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
                     ret += temp
                   end
-                  # ret = ret.chop
+                  ret = ret.chop
                   ret += "]}"
                   # puts ret
                 else
