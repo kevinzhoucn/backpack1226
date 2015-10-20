@@ -25,6 +25,25 @@ class Mobile::FrontController < Mobile::ApplicationController
     render json: { data: data }
   end
 
+  def test_device
+    result_code = 0
+    user = User.where(:email => '20121020@163.com').first
+    devices = user.devices
+    ret = "{devices:["
+    if devices and devices.length > 0
+      devices.each do |device|
+        temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
+        ret += temp
+      end
+      ret = ret.chop
+      ret += "]}"
+      puts ret
+    else
+      ret = "{devices:[]}"
+    end
+    render json: ret.to_json
+  end
+
   def create_user
     data = params[:data]
     if data.length > 10
@@ -106,13 +125,14 @@ class Mobile::FrontController < Mobile::ApplicationController
                 result_code = 0
                 devices = user.devices
                 ret = "{devices:["
-                if devices and devices.length > 1 
+                if devices and devices.length > 0
                   devices.each do |device|
                     temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
                     ret += temp
                   end
                   ret = ret.chop
                   ret += "]}"
+                  puts ret
                 else
                   ret = "{devices:[]}"
                 end
