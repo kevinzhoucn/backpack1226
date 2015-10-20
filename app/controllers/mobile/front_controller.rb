@@ -35,7 +35,7 @@ class Mobile::FrontController < Mobile::ApplicationController
         temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
         ret += temp
       end
-      ret = ret.chop
+      # ret = ret.chop
       ret += "]}"
       puts ret
     else
@@ -130,9 +130,9 @@ class Mobile::FrontController < Mobile::ApplicationController
                     temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
                     ret += temp
                   end
-                  ret = ret.chop
+                  # ret = ret.chop
                   ret += "]}"
-                  puts ret
+                  # puts ret
                 else
                   ret = "{devices:[]}"
                 end
@@ -149,7 +149,7 @@ class Mobile::FrontController < Mobile::ApplicationController
                       temp = "{id:'" + channel.id + "',channel_id:'" + channel.channel_id.to_s + "',name:'" + channel.channel_name + "',type:'" + channel.channel_type + "',direction:'" + channel.channel_direct + "'},"
                       ret += temp
                     end
-                    ret = ret.chop
+                    # ret = ret.chop
                     ret += "]}"
                   else
                     ret = "{channels:[]}"
