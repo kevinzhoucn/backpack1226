@@ -143,8 +143,7 @@ class Mobile::FrontController < Mobile::ApplicationController
                   end
                   ret = ret.chop
                   ret.concat("]}")
-                  # my_log.info(ret)
-                  puts ret
+                  my_log.info(ret)
                 else
                   ret = "{devices:[]}"
                 end
@@ -214,7 +213,6 @@ class Mobile::FrontController < Mobile::ApplicationController
             result = XXTEA.get_encrypt_str(ret, key)
             my_log.info(result)
             my_log.info(key)
-            # puts result
           end
         end
       else
