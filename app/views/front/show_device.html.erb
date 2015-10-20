@@ -83,7 +83,7 @@
                 </td>
                 <td style="width:200px">
                   <%= link_to '查询', front_cmdquery_get_path(@device, channel), method: :post, class: 'btn btn-info', id: 'btn-get', style: "padding: 3px 6px;" %>
-                  <% if channel.channel_direct == '0' %>
+                  <% if channel.channel_direct == '1' %>
                     <%= link_to '设置', new_cpanel_cmdquery_path(@device, channel), class: 'btn btn-info', style: "padding: 3px 6px;"  %>
                   <% end %>
                   <%= link_to '修改', front_device_edit_channel_path(@device, channel), class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
