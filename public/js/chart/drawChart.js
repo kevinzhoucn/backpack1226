@@ -108,7 +108,7 @@ $(document).ready( function() {
                     series.setData(t_data);
                     frist_query_ready = true;
 
-                    setInterval($.DynamicChart, 5000, chart);
+                    setInterval($.DynamicChart, 2000, chart);
                     return t_data;
                 },
                 error: function(result){

@@ -41,6 +41,15 @@ class Mobile::FrontController < Mobile::ApplicationController
     else
       ret = "{devices:[]}"
     end
+    key = '7e28692d005a1e39'
+    encrypt_ret  = XXTEA.get_encrypt_str(ret.to_s, key)
+
+    point = Point.first
+    origin_value = point.value
+    point_value = point.apply_expression
+
+    ret = { ret: ret, encrypt_ret: encrypt_ret, origin_value: origin_value, point_value: point_value } 
+
     render json: ret.to_json
   end
 
