@@ -125,7 +125,7 @@ class Mobile::FrontController < Mobile::ApplicationController
           raw_hash = get_params(raw_data)
           query_type = raw_hash['type']
           username = raw_hash['username']
-          # my_log = Logger.new("/home/projects/log/prod_01.log")
+          my_log = Logger.new("/home/projects/log/prod_01.log")
           if username == user.email
             if query_type
               if query_type == 'device_key'
@@ -144,7 +144,7 @@ class Mobile::FrontController < Mobile::ApplicationController
                   ret = ret.chop
                   ret.concat("]}")
                   # my_log.info(ret)
-                  # puts ret
+                  puts ret
                 else
                   ret = "{devices:[]}"
                 end
@@ -211,8 +211,9 @@ class Mobile::FrontController < Mobile::ApplicationController
                 end
               end
             end
-            result = XXTEA.get_encrypt_str(ret.to_s, key)
-            # my_log.info(result)
+            result = XXTEA.get_encrypt_str(ret, key)
+            my_log.info(result)
+            my_log.info(key)
             # puts result
           end
         end
@@ -222,7 +223,9 @@ class Mobile::FrontController < Mobile::ApplicationController
     rescue
       result = 'Error!'
     end
-    render json: {result: result_code, data: result}
+    return_result = {result: result_code, data: result}
+    my_log.info(return_result.to_json)
+    render json: return_result.to_json
   end
 
   def create_device
