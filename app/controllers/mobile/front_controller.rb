@@ -25,33 +25,33 @@ class Mobile::FrontController < Mobile::ApplicationController
     render json: { data: data }
   end
 
-  def test_device
-    result_code = 0
-    user = User.where(:email => '20121020@163.com').first
-    devices = user.devices
-    ret = "{devices:["
-    if devices and devices.length > 0
-      devices.each do |device|
-        temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
-        ret += temp
-      end
-      # ret = ret.chop
-      ret += "]}"
-      puts ret
-    else
-      ret = "{devices:[]}"
-    end
-    key = '7e28692d005a1e39'
-    encrypt_ret  = XXTEA.get_encrypt_str(ret.to_s, key)
+  # def test_device
+  #   result_code = 0
+  #   user = User.where(:email => '20121020@163.com').first
+  #   devices = user.devices
+  #   ret = "{devices:["
+  #   if devices and devices.length > 0
+  #     devices.each do |device|
+  #       temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
+  #       ret += temp
+  #     end
+  #     # ret = ret.chop
+  #     ret += "]}"
+  #     puts ret
+  #   else
+  #     ret = "{devices:[]}"
+  #   end
+  #   key = '7e28692d005a1e39'
+  #   encrypt_ret  = XXTEA.get_encrypt_str(ret.to_s, key)
 
-    point = Point.first
-    origin_value = point.value
-    point_value = point.apply_expression
+  #   point = Point.first
+  #   origin_value = point.value
+  #   point_value = point.apply_expression
 
-    ret = { ret: ret, encrypt_ret: encrypt_ret, origin_value: origin_value, point_value: point_value } 
+  #   ret = { ret: ret, encrypt_ret: encrypt_ret, origin_value: origin_value, point_value: point_value } 
 
-    render json: ret.to_json
-  end
+  #   render json: ret.to_json
+  # end
 
   def create_user
     data = params[:data]
@@ -134,7 +134,7 @@ class Mobile::FrontController < Mobile::ApplicationController
                 result_code = 0
                 devices = user.devices
                 ret = "{devices:["
-                if devices and devices.length > 0
+                if devices and devices.count > 0 
                   devices.each do |device|
                     temp = "{id:'" + device.id + "',dev_id:'" + device.device_id + "',name:'" + device.device_name + "',description:'" + device.device_description + "',created_date:'" + device.created_at.to_s + "'},"
                     ret += temp
