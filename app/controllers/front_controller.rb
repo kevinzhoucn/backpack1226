@@ -1,6 +1,7 @@
 class FrontController < ApplicationController
   before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]
   layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device, :show_channel_chart]
+  layout :false, :only => [:index]
 
   before_action :set_device, only: [:show_channel_chart]
   before_action :set_channel, only: [:get_channel_data, :show_channel_chart]
