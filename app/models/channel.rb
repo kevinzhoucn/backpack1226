@@ -59,12 +59,12 @@ class Channel
 
     def get_last_cmdquery
       retValue = ''
-      cmd = self.cmdqueries.last
+      cmd = self.cmdqueries.first
 
       if cmd
-        retValue = get_command
+        retValue = cmd.get_command
       end
-      return retValue;
+      return retValue
     end
 
     def get_seq_cmdqueries_datapoints(seq_num)
