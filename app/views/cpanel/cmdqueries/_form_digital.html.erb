@@ -11,7 +11,7 @@
   <p id="result-message" class="text-center">向设备发送 0 或 1</p>
   <script type="text/javascript">
     $(document).ready(function(){
-      var init_time = 10;
+      var init_time = 6;
       var init_message = '向设备发送 0 或 1';
       var t_time = init_time;
 
@@ -45,6 +45,7 @@
             // var retJson = result;
             console.log(retJson);
             var suc = retJson['code'];
+            console.log(suc);
             var value = retJson['cmd']['value'];
             var create_at = retJson['cmd']['create_at'];
             if( suc == 'true' ) {
@@ -52,7 +53,6 @@
               $("p#result-message").append('<span class="label label-success">成功</span>');
 
               $("tbody#cmd_history_body").prepend( addSuccessElement(value, create_at) );
-
             } else {
               $("p#result-message").text('');
               $("p#result-message").append('<span class="label label-danger">失败</span>');

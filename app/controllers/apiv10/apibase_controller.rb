@@ -32,8 +32,8 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       cmdstatus = @device.cmdquerystatuses.first
       if cmdstatus and cmdstatus.seq_num
         random_server_code = cmdstatus.seq_num + 1
+        cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
       end
-      cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
     end
 
     @ret_str << "," + @random_str.to_s + "," + random_server_code.to_s if @user
@@ -59,16 +59,18 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     device_id = params[:id]
     device = Device.find(device_id)
     statuscode = false
-    if device and device.cmdquerystatuses.last
-      statuscode = device.cmdquerystatuses.last.status
+    if device and device.cmdquerystatuses.first
+      statuscode = device.cmdquerystatuses.first.status
     end
 
-    retJson << '{ "code": "' + statuscode.to_s + '"'
+    # retJson << '{ "code": "' + statuscode.to_s + '"'
 
     channel_id = params[:cid]
     channel = Channel.find(channel_id)
     if channel and channel.cmdqueries.first
       cmdquery = channel.cmdqueries.first
+      statuscode = channel.cmdqueries.first.status
+      retJson << '{ "code": "' + statuscode.to_s + '"'
       retJson << ', "cmd" : { "value": "' + cmdquery.value + '", "create_at" : "' + cmdquery.created_at.strftime('%F %T').to_s + '" }'
     end
 
