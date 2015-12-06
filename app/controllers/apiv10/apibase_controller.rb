@@ -47,7 +47,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       @ret_str << @device.get_last_cmdqueries
     end     
 
-    @ret_str << "," + @random_str.to_s
+    @ret_str << "," + @random_str.to_s + "," + "1234"
 
     ret_encrypt_str = XXTEA.get_encrypt_str(@ret_str, @raw_key)
     render text: "result:" + ret_encrypt_str
