@@ -6,7 +6,7 @@
     <%= render partial: 'front/common/nav_left_device_summary_simple' %>
 
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h1 class="page-header">实时数据</h1>
+      <h1 class="page-header">历史数据</h1>
 
       <div class="row main">
           <span>切换通道</span>
@@ -34,11 +34,7 @@
       <hr>
       <div class="row placeholders">
         <div class="col-sm-5">
-          <% if @channel.channel_type != '2' %>
-            <%= render partial: 'front/common/chart02' %>
-          <% else %>
-            <%= render partial: 'front/common/text' %>
-          <% end %>
+          <%= render partial: 'front/common/chart_full' %>
         </div>
       </div>
       <hr>

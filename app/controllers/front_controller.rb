@@ -1,10 +1,10 @@
 class FrontController < ApplicationController
   before_filter :authenticate_user!, :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device]  
   layout :false, :only => [:index]
-  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device, :show_channel_chart]
+  layout 'appprofile', :only => [:profile, :new_device, :new_channel, :show_chart, :show_device, :edit_channel, :edit_device, :show_channel_chart, :show_channel_fullchart]
 
-  before_action :set_device, only: [:show_channel_chart]
-  before_action :set_channel, only: [:get_channel_data, :show_channel_chart]
+  before_action :set_device, only: [:show_channel_chart, :show_channel_fullchart]
+  before_action :set_channel, only: [:get_channel_data, :show_channel_chart, :show_channel_fullchart]
 
   def index
   end
@@ -96,7 +96,9 @@ class FrontController < ApplicationController
   end
 
   def show_channel_chart
-    @channels = Channel.where(:device_id => @device.id)
+    # 2015-11-30 modify channel to devicechannel
+    # @channels = Channel.where(:device_id => @device.id)
+    @channels = Devicechannel.where(:device_id => @device.id)
     if @channel
       # @data_points = @channel.data_points.to_s.split("||").map {|item| item.split('-')[0].to_i}
       @data_points = data_filter(@channel.data_points.to_s)
@@ -107,6 +109,15 @@ class FrontController < ApplicationController
     else
       @data_points = []
     end 
+  end
+
+  def show_channel_fullchart
+    @channels = Devicechannel.where(:device_id => @device.id)
+    if @channel
+      @datapoints = @channel.get_data_points
+    else
+      @data_points = []
+    end
   end
   
   # 08-24 modfiy

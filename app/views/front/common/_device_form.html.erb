@@ -2,6 +2,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.association :dmodel, label: "物联网模块", collection: Dmodel.all, prompt: "请选择..." %>
     <%= f.input :device_id, label: "设备ID" %>
     <%= f.input :device_name, label: "设备名称" %>
     <%= f.input :device_description, label: "设备描述" %>

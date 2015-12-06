@@ -1,0 +1,22 @@
+<div class="col-sm-3 col-md-2 sidebar">
+  <h2 class="sub-header">设备详情</h2>
+  <span class="hide" id="device"><%= @channel.id %></span>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <!-- 10位随机字符数字字母组合 -->
+        <td>设备ID:</td>
+      </tr>
+      <tr>
+        <!-- 10位随机字符数字字母组合 -->
+        <td><%= @channel.devicechannel.name %></td>
+      </tr>
+      <tr>
+        <td>设备名称:</td>
+      </tr>
+      <tr>
+        <td><%= @channel.devicechannel.dchannel.dgroup %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

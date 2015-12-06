@@ -10,16 +10,18 @@ class Cmdquery
   field :send_flag, type: String
   field :send_request_flag, type: String
   field :seq_num, type: Integer
+  field :status, type: Boolean, default: false
 
   belongs_to :device
   belongs_to :channel
 
-  before_create :set_params
+  # before_create :set_params
   # before_create :number_to_16
   # before_create :set_default_send_flag
 
   scope :wait_for_send, -> { where( send_flag: 'N') }
   scope :wait_for_request, -> { where( send_request_flag: 'Y') }
+  default_scope -> { desc(:created_at) }
 
   public
     def get_command
@@ -30,6 +32,10 @@ class Cmdquery
       self.channel_user_id + "-?"
     end
 
+    def update_status( seq_num )
+      self.update_attributes( :seq_num => seq_num, :status => true )
+    end
+
   private 
     def set_params
       number_to_16
@@ -38,7 +44,7 @@ class Cmdquery
 
     def number_to_16
       channel = Channel.find(self.channel_id)
-      if channel.channel_type == "3"
+      if channel and channel.channel_type == "3"
         # self.value = self.value.strip.gsub(' ', 'H') + "H"
         self.value = self.value.strip.gsub(' ', '')
       end

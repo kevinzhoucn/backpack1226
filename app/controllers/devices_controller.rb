@@ -166,6 +166,6 @@ class DevicesController < ApplicationController
 
     def device_params2
       #params.require(:device).permit(:device_id, :device_name, :device_description, :device_model_id, :device_model_key, :device_model_name, :device_model_description, :device_location_local, :device_location_latitude, :device_location_longitude, :device_uid)
-      params.require(:device).permit(:device_id, :device_name, :device_description)
+      params.require(:device).permit(:dmodel_id, :device_id, :device_name, :device_description)
     end
 end

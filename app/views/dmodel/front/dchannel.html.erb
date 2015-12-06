@@ -1,0 +1,146 @@
+<%= render partial: 'front/common/nav_bar' %>
+
+<div class="container-fluid">
+  <div class="row">
+    <%= render partial: 'front/common/nav_left_device_summary' %>
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+      <a class="hide" href="#">隐藏全部</a>
+    </div>    
+
+    <%= render partial: 'dmodel/common/dchannel_list', :locals => { :channels => @di_channels, :link_class => 'dinput' } %> 
+    <%= render partial: 'dmodel/common/dchannel_list', :locals => { :channels => @do_channels, :link_class => 'doutput' } %> 
+    <%= render partial: 'dmodel/common/dchannel_list', :locals => { :channels => @ai_channels, :link_class => 'ainput' } %> 
+    <%= render partial: 'dmodel/common/dchannel_list', :locals => { :channels => @ao_channels, :link_class => 'aouput' } %> 
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $(".hideall").click(function(){
+        var txtStr = $(".hide01").text();
+        if ( txtStr == '隐藏全部'  ) {
+          $(".hideall").text('显示全部');
+          $(".channel-select").hide();
+        } else {
+          $(".hideall").text('隐藏全部');
+          $(".channel-select").show();
+        }
+        
+      });
+
+      $(".dinput").click(function(){
+        event.preventDefault();
+        var txtStr = $(".dinput").text();
+        if ( txtStr == '隐藏'  ) {
+          $(".dinput").text('展开');
+          $(".dinput_table").removeClass("hide");
+          $(".dinput_table").addClass("hide");
+        } else {
+          $(".dinput").text('隐藏');
+          $(".dinput_table").removeClass("hide");
+        }
+      });
+
+      $(".doutput").click(function(){
+        event.preventDefault();
+        var txtStr = $(".doutput").text();
+        if ( txtStr == '隐藏'  ) {
+          $(".doutput").text('展开');
+          $(".doutput_table").removeClass("hide");
+          $(".doutput_table").addClass("hide");
+        } else {
+          $(".doutput").text('隐藏');
+          $(".doutput_table").removeClass("hide");
+        }
+      });
+
+      $(".ainput").click(function(){
+        event.preventDefault();
+        var txtStr = $(".ainput").text();
+        if ( txtStr == '隐藏'  ) {
+          $(".ainput").text('展开');
+          $(".ainput_table").removeClass("hide");
+          $(".ainput_table").addClass("hide");
+        } else {
+          $(".ainput").text('隐藏');
+          $(".ainput_table").removeClass("hide");
+        }
+      });
+      
+      $(".aouput").click(function(){
+        event.preventDefault();
+        var txtStr = $(".aouput").text();
+        if ( txtStr == '隐藏'  ) {
+          $(".aouput").text('展开');
+          $(".aouput_table").removeClass("hide");
+          $(".aouput_table").addClass("hide");
+        } else {
+          $(".aouput").text('隐藏');
+          $(".aouput_table").removeClass("hide");
+        }
+      });
+
+      $(".edit_channel_name").click( function() {
+        event.preventDefault();
+        $(this).prev("input").removeAttr("disabled");
+        $(this).next("a").removeClass("hide");
+      });
+
+      $(".finish_channel_name").click( function() {
+        event.preventDefault();
+        $(this).prev().prev("input").attr("disabled","disabled");
+        $(this).removeClass("hide");
+        $(this).addClass("hide");
+      });
+
+      $("a.channel_save").click( function() {
+        event.preventDefault();
+        var data = "";
+        var device = $("span#device").text();
+        var $table = $(this).next("table");
+        var $channels = $table.find(".channel_item");
+
+        var retData = [];
+
+        $.each( $channels, function(i, item) { 
+          var id = item.getAttribute("data-id");
+          // var $enable = $(item).find('input[type="radio"]');
+          // alert( $enable.prop('checked') );
+          var c_enable = $(item).find('input[type="checkbox"]').prop('checked');
+          var c_name = $(item).find("input.c_name").val();
+          // var c_unit = $(item).find("input.c_unit").val();
+
+          retData.push( { 'id' : id, "name" : c_name, "enable" : c_enable } );
+        } )
+        
+        $.UpdateChannels(retData);
+      });
+
+      $.extend({
+        UpdateChannels : function(data) {
+          var device = $("span#device").text();
+          var url = "/user/dmodel/updatechannel";
+
+          var channels = "";
+          var series = "";
+
+          $.ajax({
+              type: 'POST',
+              url: url,
+              data: { "device" : device, "channels" : data },
+              // data: { "device" : device },
+              success: function(result){
+                  console.log(result)
+                  // var t_data = result[1];
+                  // console.log(t_data)
+                  alert(result)
+                  return result;
+              },
+              error: function(result){
+                console.log("Error: " + result);
+              }
+          });
+        }
+      }); 
+    });
+  </script>
+</div>

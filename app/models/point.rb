@@ -7,8 +7,11 @@ class Point
   field :date_int, type: String
   field :seq_num, type: Integer
   field :channel_id, type: String
+  field :devicechannel_id, type: String
 
   belongs_to :channel
+
+  belongs_to :devicechannel
 
   scope :seg, ->(start_time, end_time){ where(:date_int.gte => start_time, :data_int.lte => end_time) }
 

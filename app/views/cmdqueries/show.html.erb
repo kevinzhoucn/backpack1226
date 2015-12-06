@@ -1,6 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <%= Cmdquery.where(:device_id => @cmdquery.device_id).count %> 
+</p>
+
+<p>
   <strong>Device:</strong>
   <%= @cmdquery.device_id %>
 </p>

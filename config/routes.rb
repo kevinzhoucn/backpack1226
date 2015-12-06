@@ -1,12 +1,8 @@
 Rails40Starter::Application.routes.draw do
   resources :points
-
   resources :cmdqueries
-
   resources :channels
-
   resources :devices
-
   resources :groups
 
   namespace :cpanel do
@@ -25,18 +21,30 @@ Rails40Starter::Application.routes.draw do
     get '/device/:id/edit' => 'front#edit_device', as: :front_edit_device
     get '/device/:id/charts' => 'front#show_chart', as: :front_device_chart
     get '/device/:id/channel/:cid/chart' => 'front#show_channel_chart', as: :front_device_channel_chart
-
+    get '/device/:id/channel/:cid/fullchart' => 'front#show_channel_fullchart', as: :front_device_channel_fullchart
+    
     get '/device/:device_id/channel/new' => 'front#new_channel', as: :front_device_new_channel
     get '/device/:device_id/channel/:channel_id/edit' => 'front#edit_channel', as: :front_device_edit_channel
     post '/device/:device_id/channel/:channel_id/get_cmdquery' => 'front#get_cmdquery', as: :front_cmdquery_get
+
+    # scope '/device', module: 'dmodel' do
+    namespace :dmodel do
+      get '/:id/dchannel' => 'front#dchannel', as: :device_dchannel_set
+      post '/updatechannel' => 'front#editchannel', as: :device_dchannel_edit
+      get '/getchannel' => 'front#getChannel', as: :devices_channel_get
+      get '/:id/channels' => 'front#enabledchannel', as: :device_channels_show
+    end
+
   end
 
   scope '/user', module: 'cpanel' do
     get '/' => 'front#index'
     #resources :cmdqueries, only: [:new, :create]
-    get '/device/:id/:cid/cmdqueries/new' => 'cmdqueries#new', as: :new_cpanel_cmdquery
+    # get '/device/:id/:cid/cmdqueries/new' => 'cmdqueries#new', as: :new_cpanel_cmdquery
+    get '/device/:id/:cid/cmdqueries/set' => 'cmdqueries#set', as: :set_cpanel_cmdquery
     post '/cmdqueries' => 'cmdqueries#create', as: :cpanel_cmdqueries
     get '/cmdqueries/index' => 'cmdqueries#index'
+    post '/cmdqueries/set_create' => 'cmdqueries#set_create', as: :create_cpanel_cmdquery
   end
 
   get '/info' => 'front#get_info'
@@ -61,6 +69,8 @@ Rails40Starter::Application.routes.draw do
     get 'datetime' => 'apibase#datetime', as: :apibase_datetime
     get 'send' => 'apibase#receive_data', as: :apibase_receive_data
     # post 'cmdquery_get' => 'apibase#cmdquery_get', as: :apibase_cmdquery_get
+    get 'cmdcheck/:id/:cid' => 'apibase#cmdsuccess', as: :apibase_cmdcheck
+    get 'GetOutValue' => 'apibase#getoutvalue', as: :apibase_getoutvalue
   end
 
   scope 'sdk', module: 'apiv10' do

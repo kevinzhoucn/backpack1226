@@ -20,6 +20,38 @@ class Cpanel::CmdqueriesController < Cpanel::ApplicationController
     respond_with(@cpanel_cmdquery)
   end
 
+  def set
+    device_id = params[:id]
+    @device = Device.find(device_id)
+    @channel = Channel.find(params[:cid])
+
+    # @cmdqueries = Cmdquery.where( :device_id => @device.id )
+    # @cmdqueries = Cmdquery.where( :device_id => device_id )
+    # @cmdqueries = Cmdquery.where( device_id: params[:id], channel_id: params[:cid] )
+    # @cmdqueries = Cmdquery.where( channel_id: params[:cid] )
+    # @cmdqueries = Cmdquery.all
+  end
+
+  def set_create
+    # @cpanel_cmdquery = Cmdquery.new(cmdquery_params)
+    cmdquery = Cmdquery.new
+
+    device_id = cmdquery_params[:device_id].gsub(/\s+/, "")
+    channel_id = cmdquery_params[:channel_id].gsub(/\s+/, "")
+    channel_user_id = cmdquery_params[:channel_user_id].gsub(/\s+/, "")
+    # value = cmdquery_params[:value].gsub(/\s+/, "")
+    value = cmdquery_params[:value]
+
+    cmdquery.device_id = device_id
+    cmdquery.channel_id = channel_id
+    cmdquery.channel_user_id = channel_user_id
+    cmdquery.value = value
+    cmdquery.send_flag = 'N'
+    cmdquery.save
+
+    render text: cmdquery.id
+  end
+
   def edit
   end
 

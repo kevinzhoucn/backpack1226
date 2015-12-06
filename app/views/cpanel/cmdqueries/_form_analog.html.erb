@@ -1,0 +1,55 @@
+<div class="">
+  <span id="device_id" class="hide"> <%= @device.id %> </span>
+  <span id="device_device_id" class="hide"> <%= @device.device_id %> </span>
+  <span id="channel_id" class="hide"> <%= @channel.id %> </span>
+  <span id="channel_channel_id" class="hide"> <%= @channel.channel_id %> </span>
+
+  <p>
+    <span>请输入:</span>
+    <input id="analog" name="analog" value="" class="form-control" style="width:150px;display:inline"/>
+    <button id="btn-cmd" class="btn btn-primary">设置</button>
+  </p>
+  <p class="text-center analog_p" style="display:block;height:20px">
+    输出值
+    <span class="analog_value"></span>
+  </p>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("button#btn-cmd").click(function(){
+        event.preventDefault();
+        var command = $('input#analog').val();
+        var device_id = jQuery.trim(  $('span#device_id').text() );
+        var device_device_id = jQuery.trim( $('span#device_device_id').text() );
+        var channel_id = jQuery.trim( $('span#channel_id').text() );
+        var channel_channel_id = jQuery.trim( $('span#channel_channel_id').text() );
+
+        var json_data = { "cmdquery" : { "device_id" : device_id, "device_user_id" : device_device_id, "channel_id" : channel_id, "channel_user_id" : channel_channel_id, "value" : command } };
+
+        // console.log(json_data);
+
+        var url = "<%= create_cpanel_cmdquery_path %>";
+
+        $.ajax({
+              type: 'POST',
+              url: url,
+              data: json_data,
+              success: function(result){
+                  console.log(result)
+                  // var t_data = result[1];
+                  // console.log(t_data)
+                  // alert(result)
+                  return result;
+              },
+              error: function(result){
+                console.log("Error: " + result);
+              }
+          });
+      });
+    });
+  </script>
+</div>
+
+<hr>
+
+<%= render 'cmdquery_history' %>

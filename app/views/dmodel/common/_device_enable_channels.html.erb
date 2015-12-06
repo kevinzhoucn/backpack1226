@@ -1,0 +1,30 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+  <%= link_to "通道设置", dmodel_device_dchannel_set_path(@device), class: "btn btn-primary" %>
+  <h2>启用通道信息</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>通道ID</th>
+        <th>通道名</th>
+        <th>通道类型</th>
+        <th>创建日期</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @channels.each do |channel| %>
+        <tr>
+          <td><%= channel.dchannel.show_id %></td>
+          <td><%= channel.name %></td>
+          <td><%= channel.dchannel.dgroup %></td>
+          <td><%= channel.created_at.strftime("%Y-%m-%d") %></td>
+          <% if channel.dchannel.isinput? %>
+            <td><%= link_to '查看', front_device_channel_chart_path(@device, channel.channel) %></td>
+          <% else %>
+            <td><%= link_to '设置', set_cpanel_cmdquery_path(@device, channel.channel) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

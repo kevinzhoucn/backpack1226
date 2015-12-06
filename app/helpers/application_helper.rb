@@ -12,7 +12,7 @@ module ApplicationHelper
     @content = ""
     if controller_name == "front" and action_name == "show_channel_chart"
       @content = content_tag('script', nil, { src: '/js/libs/charts/highstock.js'}, false)
-      @content << content_tag('script', nil, { src: '/js/chart/drawChart.js'}, false)
+      @content << content_tag('script', nil, { src: '/js/chart/drawChartv2.js'}, false)
     end
 
     if controller_name == "apibase" and action_name == "xxtea"

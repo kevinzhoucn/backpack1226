@@ -18,6 +18,7 @@ class TEAUTIL
         if w then v[v.size] = n end  
         return v
       end
+      
     public
       def get_date_array(str)
         date_array = []

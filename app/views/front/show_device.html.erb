@@ -2,46 +2,11 @@
 
 <div class="container-fluid">
   <div class="row">
-    <%= render partial: 'front/common/nav_left_bar' %>
+    <%= render partial: 'front/common/nav_left_device_summary' %>
     
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h2 class="sub-header">设备详情</h2>
-      <p>
-        <%= link_to "创建新设备", front_new_device_path, class: "btn btn-primary btn-sm" %>
-        <%= link_to "编辑此设备", front_edit_device_path(@device), class: "btn btn-warning btn-sm" %>
-        <%= link_to "删除此设备", @device, method: :delete, data: { confirm: '删除后数据不可恢复! 确认删除?' }, class: "btn btn-danger btn-sm" %>
-      </p>
-      <div class="row placeholders">
-        <div class="col-sm-6">
-            <table class="table table-striped">
-              <tbody>
-                <tr>
-                  <!-- 10位随机字符数字字母组合 -->
-                  <td>设备ID:</td>
-                  <td><%= @device.device_id %></td>
-                </tr>
-                <tr>
-                  <td>设备名</td>
-                  <td><%= @device.device_name %></td>
-                </tr>
-                <tr>
-                  <td>描述</td>
-                  <td><%= @device.device_description %></td>
-                </tr>
-                <tr>
-                  <td>创建日期</td>
-                  <td>Date</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <%= link_to "创建新通道", front_device_new_channel_path(@device), class: "btn btn-primary" %>
-        <%= link_to "查看通道图形", front_device_chart_path(@device), class: "btn btn-info" %>
+        <%= link_to "通道设置", dmodel_device_dchannel_set_path(@device), class: "btn btn-primary" %>
+        <h2>启用通道信息</h2>
         <table class="table table-striped">
           <thead>
             <tr>

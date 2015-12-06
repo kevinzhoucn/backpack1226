@@ -37,12 +37,15 @@
           <tbody>
             <% @devices.each do |device| %>
               <tr>
-                <td><%= link_to device.device_id, front_show_device_path(device), title: '查看详情' %></td>
+                <td>
+                  <%#= link_to device.device_id, front_show_device_path(device), title: '查看详情' %>
+                  <%= link_to device.device_id, dmodel_device_channels_show_path(device), title: '查看详情' %>
+                </td>
                 <td><%= device.device_name %></td>
                 <td><%= device.device_description %></td>
-                <td><%= device.created_at %></td>
+                <td><%= device.created_at.strftime('%F %T') %></td>
                 <td style="width:150px">
-                  <%= link_to '查看', front_show_device_path(device), class: 'btn btn-primary', style: "padding: 3px 6px;" %>
+                  <%= link_to '查看', dmodel_device_channels_show_path(device), class: 'btn btn-primary', style: "padding: 3px 6px;" %>
                   <%= link_to '修改', front_edit_device_path(device), class: 'btn btn-warning', style: "padding: 3px 6px;" %>                  
                   <%= link_to '删除', device, method: :delete, data: { confirm: '删除后数据不可恢复! 确认删除?' }, class: 'btn btn-danger', style: "padding: 3px 6px;" %>
                 </td>

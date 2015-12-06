@@ -1,0 +1,110 @@
+<div class="">
+  <span id="device_id" class="hide"> <%= @device.id %> </span>
+  <span id="device_device_id" class="hide"> <%= @device.device_id %> </span>
+  <span id="channel_id" class="hide"> <%= @channel.id %> </span>
+  <span id="channel_channel_id" class="hide"> <%= @channel.channel_id %> </span>
+
+  <p>
+    <button class="btn btn-primary" id="btn-cmd" style="width:100px;height:60px;margin:20px">0</button>
+    <button class="btn btn-warning" id="btn-cmd" style="width:100px;height:60px;margin:20px">1</button>
+  </p>
+  <p id="result-message" class="text-center">向设备发送 0 或 1</p>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var init_time = 10;
+      var init_message = '向设备发送 0 或 1';
+      var t_time = init_time;
+
+      var res_message = '已发送, 等待设备回应 ' + t_time + 's';
+
+      function tip() {
+        t_time--;
+        $("p#result-message").text('已发送, 等待设备回应 ' + t_time + 's');
+      }
+
+      function addSuccessElement(value, create_at) {
+        return '<tr class="success"><td>成功</td><td>' + value + '</td><td>' + create_at + '</td></tr>';
+      }
+
+      function addFailedElement(value, create_at) {
+        return '<tr class="danger"><td>失败</td><td>' + value + '</td><td>' + create_at + '</td></tr>';
+      }
+
+      function reset() {
+        t_time = init_time;
+        $("p#result-message").text(init_message);
+        $("button#btn-cmd").removeClass("disabled");
+        url = "<%= apibase_cmdcheck_path( @device.id, @channel.id ) %>";
+        console.log(url);
+        $.ajax({
+          type: 'GET',
+          url: url,
+          data: [],
+          success: function(result){
+            var retJson = jQuery.parseJSON(result);
+            // var retJson = result;
+            console.log(retJson);
+            var suc = retJson['code'];
+            var value = retJson['cmd']['value'];
+            var create_at = retJson['cmd']['create_at'];
+            if( suc == 'true' ) {
+              $("p#result-message").text('');
+              $("p#result-message").append('<span class="label label-success">成功</span>');
+
+              $("tbody#cmd_history_body").prepend( addSuccessElement(value, create_at) );
+
+            } else {
+              $("p#result-message").text('');
+              $("p#result-message").append('<span class="label label-danger">失败</span>');
+              $("tbody#cmd_history_body").prepend( addFailedElement(value, create_at) );
+            }
+          },
+          error: function(result){
+            console.log("Error: " + result);
+          }
+        });
+      }
+
+      $("button#btn-cmd").click(function(){
+        event.preventDefault();
+        var command = jQuery.trim( $(this).text() );
+        var device_id = jQuery.trim(  $('span#device_id').text() );
+        var device_device_id = jQuery.trim( $('span#device_device_id').text() );
+        var channel_id = jQuery.trim( $('span#channel_id').text() );
+        var channel_channel_id = jQuery.trim( $('span#channel_channel_id').text() );
+
+        var json_data = { "cmdquery" : { "device_id" : device_id, "device_user_id" : device_device_id, "channel_id" : channel_id, "channel_user_id" : channel_channel_id, "value" : command } };
+
+        // console.log(json_data);
+
+        var url = "<%= create_cpanel_cmdquery_path %>";
+
+        $.ajax({
+          type: 'POST',
+          url: url,
+          data: json_data,
+          success: function(result){
+              console.log(result);
+              // var t_data = result[1];
+              // console.log(t_data)
+              // alert(result)
+              $("p#result-message").text(res_message);
+              $("button#btn-cmd").addClass("disabled");
+
+              var h = setInterval( tip, 1000 );
+              setTimeout( function() { clearInterval(h); reset(); }, init_time * 1000)
+
+              return result;
+          },
+          error: function(result){
+            console.log("Error: " + result);
+          }
+        });
+      });
+    });
+  </script>
+</div>
+
+<hr>
+
+<%= render 'cmdquery_history' %>

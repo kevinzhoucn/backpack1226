@@ -13,10 +13,13 @@ class Channel
   field :exp_str, type: String
 
   field :data_points, type: String
+  field :devicechannel_id, type: String
 
   validates_presence_of :channel_id, :channel_name, :channel_type, :channel_direct, :device_id, :device_user_id
 
   belongs_to :device
+  belongs_to :devicechannel
+
   has_many :cmdqueries
   has_many :points
 
@@ -24,6 +27,14 @@ class Channel
 
   # before_update :setup_device_user_id
   public 
+    def isdoutput?
+      self.devicechannel.dchannel.isdoutput?
+    end
+
+    def isaoutput?
+      self.devicechannel.dchannel.isaoutput?
+    end
+
     def get_cmdquery
       cmd = self.cmdqueries.wait_for_send.last
       if cmd
@@ -46,6 +57,16 @@ class Channel
       end
     end
 
+    def get_last_cmdquery
+      retValue = ''
+      cmd = self.cmdqueries.last
+
+      if cmd
+        retValue = get_command
+      end
+      return retValue;
+    end
+
     def get_seq_cmdqueries_datapoints(seq_num)
       datapoints = []
       datapoints << self.cmdqueries.last.seq_num
@@ -63,7 +84,8 @@ class Channel
     end
 
     def get_seq_points(seq_num)
-      points_num = WEBPAGE_POINTS_NUM ? WEBPAGE_POINTS_NUM : 2000
+      # points_num = WEBPAGE_POINTS_NUM ? WEBPAGE_POINTS_NUM : 500
+      points_num = 500
       datapoints = []
       # datapoints << self.points.last.seq_num
       # if not seq_num or seq_num == "0000"

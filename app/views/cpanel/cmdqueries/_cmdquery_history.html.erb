@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">历史命令</div>
+<!--   <div class="panel-body">
+    记录前100条命令
+  </div> -->
+
+  <!-- Table -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th style="text-align:center">状态</th>
+        <th style="text-align:center">命令</th>
+        <th style="text-align:center">时间</th>
+      </tr>
+    </thead>         
+    <tbody id="cmd_history_body">
+      <% @channel.cmdqueries.limit(20).each do |cmd| %>
+        <% if cmd.status %>
+          <% str_class = 'success' %>
+          <% str_status = '成功' %>
+        <% else %>
+          <% str_class = 'danger' %>
+          <% str_status = '失败' %>
+        <% end -%>
+        <tr class="<%= str_class -%>">
+          <td>
+            <%= str_status %>
+          </td>
+          <td>
+            <%= cmd.value %>
+          </td>
+          <td>
+            <%= cmd.created_at.strftime('%F %T') %>
+          </td>
+        </tr>
+      <% end -%>
+    </tbody>
+  </table>
+</div>

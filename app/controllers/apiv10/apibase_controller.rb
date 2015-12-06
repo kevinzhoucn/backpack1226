@@ -1,10 +1,13 @@
 class Apiv10::ApibaseController < Apiv10::ApplicationController
   # include Apiv10::BaseModel
-  before_action :set_params, only: [:datetime, :cmdquery]
+  before_action :set_params, only: [:datetime, :cmdquery, :getoutvalue]
   layout 'appprofile', only: [:xxtea]
 
   def cmdquery
     cmd_query_items = ""
+    random_server_code = 1000
+    setcmdstatus
+
     if @device
       5.times {
         local_ret_str = ""
@@ -25,17 +28,59 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         end
         sleep(2)
       }
+
+      cmdstatus = @device.cmdquerystatuses.last
+      if cmdstatus and cmdstatus.seq_num
+        random_server_code = cmdstatus.seq_num + 1
+      end
+      cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
     end
-    random_server_code = "1234"
+
     @ret_str << "," + @random_str.to_s + "," + random_server_code.to_s if @user
 
     ret_encrypt_str = XXTEA.get_encrypt_str(@ret_str, @raw_key)
     render text: "result:" + ret_encrypt_str
   end
 
+  def getoutvalue
+    if @device
+      @ret_str << @device.get_last_cmdqueries
+    end     
+
+    @ret_str << "," + @random_str.to_s
+
+    ret_encrypt_str = XXTEA.get_encrypt_str(@ret_str, @raw_key)
+    render text: "result:" + ret_encrypt_str
+  end
+
+  def cmdsuccess
+    retJson = ''
+
+    device_id = params[:id]
+    device = Device.find(device_id)
+    statuscode = false
+    if device and device.cmdquerystatuses.last
+      statuscode = device.cmdquerystatuses.last.status
+    end
+
+    retJson << '{ "code": "' + statuscode.to_s + '"'
+
+    channel_id = params[:cid]
+    channel = Channel.find(channel_id)
+    if channel and channel.cmdqueries.first
+      cmdquery = channel.cmdqueries.first
+      retJson << ', "cmd" : { "value": "' + cmdquery.value + '", "create_at" : "' + cmdquery.created_at.strftime('%F %T').to_s + '" }'
+    end
+
+    retJson << ' }'
+
+    render json: retJson.to_json
+  end
+
   def datetime
-    date_time = DateTime.parse(Time.now.to_s).strftime('%Y%m%dT%H%M%S').to_s    
-    @ret_str = "0," + date_time  if @device
+    # date_time = DateTime.parse(Time.now.to_s).strftime('%Y%m%dT%H%M%S').to_s    
+    date_time = Time.now.to_i * 1000
+    @ret_str = "0," + date_time.to_s  if @device
     @ret_str << "," + @random_str.to_s if @user
 
     ret = XXTEA.get_encrypt_str(@ret_str, @raw_key)
@@ -191,6 +236,14 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         end        
       else
         @ret_str = "1,"
+      end
+    end
+
+    def setcmdstatus
+      cmdstatus = @device.cmdquerystatuses.where( :seq_num => @random_str ).last
+      if cmdstatus
+        cmdstatus.update_attribute( :status => true )
+        @device.update_channels_cmdqueries( @random_str )
       end
     end
 end
