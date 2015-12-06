@@ -55,17 +55,21 @@
 # channel = Channel.find("55fe233455303125c8040000")
 # channel.points.delete_all
 
-# date_int = 1440457472000
-# 3500.times do |x|
-# # 100.times do |x|
-# # 1500.times do |x|
+# channel = Channel.find("565c271d553031b8f8120000")
+# channel.points.delete_all
+
+# # date_int = 1440457472000
+# date_int = Time.now.to_i * 1000 
+# # 3500.times do |x|
+# # # 100.times do |x|
+# # # 1500.times do |x|
 # 100.times do |x|
 #   puts x
 #   value = x + 1
-#   date_int = date_int + ( value * 3000 )
-#   puts date_int
-#   channel.points.create(:value => x, :date_int => date_int, :seq_num => value)
-#   # sleep 1
+#   date_int02 = date_int + ( value * 500 )
+#   puts date_int02
+#   channel.points.create(:value => x, :date_int => date_int02, :seq_num => value)
+#   sleep 1
 # end
 
 # User.all.each do |user|
@@ -104,50 +108,50 @@
 #   channel.points.create(:value => data_value + value, :date_int => date_int, :seq_num => seq_num + value)
 #   sleep 1
 # end
-Dmodel.delete_all
-dmode = Dmodel.create(:name => 'JM100-C', :description => 'JM100-C')
+# Dmodel.delete_all
+# dmode = Dmodel.create(:name => 'JM100-C', :description => 'JM100-C')
 
-Dchannel.delete_all
-16.times do |i|  
-  offset = 0;
-  cid = i + offset;
-  description = name = 'Input' + i.to_s;
-  dmodel_id = dmode.id
-  dgroup = '数字输入'
-  dunit = 'unit'
-  Dchannel.create(:cid => cid, :offset => offset, :name => name, :description => description, :dmodel_id => dmodel_id, :dgroup => dgroup)
-end
+# Dchannel.delete_all
+# 16.times do |i|  
+#   offset = 0;
+#   cid = i + offset;
+#   description = name = 'Input' + i.to_s;
+#   dmodel_id = dmode.id
+#   dgroup = '数字输入'
+#   dunit = 'unit'
+#   Dchannel.create(:cid => cid, :offset => offset, :name => name, :description => description, :dmodel_id => dmodel_id, :dgroup => dgroup)
+# end
 
-16.times do |i|
-  offset = 32;
-  cid = i + offset;
-  description = name = 'Output' + i.to_s;
-  dmodel_id = dmode.id
-  dgroup = '数字输出'
-  dunit = 'unit'
-  Dchannel.create(:cid => cid, :offset => offset, :name => name, :description => description, :dmodel_id => dmodel_id, :dgroup => dgroup)
-end
+# 16.times do |i|
+#   offset = 32;
+#   cid = i + offset;
+#   description = name = 'Output' + i.to_s;
+#   dmodel_id = dmode.id
+#   dgroup = '数字输出'
+#   dunit = 'unit'
+#   Dchannel.create(:cid => cid, :offset => offset, :name => name, :description => description, :dmodel_id => dmodel_id, :dgroup => dgroup)
+# end
 
-16.times do |i|
-  offset = 64;
-  cid = i + offset;
-  description = name = 'A Input' + i.to_s;
-  dmodel_id = dmode.id
-  dgroup = '模拟输入'
-  dunit = 'unit'
-  Dchannel.create(:cid => cid, :offset => offset, :name => name, :description => description, :dmodel_id => dmodel_id, :dgroup => dgroup)
-end
+# 16.times do |i|
+#   offset = 64;
+#   cid = i + offset;
+#   description = name = 'A Input' + i.to_s;
+#   dmodel_id = dmode.id
+#   dgroup = '模拟输入'
+#   dunit = 'unit'
+#   Dchannel.create(:cid => cid, :offset => offset, :name => name, :description => description, :dmodel_id => dmodel_id, :dgroup => dgroup)
+# end
 
-16.times do |i|
-  offset = 96;
-  cid = i + offset;
-  description = name = 'A Onput' + i.to_s;
-  dmodel_id = dmode.id
-  dgroup = '模拟输出'
-  dunit = 'unit'
-  Dchannel.create(:cid => cid, :offset => offset, :name => name, :description => description, :dmodel_id => dmodel_id, :dgroup => dgroup)
-end
+# 16.times do |i|
+#   offset = 96;
+#   cid = i + offset;
+#   description = name = 'A Onput' + i.to_s;
+#   dmodel_id = dmode.id
+#   dgroup = '模拟输出'
+#   dunit = 'unit'
+#   Dchannel.create(:cid => cid, :offset => offset, :name => name, :description => description, :dmodel_id => dmodel_id, :dgroup => dgroup)
+# end
 
-Devicechannel.create(:device_id => '5652cb09553031656c010000', :dchannel_id => '5656b8d75530315c08010000', :name => 'input0', :enable => true)
+# Devicechannel.create(:device_id => '5652cb09553031656c010000', :dchannel_id => '5656b8d75530315c08010000', :name => 'input0', :enable => true)
 
 # Cmdquery.delete_all

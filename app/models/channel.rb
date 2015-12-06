@@ -112,7 +112,8 @@ class Channel
       if data_value.split('-').length > 1
         data = data_value.split('-')[0]
         data_time = data_value.split('-')[1]
-        data_int = TEAUTIL.get_date_seconds(data_time)
+        # data_int = TEAUTIL.get_date_seconds(data_time)
+        data_int = data_time
         point = self.points.build(:value => data, :date_str => data_time, :date_int => data_int)
         if get_last_seq_number != "0000"
           seq_num = self.points.last.seq_num + 1
