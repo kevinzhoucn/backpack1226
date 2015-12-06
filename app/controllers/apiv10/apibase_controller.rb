@@ -29,7 +29,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         sleep(2)
       }
 
-      cmdstatus = @device.cmdquerystatuses.last
+      cmdstatus = @device.cmdquerystatuses.first
       if cmdstatus and cmdstatus.seq_num
         random_server_code = cmdstatus.seq_num + 1
       end
@@ -240,10 +240,14 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     end
 
     def setcmdstatus
-      cmdstatus = @device.cmdquerystatuses.where( :seq_num => @random_str ).last
-      if cmdstatus
-        cmdstatus.update_attribute( :status => true )
-        @device.update_channels_cmdqueries( @random_str )
+      if @data_params and @data_params.has_key?('seq')
+        @seq = @data_params['seq']
+        cmdstatus = @device.cmdquerystatuses.where( :seq_num => @seq ).last
+
+        if cmdstatus
+          cmdstatus.update_attribute( :status => true )
+          @device.update_channels_cmdqueries( @random_str )
+        end
       end
     end
 end
