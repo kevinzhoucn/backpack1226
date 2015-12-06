@@ -245,7 +245,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         cmdstatus = @device.cmdquerystatuses.where( :seq_num => @seq ).first
 
         if cmdstatus
-          cmdstatus.update_attribute( :status => true )
+          cmdstatus.update_attributes( :status => true )
           @device.update_channels_cmdqueries( @random_str )
         end
       end
