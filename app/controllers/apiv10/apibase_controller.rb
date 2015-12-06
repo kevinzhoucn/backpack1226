@@ -242,7 +242,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     def setcmdstatus
       if @data_params and @data_params.has_key?('seq')
         @seq = @data_params['seq']
-        cmdstatus = @device.cmdquerystatuses.where( :seq_num => @seq ).last
+        cmdstatus = @device.cmdquerystatuses.where( :seq_num => @seq ).first
 
         if cmdstatus
           cmdstatus.update_attribute( :status => true )
