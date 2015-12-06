@@ -23,7 +23,7 @@ class Device
   public
     def update_channels_cmdqueries( seq_num )
       self.channels.each do |channel|
-        cmdquery = channel.cmdqueries.last
+        cmdquery = channel.cmdqueries.first
         if cmdquery 
           cmdquery.update_status( seq_num )
         end

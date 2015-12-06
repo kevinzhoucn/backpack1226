@@ -26,7 +26,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           @ret_str << local_ret_str
           break
         end
-        sleep(2)
+        sleep(6)
       }
 
       cmdstatus = @device.cmdquerystatuses.first
@@ -246,7 +246,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
         if cmdstatus
           cmdstatus.update_attributes( :status => true )
-          @device.update_channels_cmdqueries( @random_str )
+          @device.update_channels_cmdqueries( @seq )
         end
       end
     end
