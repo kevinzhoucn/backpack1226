@@ -6,8 +6,8 @@
       <th>Device</th>
       <th>Channel</th>
       <th>Value</th>
-      <th></th>
-      <th></th>
+      <th>Id</th>
+      <th>Created_at</th>
       <th></th>
     </tr>
   </thead>
@@ -18,6 +18,12 @@
         <td><%= cmdquery.device_id %></td>
         <td><%= cmdquery.channel_id %></td>
         <td><%= cmdquery.value %></td>
+
+        <td><%= cmdquery.id %></td>
+        <td><%= cmdquery.created_at %></td>
+        <td><%= cmdquery.seq_num %></td>
+        <td><%= cmdquery.status %></td>
+
         <td><%= link_to 'Show', cmdquery %></td>
         <td><%= link_to 'Edit', edit_cmdquery_path(cmdquery) %></td>
         <td><%= link_to 'Destroy', cmdquery, method: :delete, data: { confirm: 'Are you sure?' } %></td>
