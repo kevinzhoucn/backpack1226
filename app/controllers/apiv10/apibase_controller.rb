@@ -32,8 +32,9 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       cmdstatus = @device.cmdquerystatuses.first
       if cmdstatus and cmdstatus.seq_num
         random_server_code = cmdstatus.seq_num + 1
-        cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
+        # cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
       end
+      cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
     end
 
     @ret_str << "," + @random_str.to_s + "," + random_server_code.to_s if @user
