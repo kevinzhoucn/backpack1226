@@ -54,23 +54,22 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
   end
 
   def cmdsuccess
-    retJson = ''
-
     device_id = params[:id]
     device = Device.find(device_id)
     statuscode = false
-    if device and device.cmdquerystatuses.first
-      statuscode = device.cmdquerystatuses.first.status
-    end
+    retJson = '{ "code" : "' + statuscode.to_s + '"'
+    # if device and device.cmdquerystatuses.first
+    #   statuscode = device.cmdquerystatuses.first.status
+    # end
 
     # retJson << '{ "code": "' + statuscode.to_s + '"'
 
     channel_id = params[:cid]
-    channel = device.channel.find(channel_id)
+    channel = device.channels.find(channel_id)
     if channel and channel.cmdqueries.first
       cmdquery = channel.cmdqueries.first
       statuscode = channel.cmdqueries.first.status
-      retJson << '{ "code": "' + statuscode.to_s + '"'
+      retJson = '{ "code" : "' + statuscode.to_s + '"'
       retJson << ', "cmd" : { "value": "' + cmdquery.value + '", "create_at" : "' + cmdquery.created_at.strftime('%F %T').to_s + '" }'
     end
 
