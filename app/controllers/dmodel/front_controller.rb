@@ -30,6 +30,19 @@ class Dmodel::FrontController < Dmodel::ApplicationController
     render :text => retResult
   end
 
+  def channel_delete_points
+    channel_id = params[:id]
+    channel = Channel.find(channel_id)
+    if channel
+      channel.points.delete_all
+      # render :json => { code: 0, message: 'succeed!'}
+    else
+      # render :json => { code: 1, message: 'channel not exiting!'}
+    end
+
+    redirect_to dmodel_device_dchannel_set_path(channel.device.id)
+  end
+
   def getChannel
     device_id = '5652cb09553031656c010000'
     channels = { "0" => {"id"=>"5656b8d75530315c08010000", "name"=>"Input000", "enable"=>"true"}, "1" => {"id"=>"5656b8d75530315c08020000", "name"=>"Input1", "enable"=>"true"},  \

@@ -66,7 +66,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     # retJson << '{ "code": "' + statuscode.to_s + '"'
 
     channel_id = params[:cid]
-    channel = Channel.find(channel_id)
+    channel = device.channel.find(channel_id)
     if channel and channel.cmdqueries.first
       cmdquery = channel.cmdqueries.first
       statuscode = channel.cmdqueries.first.status

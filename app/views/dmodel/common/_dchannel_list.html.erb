@@ -48,7 +48,12 @@
           </td> -->
           <!-- <td><%#= item.description %></td> -->
           <td>
-            <button class="btn btn-danger btn-sm">删除数据</button>
+            <!-- <button class="btn btn-danger btn-sm">删除数据</button> -->
+            <% if devicechannel %>
+              <%= link_to '删除数据', dmodel_channel_delete_points_path(devicechannel.channel), method: :delete, data: { confirm: '确定删除, 不可恢复?' }, class: 'btn btn-danger btn-sm', style: "padding: 3px 6px;" %>
+            <% else %>
+              <a href="#" disabled class = 'btn btn-danger btn-sm' style = "padding: 3px 6px;">删除数据</a>
+            <% end -%>
           </td>
         </tr> 
       <% end %>

@@ -27,14 +27,15 @@ Rails40Starter::Application.routes.draw do
     get '/device/:device_id/channel/:channel_id/edit' => 'front#edit_channel', as: :front_device_edit_channel
     post '/device/:device_id/channel/:channel_id/get_cmdquery' => 'front#get_cmdquery', as: :front_cmdquery_get
 
+
     # scope '/device', module: 'dmodel' do
     namespace :dmodel do
       get '/:id/dchannel' => 'front#dchannel', as: :device_dchannel_set
       post '/updatechannel' => 'front#editchannel', as: :device_dchannel_edit
       get '/getchannel' => 'front#getChannel', as: :devices_channel_get
       get '/:id/channels' => 'front#enabledchannel', as: :device_channels_show
+      delete '/channel/:id/points' => 'front#channel_delete_points', as: :channel_delete_points
     end
-
   end
 
   scope '/user', module: 'cpanel' do
@@ -54,7 +55,7 @@ Rails40Starter::Application.routes.draw do
   post '/iotdev/v1.0/datapoints' => 'devices#postDatapoint', as: :devices_postDatapoint
 
   get '/iotdev/v1.0/devices/list' => 'devices#index', as: :devices_list
-  #get '/iotdev/v1.0/send' => 'devices#channel', as: :devices_channel
+  # get '/iotdev/v1.0/send' => 'devices#channel', as: :devices_channel
   # get '/iotdev/v1.0/send' => 'channels#send_data', as: :channel_send_data
   # get '/iotdev/v1.0/send' => 'channels#receive_data', as: :channel_send_data
   # get '/iotdev/v1.0/datetime' => 'devices#datetime', as: :devices_datetime
