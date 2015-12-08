@@ -20,7 +20,7 @@
     <tbody>      
       <% channels.each do |item| %>        
         <tr class="<%= link_class %>_channels channel_item" data-id="<%= item.id %>">
-          <% devicechannel = Devicechannel.where( :dchannel_id => item.id ).first %>
+          <% devicechannel = Devicechannel.where( :device_id => @device.id, :dchannel_id => item.id ).first %>
           <td>
             <input type="checkbox" class="<%= link_class %>_checkbox c_enable"
               <% enable_str = false %>

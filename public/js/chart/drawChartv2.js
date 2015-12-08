@@ -51,9 +51,9 @@ $(document).ready( function() {
 
     $.extend({
         GetRealTimeChart : function( chart ) {
-            var seq_num = $("#last_seq").text();
+            // var seq_num = $("#last_seq").text();
             var channel_id = $("#channel_id").text();
-            var url = "/data/getDatapoints/" + channel_id + "?seq=" + seq_num;
+            var url = "/data/getDatapoints/" + channel_id;
             var series = chart.series[0];
 
             $.ajax({
@@ -61,9 +61,9 @@ $(document).ready( function() {
                 url: url,
                 data: [],
                 success: function(result){
-                    var t_seq = result[0];
-                    $("#last_seq").text(t_seq);
-                    var t_data = result[1];
+                    // var t_seq = result[0];
+                    // $("#last_seq").text(t_seq);
+                    var t_data = result[0];
 
                     console.log(t_data);
                     series.setData(t_data);

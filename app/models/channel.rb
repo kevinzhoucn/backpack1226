@@ -85,18 +85,18 @@ class Channel
 
     def get_seq_points(seq_num)
       # points_num = WEBPAGE_POINTS_NUM ? WEBPAGE_POINTS_NUM : 500
-      points_num = 500
+      points_num = 100
       datapoints = []
       # datapoints << self.points.last.seq_num
       # if not seq_num or seq_num == "0000"
       #   datapoints = self.points.desc(:date_int).limit(points_num).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
       # if not seq_num or seq_num == "0000"
       if true
-        datapoints = self.points.desc(:date_int).limit(500).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
+        datapoints = self.points.desc(:date_int).limit(points_num).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i]  }
         datapoints = datapoints.reverse
         # datapoints << self.data_points.to_s
-      else
-        datapoints = self.points.where(:seq_num.gt => seq_num.to_i).asc(:date_int).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i] }
+      # else
+        # datapoints = self.points.where(:seq_num.gt => seq_num.to_i).asc(:date_int).map { | item | [item.date_int.to_i, item.value.sub(/[N]/, '-').to_i] }
       end
       return datapoints
     end

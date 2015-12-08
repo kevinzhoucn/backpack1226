@@ -55,7 +55,7 @@
 # channel = Channel.find("55fe233455303125c8040000")
 # channel.points.delete_all
 
-# channel = Channel.find("565c271d553031b8f8120000")
+# channel = Channel.find("5666718655303132c0020000")
 # channel.points.delete_all
 
 # # date_int = 1440457472000

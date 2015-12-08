@@ -27,9 +27,9 @@ class DevicesController < ApplicationController
 
     if current_user
       @device.user_id = current_user.id
+      @device.save
     end
 
-    @device.save
     redirect_to front_profile_path
     
     # if Device.where(:device_id => @device[:device_name]).exists?

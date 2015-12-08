@@ -125,7 +125,7 @@ class FrontController < ApplicationController
     seq_num = params[:seq]
     data_points = []
     if @channel
-      data_points << @channel.get_last_seq_number
+      # data_points << @channel.get_last_seq_number
       data_list = @channel.get_seq_points (seq_num)
       # data_points << data_filter(data_list)
       data_points << data_list
