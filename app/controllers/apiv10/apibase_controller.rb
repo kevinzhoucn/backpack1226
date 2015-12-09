@@ -1,6 +1,6 @@
 class Apiv10::ApibaseController < Apiv10::ApplicationController
   # include Apiv10::BaseModel
-  before_action :set_params, only: [:datetime, :cmdquery, :getoutvalue]
+  before_action :set_params, only: [:datetime, :cmdquery, :getoutvalue, :devinfo]
   layout 'appprofile', only: [:xxtea]
 
   def cmdquery
@@ -52,6 +52,31 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
     ret_encrypt_str = XXTEA.get_encrypt_str(@ret_str, @raw_key)
     render text: "result:" + ret_encrypt_str
+  end
+
+  def devinfo
+    ret_encrypt_str = ''
+    if @user and @device
+      if !@device.deviceinfo
+        obj = Deviceinfo.build_object( @device.id, @data_params )
+        if obj.save
+          ret_encrypt_str = get_return_string(0)
+        else
+          ret_encrypt_str = get_return_string(1)
+        end
+      else
+        ret_encrypt_str = get_return_string(0)
+      end
+    else
+      ret_encrypt_str = get_return_string(3)
+    end
+    render text: "result:" + ret_encrypt_str
+  end
+
+  def getdevinfo
+    devinfo_list = Deviceinfo.all
+
+    render json: devinfo_list.to_json
   end
 
   def cmdsuccess
@@ -254,5 +279,10 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           # @device.update_channels_cmdqueries( @seq )
         end
       end
+    end
+
+    def get_return_string( code )
+      ret_str = code.to_s + "," + @random_str.to_s
+      return XXTEA.get_encrypt_str(ret_str, @raw_key)
     end
 end

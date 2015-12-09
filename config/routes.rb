@@ -72,6 +72,8 @@ Rails40Starter::Application.routes.draw do
     # post 'cmdquery_get' => 'apibase#cmdquery_get', as: :apibase_cmdquery_get
     get 'cmdcheck/:id/:cid' => 'apibase#cmdsuccess', as: :apibase_cmdcheck
     get 'GetOutValue' => 'apibase#getoutvalue', as: :apibase_getoutvalue
+    get '/devinfo' => 'apibase#devinfo', as: :apibase_devinfo
+    get '/devinfolist' => 'apibase#getdevinfo', as: :apibase_devinfolist
   end
 
   scope 'sdk', module: 'apiv10' do

@@ -25,7 +25,9 @@ Given /^there is User with account email "([^"]*)" and user email "([^"]*)"$/ do
 end
 
 Given /^there is Device with device id "([^"]*)"$/ do |device_id|
-  @dev = FactoryGirl.create(:device, device_id: device_id, user: @user)
+  # @dev = FactoryGirl.create(:device, device_id: device_id, user: @user)
+  dmodel = FactoryGirl.create(:dmodel, name: 'JMC100', description: 'JMC100')
+  @dev = FactoryGirl.create(:device, device_id: device_id, user: @user, dmodel: dmodel, device_name: device_id, device_description: device_id)
   # puts @dev.device_id
   # puts @dev.user.email
 end
@@ -54,6 +56,8 @@ When /^visit the "([^"]*)" path$/ do |path_name|
     query_path = apibase_datetime_path(:user => user_email, :data => query_data)
   when "cmdquery"
     query_path = apibase_cmdquery_path(:user => user_email, :data => query_data)
+  when "devinfo"
+    query_path = apibase_devinfo_path(:user => user_email, :data => query_data)
   end
   puts query_path
   visit query_path
@@ -79,6 +83,8 @@ Then /^the page expect result should be "([^"]*)"$/ do |expect_result|
       express_str << "," + "([0-255]-[[\\d+]|[0-9a-fA-F]]+_?)*"
     when 'cmdquery_get'
       express_str << "," + "([0-255]-\?_?)*"
+    when 'random'
+      express_str << "," + "([a-zA-Z0-9]{16})"
     end
 
     case str_array[2]

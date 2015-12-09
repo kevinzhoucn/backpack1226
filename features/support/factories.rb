@@ -1,6 +1,6 @@
-# require 'factory_girl'
+require 'factory_girl'
 
-# FactoryGirl.define do
+FactoryGirl.define do
 #   # factory :user do |f|
 #   #   f.email 'iot@iot.com'
 #   #   f.password '12345678'    
@@ -10,4 +10,9 @@
 #   #   f.association :user
 #   #   f.device_id 'dev01'
 #   # end
-# end
+
+  factory :dmodel do |f|
+    f.name 'JMC-100'
+    f.description 'JMC-100'
+  end
+end

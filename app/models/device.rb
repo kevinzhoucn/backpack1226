@@ -8,6 +8,7 @@ class Device
   has_many :cmdqueries
   has_many :devicechannels
   has_many :cmdquerystatuses
+  has_one :deviceinfo
 
   field :device_id, type: String
   field :device_name, type: String
