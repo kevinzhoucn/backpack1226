@@ -74,6 +74,7 @@ Rails40Starter::Application.routes.draw do
     get 'GetOutValue' => 'apibase#getoutvalue', as: :apibase_getoutvalue
     get '/devinfo' => 'apibase#devinfo', as: :apibase_devinfo
     get '/devinfolist' => 'apibase#getdevinfo', as: :apibase_devinfolist
+    get '/onlinestatus/:id' => 'apibase#onlinestatus', as: :apibase_onlinestatus
   end
 
   scope 'sdk', module: 'apiv10' do

@@ -1,0 +1,43 @@
+<p>
+  <span id="dev_status" class="label label-info">正在连接...</span>
+  <span id="dev_status_update"></span>
+</p>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var check_seconds = 10000;
+    var timeout = 1200 * 1000;
+
+    function removeclass() {
+      $("span#dev_status").removeClass('label label-success label-info label-danger');
+    }
+
+    function checkstatus(){
+      var url = "<%= apibase_onlinestatus_path( @device.id ) %>"
+      $.ajax({
+        type: 'GET',
+        url: url,
+        data: [],
+        success: function(result){
+          var retJson = jQuery.parseJSON(result);
+          // var retJson = result;
+          console.log(retJson);
+          var suc = retJson['code'];
+          var update = retJson['updated_at'];
+          removeclass();
+          if( suc == 'true' ) {
+            $("span#dev_status").text('在线').addClass('label label-success');
+          } else {
+            $("span#dev_status").text('断开').addClass('label label-danger');
+          }
+          $("span#dev_status_update").text(update).addClass('label label-default');
+        },
+        error: function(result){
+          console.log("Error: " + result);
+        }
+      });
+    }
+
+    var h = setInterval( checkstatus, check_seconds );
+    setTimeout( function() { clearInterval(h); reset(); }, timeout)
+  });
+</script>

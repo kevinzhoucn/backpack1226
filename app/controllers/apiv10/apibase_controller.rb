@@ -26,7 +26,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           @ret_str << local_ret_str
           break
         end
-        sleep(6)
+        sleep(60)
       }
 
       cmdstatus = @device.cmdquerystatuses.first
@@ -84,11 +84,6 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     device = Device.find(device_id)
     statuscode = false
     retJson = '{ "code" : "' + statuscode.to_s + '"'
-    # if device and device.cmdquerystatuses.first
-    #   statuscode = device.cmdquerystatuses.first.status
-    # end
-
-    # retJson << '{ "code": "' + statuscode.to_s + '"'
 
     channel_id = params[:cid]
     channel = device.channels.find(channel_id)
@@ -101,6 +96,20 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
     retJson << ' }'
 
+    render json: retJson.to_json
+  end
+
+  def onlinestatus
+    device_id = params[:id]
+    device = Device.find(device_id)    
+
+    cmdstatus = device.cmdquerystatuses.first
+    cmdstatuscode = false
+    if cmdstatus
+      cmdstatuscode = cmdstatus.status ? cmdstatus.status : false
+    end
+
+    retJson = '{ "code" : "' + cmdstatuscode.to_s + '", "updated_at" : "' + Time.now.strftime('%T')  + '"}'
     render json: retJson.to_json
   end
 
@@ -277,6 +286,8 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         if @cmdstatus
           @cmdstatus.update_attributes( :status => true )
           # @device.update_channels_cmdqueries( @seq )
+        else
+          @device..cmdquerystatuses.create(:seq_num => 1000, :status => true) 
         end
       end
     end
