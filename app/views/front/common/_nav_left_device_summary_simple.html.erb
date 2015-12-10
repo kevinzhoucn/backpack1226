@@ -10,8 +10,7 @@
       <tr>
         <!-- 10位随机字符数字字母组合 -->
         <td>
-          <%= @device.device_id %>
-          <%= link_to "查看", dmodel_device_channels_show_path(@device) %>
+          <%= render 'front/common/nav_left_device_status' %>
         </td>
       </tr>
       <tr>

@@ -1,4 +1,8 @@
 <p>
+  <%= @device.device_id %>
+  <%= link_to "查看", dmodel_device_channels_show_path(@device), class: 'label label-primary' %>
+</p>
+<p>
   <span id="dev_status" class="label label-info">正在连接...</span>
   <span id="dev_status_update"></span>
 </p>
