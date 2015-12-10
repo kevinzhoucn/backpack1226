@@ -2,6 +2,7 @@ $(document).ready( function() {
   // create the chart
   var frist_query_ready = false;
   var data_ready = false;
+  Highcharts.setOptions({ global: { useUTC: false } });  
   var chart = new Highcharts.StockChart({            
     chart: {
       renderTo: 'chart_full_area'
