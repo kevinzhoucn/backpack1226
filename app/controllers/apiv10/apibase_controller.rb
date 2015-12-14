@@ -11,7 +11,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       setcmdstatus
 
       if @device
-        5.times {
+        60.times {
           local_ret_str = ""
           cmd_query_items = @device.get_channels_cmdqueries
           if cmd_query_items.length > 2
@@ -28,7 +28,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             @ret_str << local_ret_str
             break
           end
-          sleep(60)
+          sleep(5)
         }
 
         cmdstatus = @device.cmdquerystatuses.first
@@ -94,7 +94,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     channel = device.channels.find(channel_id)
     if channel and channel.cmdqueries.first
       cmdquery = channel.cmdqueries.first
-      statuscode = channel.cmdqueries.first.status
+      statuscode = cmdquery.status
       retJson = '{ "code" : "' + statuscode.to_s + '"'
       retJson << ', "cmd" : { "value": "' + cmdquery.value + '", "create_at" : "' + cmdquery.created_at.strftime('%F %T').to_s + '" }'
     end
