@@ -6,35 +6,40 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
   def cmdquery
     cmd_query_items = ""
     random_server_code = 1000
-    setcmdstatus
 
-    if @device
-      5.times {
-        local_ret_str = ""
-        cmd_query_items = @device.get_channels_cmdqueries
-        if cmd_query_items.length > 2
-          local_ret_str << cmd_query_items.to_s
-          # break
+    begin
+      setcmdstatus
+
+      if @device
+        5.times {
+          local_ret_str = ""
+          cmd_query_items = @device.get_channels_cmdqueries
+          if cmd_query_items.length > 2
+            local_ret_str << cmd_query_items.to_s
+            # break
+          end
+
+          cmd_request_query_items = @device.get_channels_request_cmdqueries
+          if cmd_request_query_items.length > 2
+            local_ret_str << "_" + cmd_request_query_items.to_s
+          end
+
+          if local_ret_str.length > 2
+            @ret_str << local_ret_str
+            break
+          end
+          sleep(60)
+        }
+
+        cmdstatus = @device.cmdquerystatuses.first
+        if cmdstatus and cmdstatus.seq_num
+          random_server_code = cmdstatus.seq_num + 1
+          # cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
         end
-
-        cmd_request_query_items = @device.get_channels_request_cmdqueries
-        if cmd_request_query_items.length > 2
-          local_ret_str << "_" + cmd_request_query_items.to_s
-        end
-
-        if local_ret_str.length > 2
-          @ret_str << local_ret_str
-          break
-        end
-        sleep(60)
-      }
-
-      cmdstatus = @device.cmdquerystatuses.first
-      if cmdstatus and cmdstatus.seq_num
-        random_server_code = cmdstatus.seq_num + 1
-        # cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
-      end
-      cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
+        cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
+      end      
+    rescue Exception => e
+      @ret_str = "4,"      
     end
 
     @ret_str << "," + @random_str.to_s + "," + random_server_code.to_s if @user
@@ -287,7 +292,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           @cmdstatus.update_attributes( :status => true )
           # @device.update_channels_cmdqueries( @seq )
         else
-          @device..cmdquerystatuses.create(:seq_num => 1000, :status => true) 
+          @device.cmdquerystatuses.create(:seq_num => 1000, :status => true) 
         end
       end
     end
