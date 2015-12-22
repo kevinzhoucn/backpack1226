@@ -11,6 +11,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       setcmdstatus
 
       if @device
+        @device_id.update_online
         60.times {
           local_ret_str = ""
           cmd_query_items = @device.get_channels_cmdqueries
@@ -28,7 +29,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             @ret_str << local_ret_str
             break
           end
-          sleep(5)
+          sleep(2)
         }
 
         cmdstatus = @device.cmdquerystatuses.first
@@ -37,6 +38,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           # cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
         end
         cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
+        @device_id.update_offline
       end      
     rescue Exception => e
       @ret_str = "4,"      
@@ -108,7 +110,8 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     device_id = params[:id]
     device = Device.find(device_id)    
 
-    cmdstatus = device.cmdquerystatuses.first
+    # cmdstatus = device.cmdquerystatuses.first
+    cmdstatus = device.onlinestatus
     cmdstatuscode = false
     if cmdstatus
       cmdstatuscode = cmdstatus.status ? cmdstatus.status : false

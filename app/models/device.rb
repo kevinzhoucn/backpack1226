@@ -16,12 +16,22 @@ class Device
   field :uid, type: String
   field :user_id, type: String
   field :dmodel_id, type: String
+  field :onlinestatus, type: Boolean
 
   validates_presence_of :dmodel_id, :device_id, :device_name, :device_description
 
   scope :recent, -> { desc(:created_at) }
 
   public
+    def update_online
+      self.update_attributes( :onlinestatus => true )
+    end
+    def update_offline
+      self.update_attributes( :onlinestatus => false )
+    end
+    def checkonline?
+      return self.onlinestatus
+    end
     def update_channels_cmdqueries( seq_num )
       self.channels.each do |channel|
         cmdquery = channel.cmdqueries.first
