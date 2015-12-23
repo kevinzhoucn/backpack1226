@@ -114,7 +114,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     cmdstatus = device.onlinestatus
     cmdstatuscode = false
     if cmdstatus
-      cmdstatuscode = cmdstatus.status ? cmdstatus.status : false
+      cmdstatuscode = cmdstatus ? cmdstatus : false
     end
 
     retJson = '{ "code" : "' + cmdstatuscode.to_s + '", "updated_at" : "' + Time.now.strftime('%T')  + '"}'
