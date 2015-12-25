@@ -155,3 +155,7 @@
 # Devicechannel.create(:device_id => '5652cb09553031656c010000', :dchannel_id => '5656b8d75530315c08010000', :name => 'input0', :enable => true)
 
 # Cmdquery.delete_all
+
+
+dmode = Dmodel.first
+dmode.update_attributes(:name => 'JM100-W', :description => 'JM100-W')
