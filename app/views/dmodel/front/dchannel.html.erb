@@ -132,11 +132,13 @@
                   console.log(result)
                   // var t_data = result[1];
                   // console.log(t_data)
-                  alert(result)
+                  // alert(result)
+                  alert('设置成功！');
                   return result;
               },
               error: function(result){
                 console.log("Error: " + result);
+                alert('设置失败！');
               }
           });
         }
