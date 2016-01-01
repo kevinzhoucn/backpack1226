@@ -29,7 +29,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
             @ret_str << local_ret_str
             break
           end
-          sleep(2)
+          sleep(1)
         }
 
         cmdstatus = @device.cmdquerystatuses.first
