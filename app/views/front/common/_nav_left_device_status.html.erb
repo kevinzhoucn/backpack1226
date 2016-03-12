@@ -31,14 +31,14 @@
           var update = retJson['updated_at'];          
           if( suc == 'true' ) {
             // removeclass();
-            $("span#dev_status").text('在线').addClass('label label-success');
+            $("span#dev_status").text('在线').removeClass('label label-success label-info label-danger').addClass('label label-success');
             last_update_time = update;
           } else {
             var last_seconds = parseInt( last_update_time.split(":")[2] );
             var latest_seconds = parseInt( update.split(":")[2] );
             if ( latest_seconds - last_seconds > 5 || latest_seconds - last_seconds < -5 ) {
               // removeclass();
-              $("span#dev_status").text('断开').addClass('label label-danger');
+              $("span#dev_status").text('断开').removeClass('label label-success label-info label-danger').addClass('label label-danger');
             }
           }
           $("span#dev_status_update").text(update).addClass('label label-default');
