@@ -30,14 +30,14 @@
           var suc = retJson['code'];
           var update = retJson['updated_at'];          
           if( suc == 'true' ) {
-            removeclass();
+            // removeclass();
             $("span#dev_status").text('在线').addClass('label label-success');
             last_update_time = update;
           } else {
             var last_seconds = parseInt( last_update_time.split(":")[2] );
             var latest_seconds = parseInt( update.split(":")[2] );
             if ( latest_seconds - last_seconds > 5 || latest_seconds - last_seconds < -5 ) {
-              removeclass();
+              // removeclass();
               $("span#dev_status").text('断开').addClass('label label-danger');
             }
           }
