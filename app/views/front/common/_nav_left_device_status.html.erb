@@ -10,6 +10,7 @@
   $(document).ready(function(){
     var check_seconds = 5000;
     var timeout = 1200 * 1000;
+    var last_update_time = "0:0:0";
 
     function removeclass() {
       $("span#dev_status").removeClass('label label-success label-info label-danger');
@@ -17,6 +18,7 @@
 
     function checkstatus(){
       var url = "<%= apibase_onlinestatus_path( @device.id ) %>"
+      // var failTime;
       $.ajax({
         type: 'GET',
         url: url,
@@ -30,8 +32,13 @@
           removeclass();
           if( suc == 'true' ) {
             $("span#dev_status").text('在线').addClass('label label-success');
+            last_update_time = update;
           } else {
-            $("span#dev_status").text('断开').addClass('label label-danger');
+            var last_seconds = parseInt( last_update_time.split(":")[2] );
+            var latest_seconds = parseInt( update.split(":")[2] );
+            if ( latest_seconds - last_seconds > 10 ) {
+              $("span#dev_status").text('断开').addClass('label label-danger');
+            }
           }
           $("span#dev_status_update").text(update).addClass('label label-default');
         },
