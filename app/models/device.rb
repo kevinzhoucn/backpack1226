@@ -28,7 +28,7 @@ class Device
       self.update_attributes( :onlinestatus => true )      
     end
     def update_offline
-      self.update_attributes( :onlinestatus => false, :lastfailtime => Time.now.to_s )
+      self.update_attributes( :onlinestatus => false, :lastfailtime => Time.now.to_i.to_s )
     end
     def checkonline?
       return self.onlinestatus
