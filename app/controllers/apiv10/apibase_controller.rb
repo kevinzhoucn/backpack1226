@@ -11,7 +11,10 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       setcmdstatus
 
       if @device
+        my_log = Logger.new("/home/projects/log/prod_online.log")
+        my_log.info("Set Device online:")
         @device.update_online
+        my_log.info("Device: " + @device.device_id + ", status: " + @device.onlinestatus)
         60.times {
           local_ret_str = ""
           cmd_query_items = @device.get_channels_cmdqueries
@@ -38,7 +41,10 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
           # cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
         end
         cmdstatus = @device.cmdquerystatuses.create(:seq_num => random_server_code, :status => false)
+
+        my_log.info("Set Device offline:")
         @device.update_offline
+        my_log.info("Device: " + @device.device_id + ", status: " + @device.onlinestatus)
       end      
     rescue Exception => e
       @ret_str = "4,"      
@@ -115,6 +121,9 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
     cmdstatuscode = false
     if cmdstatus
       cmdstatuscode = cmdstatus ? cmdstatus : false
+    else
+      my_log = Logger.new("/home/projects/log/prod_offline.log")
+      my_log.info("Device: " + @device.device_id + ", status: " + @device.onlinestatus)
     end
 
     retJson = '{ "code" : "' + cmdstatuscode.to_s + '", "updated_at" : "' + Time.now.strftime('%T')  + '"}'
