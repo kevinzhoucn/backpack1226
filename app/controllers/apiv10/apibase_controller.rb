@@ -14,7 +14,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
         my_log = Logger.new("/home/projects/log/prod_online.log")
         my_log.info("Set Device online:")
         @device.update_online
-        my_log.info("Device: " + @device.device_id + ", status: " + @device.onlinestatus)
+        my_log.info("Device: " + @device.device_id.to_s + ", status: " + @device.onlinestatus.to_s)
         60.times {
           local_ret_str = ""
           cmd_query_items = @device.get_channels_cmdqueries
@@ -123,7 +123,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       cmdstatuscode = cmdstatus ? cmdstatus : false
     else
       my_log = Logger.new("/home/projects/log/prod_offline.log")
-      my_log.info("Device: " + @device.device_id + ", status: " + @device.onlinestatus)
+      my_log.info("Device: " + @device.device_id.to_s + ", status: " + @device.onlinestatus.to_s)
     end
 
     retJson = '{ "code" : "' + cmdstatuscode.to_s + '", "updated_at" : "' + Time.now.strftime('%T')  + '"}'
