@@ -17,6 +17,7 @@ class Device
   field :user_id, type: String
   field :dmodel_id, type: String
   field :onlinestatus, type: Boolean
+  field :lastfailtime, type: String
 
   validates_presence_of :dmodel_id, :device_id, :device_name, :device_description
 
@@ -24,10 +25,10 @@ class Device
 
   public
     def update_online
-      self.update_attributes( :onlinestatus => true )
+      self.update_attributes( :onlinestatus => true )      
     end
     def update_offline
-      self.update_attributes( :onlinestatus => false )
+      self.update_attributes( :onlinestatus => false, :lastfailtime => Time.now.to_s )
     end
     def checkonline?
       return self.onlinestatus

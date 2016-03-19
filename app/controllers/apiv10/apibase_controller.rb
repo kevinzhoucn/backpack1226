@@ -44,7 +44,7 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
 
         my_log.info("Set Device offline:")
         @device.update_offline
-        my_log.info("Device: " + @device.device_id + ", status: " + @device.onlinestatus)
+        my_log.info("Device: " + @device.device_id + ", status: " + @device.onlinestatus + ", lastfailtime: " + @device.lastfailtime.to_s)
       end      
     rescue Exception => e
       @ret_str = "4,"      
@@ -123,7 +123,17 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       cmdstatuscode = cmdstatus ? cmdstatus : false
     else
       my_log = Logger.new("/home/projects/log/prod_offline.log")
-      my_log.info("Device: " + @device.device_id.to_s + ", status: " + @device.onlinestatus.to_s)
+      t = DateTime.parse(@device.lastfailtime.to_s)
+      t1 = Time.now
+      temp_status = cmdstatus ? cmdstatus : false
+      if ( t1 > t + 10 )      
+        my_log.info("10s pass! ")        
+        my_log.info("Device: " + @device.device_id.to_s + ", status: " + temp_status.to_s)
+      else
+        my_log.info("10s time window! ")        
+        cmdstatuscode = true
+        my_log.info("Device: " + @device.device_id.to_s + ", status: " + cmdstatuscode.to_s)
+      end
     end
 
     retJson = '{ "code" : "' + cmdstatuscode.to_s + '", "updated_at" : "' + Time.now.strftime('%T')  + '"}'
