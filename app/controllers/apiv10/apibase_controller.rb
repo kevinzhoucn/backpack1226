@@ -123,22 +123,22 @@ class Apiv10::ApibaseController < Apiv10::ApplicationController
       cmdstatuscode = cmdstatus ? cmdstatus : false
     else
       my_log = Logger.new("/home/projects/log/prod_offline.log")
-      my_log.info("Device: " + @device.device_id.to_s + ", status: " + cmdstatuscode.to_s)
-      # if @device.lastfailtime
-      #   t = @device.lastfailtime
-      #   t1 = Time.now.to_i.to_s
-      #   temp_status = cmdstatus ? cmdstatus : false
-      #   if ( t1.to_i > ( t.to_i + 10 ) )
-      #     my_log.info("10s pass! ")        
-      #     my_log.info("Device: " + @device.device_id.to_s + ", status: " + temp_status.to_s)
-      #   else
-      #     my_log.info("10s time window! ")        
-      #     cmdstatuscode = true
-      #     my_log.info("Device: " + @device.device_id.to_s + ", status: " + cmdstatuscode.to_s)
-      #   end
-      # else
-      #   my_log.info("Device: " + @device.device_id.to_s + ", status: " + cmdstatuscode.to_s)
-      # end
+      # my_log.info("Device: " + device.device_id.to_s + ", status: " + cmdstatuscode.to_s)
+      if device.lastfailtime
+        t = device.lastfailtime.to_i
+        t1 = Time.now.to_i
+        temp_status = cmdstatus ? cmdstatus : false
+        if ( t1 > ( t + 10 ) )
+          my_log.info("10s pass! ")        
+          my_log.info("Device: " + device.device_id.to_s + ", status: " + temp_status.to_s)
+        else
+          my_log.info("10s time window! ")        
+          cmdstatuscode = true
+          my_log.info("Device: " + device.device_id.to_s + ", status: " + cmdstatuscode.to_s)
+        end
+      else
+        my_log.info("Device: " + device.device_id.to_s + ", status: " + cmdstatuscode.to_s)
+      end
     end
 
     retJson = '{ "code" : "' + cmdstatuscode.to_s + '", "updated_at" : "' + Time.now.strftime('%T')  + '"}'
